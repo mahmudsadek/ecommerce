@@ -12,6 +12,8 @@ namespace ecommerce.Models
         public DbSet<Order> Order { get; set; }
         public DbSet<OrderItem> OrderItem { get; set; }
         public DbSet<Shipment> Shipment { get; set; }
+        public DbSet<Comment> Comments { get; set; }
+
         public Context() : base() { }
 
         public Context(DbContextOptions<Context> options) : base(options) { }
