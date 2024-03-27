@@ -1,4 +1,5 @@
 using ecommerce.Models;
+using ecommerce.Repository;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -19,6 +20,9 @@ namespace ecommerce
                     // options.UseSqlServer(@"Data Source=(local);Initial Catalog=EcommerceDB;Integrated Security=True;trustservercertificate = true");
                     options.UseSqlServer(builder.Configuration.GetConnectionString("cs"));
                 });
+            //register Model.
+            builder.Services.AddScoped<IProductRepository, ProductRepository>();
+            builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 
             //register the identityuser
             builder.Services.AddIdentity<ApplicationUser, IdentityRole>().AddEntityFrameworkStores<Context>();
