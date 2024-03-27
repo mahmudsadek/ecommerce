@@ -8,5 +8,4 @@ namespace ecommerce.Models
         public List<Order>? Orders { get; set;}
     }
 }
-
 // omar cleaned all
