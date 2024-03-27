@@ -11,4 +11,10 @@ namespace ecommerce.Models
 
 // comment from omar to test changes tracking
 // comment from maher to everyone
+//<<<<<<< Omar
+
+
+//tesssssssssssssst omar new branch
+//=======
 // comment to test branch 
+//>>>>>>> master
