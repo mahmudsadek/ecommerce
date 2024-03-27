@@ -12,11 +12,14 @@ namespace ecommerce
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
+
             //inject the context
             builder.Services.AddDbContext<Context>(
                 options => {
-                    options.UseSqlServer(@"Data Source=(local);Initial Catalog=EcommerceDB;Integrated Security=True;trustservercertificate = true");
+                    // options.UseSqlServer(@"Data Source=(local);Initial Catalog=EcommerceDB;Integrated Security=True;trustservercertificate = true");
+                    options.UseSqlServer(builder.Configuration.GetConnectionString("cs"));
                 });
+
             //register the identityuser
             builder.Services.AddIdentity<ApplicationUser, IdentityRole>().AddEntityFrameworkStores<Context>();
 
