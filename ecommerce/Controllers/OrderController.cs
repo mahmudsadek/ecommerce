@@ -1,49 +1,61 @@
 ﻿using ecommerce.Models;
 using ecommerce.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ecommerce.Controllers
 {
+    //[Authorize]
     public class OrderController : Controller
     {
-        private readonly OrderService orderService;
+        private readonly IOrderService orderService;
 
-        public OrderController(OrderService orderService)
+        public OrderController(IOrderService orderService)
         {
             this.orderService = orderService;
         }
 
-        public IActionResult Index(string include = null)
-        {
-            orderService.GetAll(include);
+        // omar :  used GetAll Action instead
+        //public IActionResult Index(string include = null)
+        //{
+        //    orderService.GetAll(include);
 
-            return View();
-        }
+        //    return View();
+        //}
 
+        [HttpGet]
         public IActionResult GetAll(string include = null)
         {
-            orderService.GetAll(include);
+            List<Order> orders = orderService.GetAll(include);
 
-            return View();
+            return View(orders);
         }
 
+        [HttpGet]
         public IActionResult Get(int id)
         {
-            orderService.Get(id);
+            Order order = orderService.Get(id);
 
-            return View();
+            if (order != null)
+            {
+                return View(order);
+            }
+
+            return RedirectToAction("GetAll");
         }
 
+        [HttpGet]
         public IActionResult Get(Func<Order, bool> where)
         {
-            orderService.Get(where);
+            List<Order> orders = orderService.Get(where);
 
-            return View();
+            return View(orders);
         }
 
         //--------------------------------------------
 
         [HttpGet]
+        // [Authorize("Admin")]
         public IActionResult Insert()
         {
             return View();
@@ -51,13 +63,16 @@ namespace ecommerce.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        // [Authorize("Admin")]
         public IActionResult Insert(Order order)
         {
             if (ModelState.IsValid)
             {
                 orderService.Insert(order);
 
-                return RedirectToAction("Index");
+                orderService.Save();
+
+                return RedirectToAction("GetAll");
             }
 
             return View(order);
@@ -66,15 +81,22 @@ namespace ecommerce.Controllers
         //--------------------------------------------
 
         [HttpGet]
+        // [Authorize("Admin")]
         public IActionResult Update(int id)
         {
-           Order order = orderService.Get(id);
+            Order order = orderService.Get(id);
 
-            return View(order);
+            if (order != null)
+            {
+                return View(order);
+            }
+
+            return RedirectToAction("GetAll");
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        //   [Authorize("Admin")]
         public IActionResult Update(Order order)
         {
             if (ModelState.IsValid)
@@ -83,27 +105,38 @@ namespace ecommerce.Controllers
 
                 orderService.Save();
 
-                return RedirectToAction("Index");
+                return RedirectToAction("GetAll");
             }
 
-            return View();
+            return View(order);
         }
 
         //--------------------------------------------
 
         [HttpGet]
-        public IActionResult Delete()
+        // [Authorize("Admin")]
+        public IActionResult Delete(int id)
         {
-            return View();
+            Order order = orderService.Get(id);
+
+            if (order != null)
+            {
+                return View(order);
+            }
+
+            return RedirectToAction("GetAll");
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        // [Authorize("Admin")]
         public IActionResult Delete(Order order)
         {
             orderService.Delete(order);
 
-            return View();
+            orderService.Save();
+
+            return RedirectToAction("GetAll");
         }
 
         //--------------------------------------------
