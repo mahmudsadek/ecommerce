@@ -4,6 +4,12 @@ namespace ecommerce.Repository
 {
     public interface IProductRepository : IRepository<Product>
     {
-        // Omar : To declare extra logic than CRUD opertaions
+        List<Product> GetAll(string include = null);
+        Product Get(int id);
+        List<Product> Get(Func<Product, bool> where);
+        void Insert(Product item);
+        void Update(Product item);
+        void Delete(Product item);
+        void Save();
     }
 }
