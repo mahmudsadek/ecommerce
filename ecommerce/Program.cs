@@ -24,6 +24,9 @@ namespace ecommerce
             builder.Services.AddScoped<IProductRepository, ProductRepository>();
             builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 
+            // omar : registering order repo
+            builder.Services.AddScoped< IOrderRepository , OrderRepository >();
+
             //register the identityuser
             builder.Services.AddIdentity<ApplicationUser, IdentityRole>().AddEntityFrameworkStores<Context>();
 
