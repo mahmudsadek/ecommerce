@@ -3,7 +3,7 @@ using ecommerce.Repository;
 
 namespace ecommerce.Services
 {
-    public class OrderService
+    public class OrderService : IOrderService
     {
         private readonly IOrderRepository orderRepository;
 
@@ -14,7 +14,7 @@ namespace ecommerce.Services
 
         public List<Order> GetAll(string include = null)
         {
-            return orderRepository.GetAll(include);  // the base function handles the null value don't worry
+            return orderRepository.GetAll(include);  // the base function handles the null with if condition
         }
 
         public Order Get(int id)
@@ -29,40 +29,44 @@ namespace ecommerce.Services
 
         public void Insert(Order order)
         {
-            ///TODO : continue from here
-            /// question : do I have to create an instance ? and in the service or repo ? 
-           
+            ///TODO : possible bug place (NULL Refernce Exception)
+            /// question : do I have to create an instance ? and in the service or repo ?
+
+            #region commented mapping the refernce values in a new instance
             // mapping the refernce values in a new instance
-            Order newOrder = new Order();
+            //Order newOrder = new Order();
 
-            newOrder.Id = order.Id;
-            newOrder.User = order.User;
-            newOrder.OrderDate = order.OrderDate;
-            newOrder.OrderItems = order.OrderItems;
+            //newOrder.Id = order.Id;
+            //newOrder.User = order.User;
+            //newOrder.OrderDate = order.OrderDate;
+            //newOrder.OrderItems = order.OrderItems;
 
-            newOrder.ApplicationUserId = order.ApplicationUserId;
-            newOrder.User = order.User;
+            //newOrder.ApplicationUserId = order.ApplicationUserId;
+            //newOrder.User = order.User;
 
-            newOrder.ShipmentId = order.ShipmentId;
-            newOrder.Shipment = order.Shipment;
+            //newOrder.ShipmentId = order.ShipmentId;
+            //newOrder.Shipment = order.Shipment; 
+            #endregion
 
-            orderRepository.Insert(newOrder);
+            orderRepository.Insert(order);
         }
 
         public void Update(Order updatedOrder)
         {
+            ///TODO : possible bug place (NULL Refernce Exception)
             Order order = Get(updatedOrder.Id);
 
-            //updatedOrder.Id = order.Id;
-            order.User = updatedOrder.User;
-            order.OrderDate = updatedOrder.OrderDate;
-            order.OrderItems = updatedOrder.OrderItems;
+            #region commented mapping 
+            //order.User = updatedOrder.User;
+            //order.OrderDate = updatedOrder.OrderDate;
+            //order.OrderItems = updatedOrder.OrderItems;
 
-            order.ApplicationUserId = updatedOrder.ApplicationUserId;
-            order.User = updatedOrder.User;
+            //order.ApplicationUserId = updatedOrder.ApplicationUserId;
+            //order.User = updatedOrder.User;
 
-            order.ShipmentId = updatedOrder.ShipmentId;
-            order.Shipment = updatedOrder.Shipment;
+            //order.ShipmentId = updatedOrder.ShipmentId;
+            //order.Shipment = updatedOrder.Shipment; 
+            #endregion
 
             orderRepository.Update(order);
         }
@@ -76,6 +80,5 @@ namespace ecommerce.Services
         {
             orderRepository.Save();
         }
-
     }
 }
