@@ -17,7 +17,6 @@ namespace ecommerce
             //inject the context
             builder.Services.AddDbContext<Context>(
                 options => {
-                    // options.UseSqlServer(@"Data Source=(local);Initial Catalog=EcommerceDB;Integrated Security=True;trustservercertificate = true");
                     options.UseSqlServer(builder.Configuration.GetConnectionString("cs"));
                 });
             //register Model.
