@@ -1,4 +1,6 @@
-﻿namespace ecommerce.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace ecommerce.Models
 {
     public class Category
     {
@@ -6,6 +8,7 @@
 
         public string Name { get; set; }
 
+        [DisplayFormat(NullDisplayText = "No Description yet")]
         public string? Description { get; set; }
 
         public string ImageUrl { get; set; } //= "" default img

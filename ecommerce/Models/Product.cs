@@ -11,6 +11,7 @@ namespace ecommerce.Models
 
         public string Name { get; set; }
 
+        [DisplayFormat(NullDisplayText = "No Description yet")]
         public string? Description { get; set; }
 
         public string ImageUrl { get; set; } = "wwwroot/images/sfdsdf";  // default image
@@ -25,6 +26,7 @@ namespace ecommerce.Models
         // we want to make array of colors for each product
         //public int MyProperty { get; set; }
 
+        [DisplayFormat(NullDisplayText = "No Rating yet")]
         public decimal? Rating { get; set; }
 
         //----------------------------------
