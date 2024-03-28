@@ -6,18 +6,20 @@ namespace ecommerce.Repository
     public class Repository<T> : IRepository<T> where T : class
     {
         protected readonly Context Context;
+
         public Repository(Context _context)
         {
             Context = _context;
         }
+
         public void Delete(T item)
         {
             Context.Remove(item);
         }
 
-        public List<T> GetAll(string include = null)
+        public List<T> GetAll(string include = null) 
         {
-            if (include == null)
+            if (include == null)  // from default or passed from a calling function
             { 
                 return Context.Set<T>().ToList();
             }
@@ -28,10 +30,12 @@ namespace ecommerce.Repository
         {
             return Context.Set<T>().Find(Id);
         }
+
         public List<T> Get(Func<T, bool> where)
         {
             return Context.Set<T>().Where(where).ToList();
         }
+
         public void Insert(T item)
         {
             Context.Add(item);
@@ -41,9 +45,11 @@ namespace ecommerce.Repository
         {
             Context.SaveChanges();
         }
+
         public void Update(T item)
         {
             Context.Update(item);
         }
+
     }
 }
