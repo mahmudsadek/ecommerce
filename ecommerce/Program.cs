@@ -20,6 +20,7 @@ namespace ecommerce
                 options => {
                     options.UseSqlServer(builder.Configuration.GetConnectionString("cs"));
                 });
+
             //register Model.
             builder.Services.AddScoped<IProductRepository, ProductRepository>();
             builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
