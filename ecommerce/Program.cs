@@ -1,5 +1,6 @@
 using ecommerce.Models;
 using ecommerce.Repository;
+using ecommerce.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -25,6 +26,10 @@ namespace ecommerce
 
             // omar : registering order repo
             builder.Services.AddScoped< IOrderRepository , OrderRepository >();
+
+
+            // omar : registering orderservice
+            builder.Services.AddScoped<IOrderService, OrderService>();
 
             //register the identityuser
             builder.Services.AddIdentity<ApplicationUser, IdentityRole>().AddEntityFrameworkStores<Context>();
