@@ -20,6 +20,7 @@ namespace ecommerce
                 options => {
                     options.UseSqlServer(builder.Configuration.GetConnectionString("cs"));
                 });
+
             //register Model.
             builder.Services.AddScoped<IProductRepository, ProductRepository>();
             builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
@@ -31,8 +32,15 @@ namespace ecommerce
             // omar : registering orderservice
             builder.Services.AddScoped<IOrderService, OrderService>();
 
+
             //register the identityuser
-            builder.Services.AddIdentity<ApplicationUser, IdentityRole>().AddEntityFrameworkStores<Context>();
+            builder.Services.AddIdentity<ApplicationUser, IdentityRole>(
+                options => { options.Password.RequireNonAlphanumeric = true;
+                    options.Password.RequireUppercase = true;
+                }
+                ).AddEntityFrameworkStores<Context>();
+
+            
 
             var app = builder.Build();
 
@@ -56,4 +64,3 @@ namespace ecommerce
     }
 }
 
-// saeed test 
