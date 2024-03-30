@@ -21,7 +21,7 @@ namespace ecommerce.Repository
             Context.Update(product);
         }
 
-        public List<Product> GetAll(string include = null)
+        public List<Product> GetAll(string? include = null)
         {
             if (include == null)
             {

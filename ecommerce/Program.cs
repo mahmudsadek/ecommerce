@@ -35,9 +35,14 @@ namespace ecommerce
 
             //register the identityuser
             builder.Services.AddIdentity<ApplicationUser, IdentityRole>(
-                //options => { options.Password.RequireNonAlphanumeric = true;  // for easier testing
-                //    options.Password.RequireUppercase = true;
-                //}
+                options =>
+                {
+                    options.Password.RequireNonAlphanumeric = false;  // for easier testing  <= Omar : thanks Saeed :D
+                    options.Password.RequireUppercase = false;
+                    options.Password.RequireUppercase = false;
+                    options.Password.RequireLowercase = false;
+                    options.Password.RequireDigit = false;
+                }
                 ).AddEntityFrameworkStores<Context>();
 
             
