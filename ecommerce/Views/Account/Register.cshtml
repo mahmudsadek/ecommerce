@@ -1,0 +1,83 @@
+﻿@model RegisterViewModel
+
+@{
+   bool IsAdmin = ViewBag.IsAdmin;
+}
+
+<style>
+    .input-label-div {margin : 5px}
+</style>
+
+
+    <section style="height: 100vh;" class="d-flex align-items-center">
+      <div class="container box">
+        <div class="d-flex  flex-row bg-white  w-75 m-auto shadow rounded-5 ">
+
+          <div id="log_img" class="bg-info py-5 col-5 rounded-start-5 align-items-center">
+                <img src="~/img/register.svg" class="w-100" alt="">
+            </div>
+
+
+          <div class="col py-5"> 
+            <div class="row ">
+              <div class="d-flex flex-column align-items-center">
+                <h1 class="text-center my-3">Create account</h1> 
+              </div>
+
+
+              <div class="col-md-10">
+
+                        <form asp-action="register" asp-controller="Account" asp-route-IsAdmin="@IsAdmin" method="post" class="offset-1">
+
+
+                        <div asp-validation-summary="All" class="text-danger"></div>
+                        <div class="form-group input-label-div">
+                            <label asp-for="userName" class="control-label"></label>
+                            <input asp-for="userName" class="form-control" />
+                            <span asp-validation-for="userName" class="text-danger"></span>
+                        </div>
+
+
+                        <div class="form-group input-label-div">
+                            <label asp-for="password" class="control-label"></label>
+                            <input asp-for="password" class="form-control" />
+                            <span asp-validation-for="password" class="text-danger"></span>
+                        </div>
+
+
+                        <div class="form-group input-label-div">
+                            <label asp-for="confirmPassword" class="control-label"></label>
+                            <input asp-for="confirmPassword" class="form-control" />
+                            <span asp-validation-for="confirmPassword" class="text-danger"></span>
+                        </div>
+
+
+                        <div class="form-group input-label-div">
+                            <label asp-for="phoneNumber" class="control-label"></label>
+                            <input asp-for="phoneNumber" class="form-control" />
+                            <span asp-validation-for="phoneNumber" class="text-danger"></span>
+                        </div>
+
+                            <div class="form-group input-label-div">
+                                <label asp-for="Address" class="control-label"></label>
+                                <input asp-for="Address" class="form-control" />
+                                <span asp-validation-for="Address" class="text-danger"></span>
+                            </div>
+
+
+                            <div class="form-group input-label-div">
+                                <input type="submit" value="Create" class="btn btn-primary" />
+                            </div>
+         
+              </form>
+                    </div>
+            </div>
+  
+          </div>
+        </div>
+      </div>
+
+    
+
+    </section>
+<partial name="_ValidationScriptsPartial"></partial>
