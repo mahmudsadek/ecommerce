@@ -16,7 +16,7 @@ namespace ecommerce.Models
 
         public string ImageUrl { get; set; } = "wwwroot/images/sfdsdf";  // default image
 
-        //[Column(typeof("Money")]
+        [Column(TypeName = "Money")]
         public decimal Price { get; set; }
 
         public int Quantity { get; set;}
@@ -27,6 +27,8 @@ namespace ecommerce.Models
         //public int MyProperty { get; set; }
 
         [DisplayFormat(NullDisplayText = "No Rating yet")]
+        [Column(TypeName = "Money")]
+
         public decimal? Rating { get; set; }
 
         //----------------------------------
