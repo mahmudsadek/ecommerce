@@ -60,7 +60,7 @@ namespace ecommerce.Controllers
                             await userManager.AddToRoleAsync(applicationUser, "User");
                             break;
                     }
-                    ViewBag.IsAdmin = IsAdmin;
+               //     ViewBag.IsAdmin = IsAdmin;
                     return View("login");
                 }
               
@@ -71,6 +71,9 @@ namespace ecommerce.Controllers
                 }
 
             }
+
+            ViewBag.IsAdmin = IsAdmin;
+
             return View("register");
 
 
@@ -82,7 +85,7 @@ namespace ecommerce.Controllers
             return View("login");
         }
 
-
+        // omar : saeed take a look at what happens when the user enters a wrong passwprd at login
         [HttpPost , ValidateAntiForgeryToken]
         public async Task <IActionResult> login(LoginViewModel model)
         {

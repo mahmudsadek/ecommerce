@@ -25,7 +25,7 @@ namespace ecommerce.Controllers
         //}
 
         [HttpGet]
-        public IActionResult GetAll(string include = null)
+        public IActionResult GetAll(string? include = null)
         {
             List<Order> orders = orderService.GetAll(include);
 
