@@ -1,4 +1,5 @@
-﻿using ecommerce.Models;
+﻿using Azure.Identity;
+using ecommerce.Models;
 using ecommerce.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -58,6 +59,8 @@ namespace ecommerce.Controllers
         // [Authorize("Admin")]
         public IActionResult Insert()
         {
+            /// TODO : continue from here make the VM and test the view
+            /// Note : check Saeed for the register and login pages
             return View();
         }
 
