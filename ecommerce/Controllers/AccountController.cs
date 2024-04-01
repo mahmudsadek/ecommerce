@@ -60,7 +60,6 @@ namespace ecommerce.Controllers
                             await userManager.AddToRoleAsync(applicationUser, "User");
                             break;
                     }
-               //     ViewBag.IsAdmin = IsAdmin;
                     return View("login");
                 }
               
@@ -73,7 +72,6 @@ namespace ecommerce.Controllers
             }
 
             ViewBag.IsAdmin = IsAdmin;
-
             return View("register");
 
 
@@ -105,14 +103,14 @@ namespace ecommerce.Controllers
                 }
             }
             ModelState.AddModelError("", "invalid user name");
-            return View("login");
+            return View("login" , model); 
         }
 
 
         public async Task<IActionResult> logout()
         {
             await signInManager.SignOutAsync();
-            return View("login");
+            return RedirectToAction("login"); 
         }
 
 
