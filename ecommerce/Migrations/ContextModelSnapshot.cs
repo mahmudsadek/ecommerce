@@ -404,14 +404,12 @@ namespace ecommerce.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal>("Price")
-
                         .HasColumnType("Money");
 
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
 
                     b.Property<decimal?>("Rating")
-
                         .HasColumnType("Money");
 
                     b.HasKey("Id");
