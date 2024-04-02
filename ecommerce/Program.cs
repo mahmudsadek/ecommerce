@@ -17,7 +17,8 @@ namespace ecommerce
 
             //inject the context
             builder.Services.AddDbContext<Context>(
-                options => {
+                options =>
+                {
                     options.UseSqlServer(builder.Configuration.GetConnectionString("cs"));
                 });
 
@@ -25,8 +26,13 @@ namespace ecommerce
             builder.Services.AddScoped<IProductRepository, ProductRepository>();
             builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 
+            //AbdElraheem
+            builder.Services.AddScoped<IOrderItemRepository, OrderItemRepository>();
+            builder.Services.AddScoped<IOrderItemService, OrderItemService>();
+
+
             // omar : registering order repo
-            builder.Services.AddScoped< IOrderRepository , OrderRepository >();
+            builder.Services.AddScoped<IOrderRepository, OrderRepository>();
 
 
             // omar : registering orderservice
@@ -45,7 +51,7 @@ namespace ecommerce
                 }
                 ).AddEntityFrameworkStores<Context>();
 
-            
+
 
             var app = builder.Build();
 

@@ -5,9 +5,9 @@ namespace ecommerce.Services
 {
     public class OrderItemService : IOrderItemService
     {
-        private readonly OrderItemRepository orderItemRepository;
+        private readonly IOrderItemRepository orderItemRepository;
 
-        public OrderItemService(OrderItemRepository orderItemRepository)
+        public OrderItemService(IOrderItemRepository orderItemRepository)
         {
             this.orderItemRepository = orderItemRepository;
         }
@@ -16,7 +16,7 @@ namespace ecommerce.Services
 
         public List<OrderItem> GetAll(string include = null)
         {
-            return orderItemRepository.GetAll(include); 
+            return orderItemRepository.GetAll(include);
         }
 
 
@@ -55,5 +55,9 @@ namespace ecommerce.Services
             orderItemRepository.Save();
         }
 
+        public List<OrderItem> Get(Func<Order, bool> where)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

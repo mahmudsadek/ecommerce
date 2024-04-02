@@ -3,8 +3,8 @@ using ecommerce.Repository;
 
 namespace ecommerce.Services
 {
-    public interface IOrderItemService : IRepository<OrderItem>
+    public interface IOrderItemService : IOrderItemRepository
     {
-
+        List<OrderItem> Get(Func<Order, bool> where);
     }
 }
