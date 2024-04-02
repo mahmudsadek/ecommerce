@@ -20,6 +20,7 @@
   <ItemGroup>
     <Folder Include="Hubs\" />
     <Folder Include="Migrations\" />
+    <Folder Include="ViewModels\" />
   </ItemGroup>
 
 </Project>
