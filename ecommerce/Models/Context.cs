@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ecommerce.Models
 {
-    public class Context : IdentityDbContext
+    public class Context : IdentityDbContext<ApplicationUser>
     {
         public DbSet<Category> Category { get; set; }
         public DbSet<Product> Product { get; set; }

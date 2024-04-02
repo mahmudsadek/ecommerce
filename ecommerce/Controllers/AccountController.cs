@@ -1,6 +1,6 @@
 ﻿using ecommerce.Models;
-using ecommerce.Models.ViewModel;
 using ecommerce.Services;
+using ecommerce.ViewModel;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -49,6 +49,7 @@ namespace ecommerce.Controllers
             {
                 IdentityResult result = await userManager.CreateAsync(applicationUser ,
                     applicationUser.PasswordHash);
+                IsAdmin = true;
                 if(result.Succeeded)
                 {
                     switch(IsAdmin)
