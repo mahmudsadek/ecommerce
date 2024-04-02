@@ -32,6 +32,10 @@ namespace ecommerce
             // omar : registering orderservice
             builder.Services.AddScoped<IOrderService, OrderService>();
 
+            builder.Services.AddScoped<IShipmentRepository, ShipmentRepository>();
+            builder.Services.AddScoped<IShipmentService,ShipmentService>();
+            
+
 
             //register the identityuser
             builder.Services.AddIdentity<ApplicationUser, IdentityRole>(
