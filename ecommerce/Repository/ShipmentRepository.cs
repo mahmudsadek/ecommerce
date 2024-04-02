@@ -2,7 +2,7 @@
 
 namespace ecommerce.Repository
 {
-    public class ShipmentRepository : Repository<Shipment> , IRepository<Shipment>
+    public class ShipmentRepository : Repository<Shipment> , IShipmentRepository
     {
         private readonly Context context;
 

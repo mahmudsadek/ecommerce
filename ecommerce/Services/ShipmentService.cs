@@ -5,9 +5,9 @@ namespace ecommerce.Services
 {
     public class ShipmentService : IShipmentService
     {
-        private readonly ShipmentRepository shipmentRepository;
+        private readonly IShipmentRepository shipmentRepository;
 
-        public ShipmentService(ShipmentRepository shipmentRepository)
+        public ShipmentService(IShipmentRepository shipmentRepository)
         {
             this.shipmentRepository = shipmentRepository;
         }
