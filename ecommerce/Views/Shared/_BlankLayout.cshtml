@@ -44,6 +44,8 @@
 		}
 	</style>
 
+	 @RenderSection("Styles", required: false)
+
 
 </head>
 <body>
@@ -176,13 +178,17 @@
 			<div id="responsive-nav">
 				<!-- NAV -->
 				<ul class="main-nav nav navbar-nav">
-					<li class="active"><a href="#">Home</a></li>
-					<li><a href="#">Hot Deals</a></li>
-					<li><a href="#">Categories</a></li>
-					<li><a href="#">Laptops</a></li>
-					<li><a href="#">Smartphones</a></li>
-					<li><a href="#">Cameras</a></li>
-					<li><a href="#">Accessories</a></li>
+					<li><a asp-action="Index" asp-controller="Home">Home</a></li>
+
+					<li><a asp-action="GetAll" asp-controller="Category" >Categories</a></li>
+					<li><a asp-action="GetAll" asp-controller="Product" >Products</a></li>
+
+					<li><a asp-action="Details" asp-controller="Category" asp-route-Id="1">Smartphones</a></li>
+					<li><a asp-action="Details" asp-controller="Category" asp-route-Id="2">Laptops</a></li>
+					<li><a asp-action="Details" asp-controller="Category" asp-route-Id="3">Cameras</a></li>
+					<li><a asp-action="Details" asp-controller="Category" asp-route-Id="4">Accessories</a></li>
+					
+
 				</ul>
 				<!-- /NAV -->
 			</div>
@@ -193,7 +199,7 @@
 	<!-- /NAVIGATION -->
 
 	<!-- BREADCRUMB -->
-	<div id="breadcrumb" class="section">
+@* 	<div id="breadcrumb" class="section">
 		<!-- container -->
 		<div class="container">
 			<!-- row -->
@@ -201,7 +207,7 @@
 				<div class="col-md-12">
 					<h3 class="breadcrumb-header">Regular Page</h3>
 					<ul class="breadcrumb-tree">
-						<li><a href="#">Home</a></li>
+						<li><a asp-action="Index" asp-controller="Home" asp-fragment="main">Home</a></li>
 						<li class="active">Blank</li>
 					</ul>
 				</div>
@@ -209,7 +215,7 @@
 			<!-- /row -->
 		</div>
 		<!-- /container -->
-	</div>
+	</div> *@
 	<!-- /BREADCRUMB -->
 	<!-- SECTION -->
 	<div class="section">
@@ -367,6 +373,8 @@
 	<script src="/js/nouislider.min.js"></script>
 	<script src="/js/jquery.zoom.min.js"></script>
 	<script src="/js/main.js"></script>
+
+		@await RenderSectionAsync("Scripts", required: false)
 
 </body>
 </html>

@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ecommerce.Services
 {
-    public class ProductService
+    public class ProductService : IProductService
     {
         private readonly IProductRepository productrepository;
 
@@ -14,38 +14,44 @@ namespace ecommerce.Services
             productrepository = _repository;
         }
 
-        public void Insert(Product product)
+		public List<Product> GetAll(string include = null)
+		{
+			if (include == null)
+			{
+				return productrepository.GetAll();
+			}
+			return productrepository.GetAll(include);
+		}
+
+
+		public Product Get(int Id)
+		{
+			return productrepository.Get(Id);
+		}
+
+
+		public List<Product> Get(Func<Product, bool> where)
+		{
+			return productrepository.Get(where);
+		}
+
+		public void Insert(Product product)
         {
             productrepository.Insert(product);
         }
+
 
         public void Update(Product product)
         {
             productrepository.Update(product);
         }
 
-        public List<Product> GetAll(string include = null)
-        {
-            if (include == null)
-            {
-                return productrepository.GetAll();
-            }
-            return productrepository.GetAll(include);
-        }
-
-        public Product Get(int Id)
-        {
-            return productrepository.Get(Id);
-        }
-        public List<Product> Get(Func<Product, bool> where)
-        {
-            return productrepository.Get(where);
-        }
 
         public void Delete(Product product)
         {
             productrepository.Delete(product);
         }
+
 
         public void Save()
         {

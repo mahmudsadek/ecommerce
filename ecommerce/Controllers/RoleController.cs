@@ -22,13 +22,10 @@ namespace ecommerce.Controllers
         {
             IdentityRole role = new IdentityRole();
 
-            role.Name = "Admin";    // first call 
-            //role.Name = "User";   // second call 
+           // role.Name = "Admin";    // first call 
+           // role.Name = "User";   // second call 
 
             await roleManager.CreateAsync(role);
-
-            // return View("register", "account");   ==> Exception 
-            //omar : there is no overload takes view + controller => did u mean  return RedirectToAction("Register" , "Account"); ?
 
             return RedirectToAction("Register" , "Account");
         }

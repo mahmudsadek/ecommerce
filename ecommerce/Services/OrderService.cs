@@ -12,6 +12,8 @@ namespace ecommerce.Services
             this.orderRepository = orderRepository;
         }
 
+        //***************************************************
+
         public List<Order> GetAll(string include = null)
         {
             return orderRepository.GetAll(include);  // the base function handles the null with if condition

@@ -1,12 +1,16 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using ecommerce.Models;
 using System.ComponentModel.DataAnnotations.Schema;
-
-namespace ecommerce.Models
+using System.ComponentModel.DataAnnotations;
+namespace ecommerce.ViewModels.Product
 {
-    [Table("Product")]
-    public class Product
+    public class Product_With_RelatedProducts
     {
-        [Key]
+        public List<Models.Product> RealtedProducts { get; set; }
+
+        public string CategoryName { get; set; }
+
+        //====================================
+
         public int Id { get; set; }
 
         public string Name { get; set; }
@@ -19,7 +23,7 @@ namespace ecommerce.Models
         [Column(TypeName = "Money")]
         public decimal Price { get; set; }
 
-        public int Quantity { get; set;}
+        public int Quantity { get; set; }
 
         public string Color { get; set; }
 
@@ -28,7 +32,6 @@ namespace ecommerce.Models
 
         [DisplayFormat(NullDisplayText = "No Rating yet")]
         [Column(TypeName = "Money")]
-
         public decimal? Rating { get; set; }
 
         //----------------------------------
@@ -36,7 +39,7 @@ namespace ecommerce.Models
         [ForeignKey("Category")]
         public int CategoryId { get; set; }
 
-        public Category? Category { get; set; }
+        public Category Category { get; set; }
 
         public List<Comment>? Comments { get; set; }
     }

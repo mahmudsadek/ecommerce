@@ -25,6 +25,7 @@ namespace ecommerce.Repository
         public List<Product> GetAllProductsInCategory(int CategoryId)
         {
             Category category = Get(CategoryId);
+
             return category.Products;
         }
 
