@@ -38,6 +38,12 @@ namespace ecommerce
             // omar : registering orderservice
             builder.Services.AddScoped<IOrderService, OrderService>();
 
+			// omar : registering ProductService
+			builder.Services.AddScoped<IProductService, ProductService>();
+
+            // omar : registering CategoryService
+            builder.Services.AddScoped<ICategoryService, CategoryService>();
+
             builder.Services.AddScoped<IShipmentRepository, ShipmentRepository>();
             builder.Services.AddScoped<IShipmentService,ShipmentService>();
             
