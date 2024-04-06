@@ -126,7 +126,7 @@
 
                     <ul class="product-links">
                         <li>Category:</li>
-                        <li><a asp-action="Details" asp-controller="Category" asp-route-Id="2" asp-fragment="main">@Model.CategoryName</a></li>
+                        <li><a asp-action="Details" asp-controller="Category" asp-route-Id="@Model.CategoryId" >@Model.CategoryName</a></li>
                     </ul>
 
                     <ul class="product-links">
