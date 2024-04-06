@@ -2,6 +2,8 @@
 using ecommerce.Services;
 using ecommerce.ViewModels.Product;
 using Microsoft.AspNetCore.Mvc;
+using NuGet.Protocol.Core.Types;
+using System.Drawing.Printing;
 
 namespace ecommerce.Controllers
 {
@@ -10,6 +12,8 @@ namespace ecommerce.Controllers
 		private readonly IProductService productService;
 
 		public ICategoryService categoryService { get; }
+
+		private const int _pageSize = 2;
 
 		public ProductController(IProductService productService, ICategoryService categoryService)
 		{
@@ -22,18 +26,103 @@ namespace ecommerce.Controllers
 
 
 		[HttpGet]
-		public IActionResult GetAll(string? include = null)
+		public IActionResult GetAll(int page = 1 , int pageSize = _pageSize)
 		{
+			int skipStep = (page - 1) * pageSize;
+
+			List<Product> PaginatedProducts = productService.GetPageList(skipStep, pageSize);
+
+			int productsCount = productService.GetAll().Count();
+
+			ViewData["TotalPages"] = Math.Ceiling(productsCount / (double)pageSize);
+
+			ViewData["AllProductsNames"] = productService.GetAll().Select(c => c.Name).ToList();
+
 			Products_With_CategoriesVM products_CategoriesVM = new Products_With_CategoriesVM()
 			{
-				Products = productService.GetAll(include),
-				Categories = categoryService.GetAll(include)
+				Products = PaginatedProducts ,
+				Categories = categoryService.GetAll(),
 			};
 
 			return View(products_CategoriesVM);
 		}
 
-		[HttpGet]
+        [HttpGet]
+        public IActionResult GetAllPartial(int[] catedIds , int page = 1, int pageSize = _pageSize)
+        {
+            int skipStep = (page - 1) * pageSize;
+
+            List<Product> PaginatedProducts = productService.GetPageList(skipStep, pageSize)
+				.Where(p => catedIds.Contains(p.CategoryId)).ToList();
+
+            int productsCount = productService.GetAll().Where(p => catedIds.Contains(p.CategoryId)).Count();
+
+            ViewData["TotalPages"] = Math.Ceiling(productsCount / (double)pageSize);
+
+            ViewData["AllProductsNames"] = productService.GetAll().Select(c => c.Name).ToList();
+
+            Products_With_CategoriesVM products_CategoriesVM = new Products_With_CategoriesVM()
+            {
+                Products = PaginatedProducts,
+                Categories = categoryService.GetAll(),
+            };
+
+            return PartialView("_ProductsPartial", products_CategoriesVM);
+        }
+
+        //[HttpGet]
+		public IActionResult GetAllFiltered(int minPrice, int maxPrice , int[] categIds , int page = 1 , int pageSize = _pageSize )
+		{
+			if (categIds == null)
+			{
+                categIds = categoryService.GetAll().Select(c => c.Id).ToArray();
+            }
+
+            int skipStep = (page - 1) * pageSize;
+
+			List<Product> categAllProducts = productService.GetAll()
+				.Where(p => categIds.Contains(p.CategoryId))
+				.Where(p => p.Price >= minPrice && p.Price <= maxPrice)
+				.ToList() ;
+
+            List<Product> PaginatedCategProducts = categAllProducts.Skip(skipStep).Take(pageSize).ToList();
+
+			int productsCount = categAllProducts.Count();
+
+            ViewData["TotalPages"] = Math.Ceiling(productsCount / (double)pageSize);
+
+            ViewData["AllProductsNames"] = productService.GetAll().Select(c => c.Name).ToList();
+
+            Products_With_CategoriesVM products_CategoriesVM = new Products_With_CategoriesVM()
+            {
+                Products = PaginatedCategProducts,
+
+                Categories = categoryService.GetAll(),
+            };
+
+            return PartialView("_ProductsPartial", products_CategoriesVM);
+		}
+
+        public IActionResult Search(string searchProdName )
+        {
+            List<Product> searchedProducts = productService.GetAll()
+                .Where(p => p.Name.Contains(searchProdName)).ToList();
+
+            Products_With_CategoriesVM products_CategoriesVM = new Products_With_CategoriesVM()
+            {
+                Products = searchedProducts,
+
+                Categories = categoryService.GetAll(),
+            };
+
+            ViewData["TotalPages"] = Math.Ceiling(productService.GetAll().Count() / (double)_pageSize);
+
+            ViewData["AllProductsNames"] = productService.GetAll().Select(c => c.Name).ToList();
+
+            return View("GetAll", products_CategoriesVM);
+        }
+
+        [HttpGet]
 		public IActionResult Details(int id)
 		{
 			Product productDB = productService.Get(id);

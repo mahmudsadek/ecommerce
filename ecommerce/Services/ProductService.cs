@@ -23,6 +23,10 @@ namespace ecommerce.Services
 			return productrepository.GetAll(include);
 		}
 
+		public List<Product> GetPageList(int skipstep, int pageSize)
+        {
+           return productrepository.GetPageList(skipstep, pageSize);
+        }
 
 		public Product Get(int Id)
 		{
