@@ -2,6 +2,7 @@
 
 @{
     ViewData["Title"] = "Insert";
+    Layout = "_DashbourdLayout";
 }
 
 <h2>Insert</h2>
@@ -10,13 +11,13 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Insert">
+        <form asp-action="Insert" asp-controller="category">
             <div asp-validation-summary="All" class="text-danger"></div>
-            <div class="form-group">
+            @* <div class="form-group">
                 <label asp-for="Id" class="control-label"></label>
                 <input asp-for="Id" class="form-control" />
                 <span asp-validation-for="Id" class="text-danger"></span>
-            </div>
+            </div> *@
             <div class="form-group">
                 <label asp-for="Name" class="control-label"></label>
                 <input asp-for="Name" class="form-control" />
@@ -43,6 +44,6 @@
     <a asp-action="GetAll">Back to List</a>
 </div>
 
-@section Scripts {
+@* @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}
+} *@

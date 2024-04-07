@@ -17,6 +17,7 @@ namespace ecommerce.Controllers
         //*********************************************************
 
         [HttpGet]
+        //[Route("/Dashbourd/categories")]
         public IActionResult GetAll(string? include = null)
         {
             List<Category> categories = categoryService.GetAll(include);
