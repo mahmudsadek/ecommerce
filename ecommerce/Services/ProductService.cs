@@ -1,6 +1,7 @@
 ﻿using ecommerce.Models;
 using ecommerce.Repository;
 using ecommerce.ViewModels;
+using ecommerce.ViewModels.Product;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ecommerce.Services
@@ -8,10 +9,12 @@ namespace ecommerce.Services
     public class ProductService : IProductService
     {
         private readonly IProductRepository productrepository;
+        private readonly ICategoryRepository categoryRepository;
 
-        public ProductService(IProductRepository _repository)
+        public ProductService(IProductRepository _repository , ICategoryRepository categoryRepository)
         {
             productrepository = _repository;
+            this.categoryRepository = categoryRepository;
         }
 
 		public List<Product> GetAll(string include = null)
@@ -62,6 +65,18 @@ namespace ecommerce.Services
             productrepository.Save();
         }
 
+
+        public async Task<ProductWithCatNameAndComments> WithCatNameAndComments(int id)
+        {
+            Product p = productrepository.Get(id);
+            ProductWithCatNameAndComments product = new() 
+            { Id = p.Id, Name = p.Name , ImageUrl = p.ImageUrl , Color = p.Color, 
+                Description = p.Description, Price = p.Price , Quantity = p.Quantity , Rating = p.Rating};
+            
+            Category c = categoryRepository.Get(p.CategoryId);
+            product.CateName = c.Name;
+            return product;
+        }
 
         ////////////////////////////////////////////////
         // Maher : need to check up again after implement comment repo 
