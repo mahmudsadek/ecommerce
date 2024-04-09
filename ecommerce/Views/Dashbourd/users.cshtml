@@ -1,9 +1,8 @@
-﻿@model List<Order>
+﻿@model IQueryable<ApplicationUser>
 @{
     ViewData["Title"] = "Dashbourd";
     Layout = "_DashbourdLayout";
 }
-
 
 <style>
     html,
@@ -44,7 +43,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 <div class="container">
     <p class="my-4">
-        <a class="btn btn-primary" asp-action="insert" asp-controller="order">Add New Order</a>
+        <a class="btn btn-primary" asp-action="insert" asp-controller="product">Add New Product</a>
     </p>
     <section class="intro">
         <div class="bg-image h-100" style="background-color: #f5f7fa;">
@@ -59,24 +58,25 @@
                                             <thead style="background-color: #002d72;">
                                                 <tr>
                                                     <th scope="col">#</th>
-                                                    <th scope="col">Data</th>
-                                                    <th scope="col">Customer</th>
-                                                    <th scope="col">Shipment</th>
+                                                    <th scope="col">Name</th>
+                                                    <th scope="col">Phone Number</th>
+                                                    <th scope="col">Email</th>
                                                     <th scope="col">action</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                @foreach (Order o in Model)
+                                                @foreach (ApplicationUser user in Model)
                                                 {
                                                     <tr>
-                                                        <td>@o.Id</td>
-                                                        <td>@o.OrderDate</td>
-                                                        <td>@o.User.UserName</td>
-                                                        <td>@o.ShipmentId</td>
+                                                        <td>@user.Id</td>
+                                                        <td>@user.UserName</td>
+                                                        <td>@user.PhoneNumber</td>
+                                                        <td>@user.Email</td>
+                                                        
                                                         <td>
-                                                            <a asp-action="orderDetails" asp-route-id="@o.Id" asp-controller="dashbourd" class="btn btn-info"><i class="fa-solid fa-bars"></i></a>
-                                                            <a asp-action="update" asp-route-id="@o.Id" asp-controller="order" class="btn btn-warning"><i class="fa-regular fa-pen-to-square"></i></a>
-                                                            <a asp-action="delete" asp-route-id="@o.Id" asp-controller="order" class="btn btn-danger"><i class="fa-solid fa-trash"></i></a>
+                                                            <a asp-action="userDetails" asp-route-id="@user.Id" asp-controller="dashbourd" class="btn btn-info"><i class="fa-solid fa-bars"></i></a>
+                                                            <a asp-action="update" asp-route-id="@user.Id" asp-controller="Account" class="btn btn-warning"><i class="fa-regular fa-pen-to-square"></i></a>
+                                                            <a asp-action="delete" asp-route-id="@user.Id" asp-controller="Account" class="btn btn-danger"><i class="fa-solid fa-trash"></i></a>
 
                                                         </td>
                                                     </tr>
@@ -94,4 +94,5 @@
         </div>
     </section>
 </div>
+
 

@@ -8,6 +8,10 @@ namespace ecommerce.Services
 	{
 		public List<Product> GetPageList(int skipstep, int pageSize);
 		public  Task<ProductWithCatNameAndComments> WithCatNameAndComments(int id);
+		public void Insert(ProductWithListOfCatesViewModel p);
+        public void Update(ProductWithListOfCatesViewModel p);
+
+        public ProductWithListOfCatesViewModel GetViewModel(int id);
 
 
     }
