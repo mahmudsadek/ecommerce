@@ -1,0 +1,37 @@
+﻿@model List<Order>
+
+<div class="bg-light text-center rounded p-4">
+    <div class="d-flex align-items-center justify-content-between mb-4">
+        <h6 class="mb-0">Recent Orders</h6>
+        <a asp-action="orders" asp-controller="dashbourd" >Show All</a>
+    </div>
+    <div class="table-responsive">
+        <table class="table text-start align-middle table-bordered table-hover mb-0">
+            <thead>
+                <tr class="text-dark">
+                    <th scope="col"><input class="form-check-input" type="checkbox"></th>
+                    <th scope="col">#</th>
+                    <th scope="col">Date</th>
+                    <th scope="col">Customer</th>
+                    <th scope="col">Shipment</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach(Order o in Model)
+                {
+                <tr>
+                        <td><input class="form-check-input" type="checkbox"></td>
+                        <td>@o.Id</td>
+                        <td>@o.OrderDate</td>
+                        <td>@o.User.UserName</td>
+                        <td>@o.ShipmentId</td>
+                        <td>Paid</td>
+                        <td><a class="btn btn-sm btn-primary" href="">Detail</a></td>
+                </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

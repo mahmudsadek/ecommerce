@@ -1,0 +1,22 @@
+﻿@model List<ecommerce.ViewModels.Comments.CommentWithUserNameViewModel>
+
+
+    <div class="h-100 bg-light rounded p-4">
+        <div class="d-flex align-items-center justify-content-between mb-2">
+            <h6 class="mb-0">Comments</h6>
+        </div>
+        @foreach(var c in Model)
+        {
+            <div class="d-flex align-items-center border-bottom py-3">
+                <img class="rounded-circle flex-shrink-0" src="/images/user.jpg" alt="" style="width: 40px; height: 40px;">
+                <div class="w-100 ms-3">
+                    <div class="d-flex w-100 justify-content-between">
+                        <h6 class="mb-0">@c.userName</h6>
+                        @*<small>15 minutes ago</small>*@
+                    </div>
+                    <span>@c.text</span>
+                </div>
+            </div>
+        }
+        
+    </div>

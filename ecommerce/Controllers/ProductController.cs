@@ -171,21 +171,21 @@ namespace ecommerce.Controllers
 		// [Authorize("Admin")]
 		public IActionResult Insert()
 		{
-			return View();
+			ProductWithListOfCatesViewModel product = new();
+			product.categories = categoryService.GetAll();
+			return View(product);
 		}
 
 		[HttpPost]
 		[ValidateAntiForgeryToken]
 		// [Authorize("Admin")]
-		public IActionResult Insert(Product product)
+		public IActionResult Insert(ProductWithListOfCatesViewModel product)
 		{
 			if (ModelState.IsValid)
 			{
 				productService.Insert(product);
 
-				productService.Save();
-
-				return RedirectToAction("GetAll");
+				return RedirectToAction("products","Dashbourd");
 			}
 
 			return View(product);
@@ -197,20 +197,20 @@ namespace ecommerce.Controllers
 		// [Authorize("Admin")]
 		public IActionResult Update(int id)
 		{
-			Product product = productService.Get(id);
+            ProductWithListOfCatesViewModel product = productService.GetViewModel(id);
 
 			if (product != null)
 			{
 				return View(product);
 			}
 
-			return RedirectToAction("GetAll");
+			return RedirectToAction("products", "Dashbourd");
 		}
 
 		[HttpPost]
 		[ValidateAntiForgeryToken]
 		//   [Authorize("Admin")]
-		public IActionResult Update(Product product)
+		public IActionResult Update(ProductWithListOfCatesViewModel product)
 		{
 			if (ModelState.IsValid)
 			{
@@ -218,7 +218,7 @@ namespace ecommerce.Controllers
 
 				productService.Save();
 
-				return RedirectToAction("GetAll");
+				return RedirectToAction("products", "Dashbourd");
 			}
 
 			return View(product);
@@ -237,7 +237,7 @@ namespace ecommerce.Controllers
 				return View(product);
 			}
 
-			return RedirectToAction("GetAll");
+			return RedirectToAction("products", "Dashbourd");
 		}
 
 		[HttpPost]
@@ -249,7 +249,7 @@ namespace ecommerce.Controllers
 
 			productService.Save();
 
-			return RedirectToAction("GetAll");
+			return RedirectToAction("products", "Dashbourd");
 		}
 
 		//--------------------------------------------

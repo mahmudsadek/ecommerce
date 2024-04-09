@@ -78,6 +78,45 @@ namespace ecommerce.Services
             return product;
         }
 
+        public void Insert(ProductWithListOfCatesViewModel p)
+        {
+            Product product = new()
+            { Id = p.Id, Name = p.Name, Color = p.Color , Description = p.Description ,
+                ImageUrl = p.ImageUrl , Price = p.Price , Quantity = p.Quantity ,
+                Rating = p.Rating , CategoryId = p.CategoryId};
+            
+            productrepository.Insert(product);
+            productrepository.Save();
+        }
+
+        public ProductWithListOfCatesViewModel GetViewModel(int id)
+        {
+            Product p =  productrepository.Get(id);
+            ProductWithListOfCatesViewModel prd = new()
+            {
+                Id = p.Id, Name = p.Name, Color = p.Color , Description = p.Description ,
+                ImageUrl = p.ImageUrl , Price = p.Price , Quantity = p.Quantity ,
+                Rating = p.Rating , CategoryId = p.CategoryId
+            };
+            prd.categories = categoryRepository.GetAll();
+            return prd;
+        }
+
+        public void Update(ProductWithListOfCatesViewModel p)
+        {
+            Product product = productrepository.Get(p.Id);
+            product.Name = p.Name;
+            product.Color = p.Color;
+            product.Description = p.Description;
+            product.ImageUrl = p.ImageUrl;
+            product.Price = p.Price;
+            product.Quantity = p.Quantity;
+            product.Rating = p.Rating;
+            product.CategoryId = p.CategoryId;
+            productrepository.Update(product);
+            productrepository.Save();
+        }
+
         ////////////////////////////////////////////////
         // Maher : need to check up again after implement comment repo 
         //public ProductWithCommentsViewModel ProductWithComments(Product product)

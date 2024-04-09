@@ -7,5 +7,10 @@ namespace ecommerce.Repository
         public CommentRepository(Context _context) : base(_context)
         {
         }
+
+        public List<Comment> Take(int num)
+        {
+            return Context.Comments.Take(num).ToList();
+        }
     }
 }

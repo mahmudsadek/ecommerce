@@ -6,7 +6,7 @@
 }
 
 <div class="container">
-    ]
+    <div class=" text-center mt-5 ">
     <div class=" text-center mt-5 ">
 
         <h1>Add New Order</h1>
@@ -21,7 +21,7 @@
                 <div class="card-body bg-light">
 
                     <div class="container">
-                        <form id="contact-form" role="form" asp-action="insert">
+                        <form id="contact-form" role="form" asp-action="insert" asp-controller="order">
 
 
 
@@ -70,7 +70,7 @@
 
                 <div class="col-md-12 text-center">
 
-                    <a asp-action="Index" class="btn btn-info btn-send  pt-2 btn-block">Back to List</a>
+                    <a asp-action="orders" asp-controller="dashbourd" class="btn btn-info btn-send  pt-2 btn-block">Back to List</a>
                 </div>
             </div>
             <!-- /.8 -->
