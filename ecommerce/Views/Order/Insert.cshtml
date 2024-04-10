@@ -2,8 +2,116 @@
 
 @{
     ViewData["Title"] = "Insert";
+    Layout = "_DashbourdLayout";
 }
 
+<div class="container">
+    <div class=" text-center mt-5 ">
+    <div class=" text-center mt-5 ">
+
+        <h1>Add New Order</h1>
+
+
+    </div>
+
+
+    <div class="row ">
+        <div class="col-lg-7 mx-auto">
+            <div class="card mt-2 mx-auto p-4 bg-light">
+                <div class="card-body bg-light">
+
+                    <div class="container">
+                        <form id="contact-form" role="form" asp-action="insert" asp-controller="order">
+
+
+
+                            <div class="controls">
+
+                                <div class="row my-2">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label asp-for="OrderDate" class="control-label"></label>
+                                            <input asp-for="OrderDate" class="form-control" />
+                                            <span asp-validation-for="OrderDate" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label asp-for="ApplicationUserId" class="control-label"></label>
+                                            <input asp-for="ApplicationUserId" class="form-control" />
+                                            <span asp-validation-for="ApplicationUserId" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group my-2">
+                                            <label asp-for="ShipmentId" class="control-label"></label>
+                                            <input asp-for="ShipmentId" class="form-control" />
+                                            <span asp-validation-for="ShipmentId" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group text-center my-5">
+                                            <input type="submit" value="Create" class="btn btn-primary btn-send  pt-2 btn-block" />
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="col-md-12 text-center">
+
+                    <a asp-action="orders" asp-controller="dashbourd" class="btn btn-info btn-send  pt-2 btn-block">Back to List</a>
+                </div>
+            </div>
+            <!-- /.8 -->
+
+        </div>
+        <!-- /.row-->
+
+    </div>
+</div>
+
+<script src="~/lib/jquery/dist/jquery.js"></script>
+<script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+<style>
+    h1 {
+        margin-bottom: 40px;
+    }
+
+    label {
+        color: #333;
+    }
+
+    .btn-send {
+        font-weight: 300;
+        text-transform: uppercase;
+        letter-spacing: 0.2em;
+        width: 80%;
+        margin-left: 3px;
+    }
+
+    .help-block.with-errors {
+        color: #ff5050;
+        margin-top: 5px;
+    }
+
+    .card {
+        margin-left: 10px;
+        margin-right: 10px;
+    }
+</style>
+@* 
 <h1>Insert</h1>
 
 <h4>Order</h4>
@@ -37,11 +145,9 @@
             </div>
         </form>
     </div>
-</div>
+</div> *@
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

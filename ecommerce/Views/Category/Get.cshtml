@@ -1,0 +1,90 @@
+﻿@model ecommerce.Models.Category
+
+@{
+    ViewData["Title"] = "Get";
+}
+
+@section Styles{
+    <style>
+        .category-details {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+
+            .category-details h2 {
+                text-align: center;
+                margin-bottom: 20px;
+            }
+
+            .category-details dl {
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: space-between;
+            }
+
+            .category-details dt {
+                flex: 1 0 40%;
+                font-weight: bold;
+                margin-bottom: 10px;
+            }
+
+            .category-details dd {
+                flex: 1 0 50%;
+                margin-bottom: 10px;
+            }
+
+            .category-details img {
+                max-width: 100%;
+                height: auto;
+                display: block;
+                margin-bottom: 10px;
+            }
+
+            .category-details .btn-container {
+                text-align: center;
+                margin-top: 20px;
+            }
+
+                .category-details .btn-container a {
+                    margin-right: 10px;
+                    text-decoration: none;
+                    padding: 8px 20px;
+                    border: 1px solid #ccc;
+                    border-radius: 5px;
+                    background-color: #f0f0f0;
+                    color: #333;
+                    transition: all 0.3s ease;
+                }
+
+                    .category-details .btn-container a:hover {
+                        background-color: #e0e0e0;
+                    }
+    </style>
+}
+
+<div class="category-details">
+    <h2>Category Details</h2>
+
+    <dl>
+        <dt>@Html.DisplayNameFor(model => model.Id)</dt>
+        <dd>@Html.DisplayFor(model => model.Id)</dd>
+        
+        <dt>@Html.DisplayNameFor(model => model.Name)</dt>
+        <dd>@Html.DisplayFor(model => model.Name)</dd>
+        
+        <dt>@Html.DisplayNameFor(model => model.Description)</dt>
+        <dd>@Html.DisplayFor(model => model.Description)</dd>
+        
+        <dt>Image</dt>
+        <dd><img src="@Html.DisplayFor(model => model.ImageUrl)" alt="Category Image" height="300"></dd>
+    </dl>
+
+    <div class="btn-container">
+        @Html.ActionLink("Update", "Update", new { id = Model.Id }, new { @class = "btn btn-primary" })
+        <a asp-action="GetAll" class="btn btn-secondary">Back to List</a>
+    </div>
+</div>

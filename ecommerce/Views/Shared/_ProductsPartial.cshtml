@@ -1,0 +1,84 @@
+﻿@model ecommerce.ViewModels.Product.Products_With_CategoriesVM
+
+<!-- STORE -->
+<div id="store" class="col-md-9">
+	<!-- store top filter -->
+	<div class="store-filter clearfix">
+		<div class="store-sort">
+			<label>
+				Sort By:
+				<select class="input-select">
+					<option value="0">Popular</option>
+					<option value="1">Position</option>
+				</select>
+			</label>
+
+			<label>
+				Show:
+				<select class="input-select">
+					<option value="0">20</option>
+					<option value="1">50</option>
+				</select>
+			</label>
+		</div>
+		<ul class="store-grid">
+			<li class="active"><i class="fa fa-th"></i></li>
+			<li><a href="#"><i class="fa fa-th-list"></i></a></li>
+		</ul>
+		<a class="btn btn-primary" asp-action="Insert">Add New Product</a>
+
+	</div>
+	<!-- /store top filter -->
+	<!-- store products -->
+	<div class="row">
+		@foreach (Product product in Model.Products)
+		{
+			<!-- product -->
+			<div class="col-md-4 col-xs-6 my-5" style="margin-top:60px">
+				<div class="product">
+					<div class="product-img">
+						<a asp-action="Details" asp-controller="Product" asp-route-Id="@product.Id">
+							<img src="/img/@product.ImageUrl" alt="@product.Name" height="300" style="max-width: 100%;" width="auto">
+						</a>
+
+						<div class="product-label">
+							<span class="sale">-30%</span>
+							<span class="new">NEW</span>
+						</div>
+					</div>
+					<div class="product-body">
+						<a asp-action="Details" asp-controller="Category" asp-route-Id="@product.Id">
+							<p class="product-category">Category</p>
+						</a>
+						<a asp-action="Details" asp-controller="Product" asp-route-Id="@product.Id">
+							<h3 class="product-name">@product.Name</h3>
+						</a>
+						<h4 class="product-price">$ @product.Price <del class="product-old-price">$ @(product.Price + 1999)</del></h4>
+						<div class="product-rating">
+							<i class="fa fa-star"></i>
+							<i class="fa fa-star"></i>
+							<i class="fa fa-star"></i>
+							<i class="fa fa-star-o"></i>
+							<i class="fa fa-star-o"></i>
+						</div>
+						<div class="product-btns">
+							<button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
+							<button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">add to compare</span></button>
+							<a asp-action="Details" asp-controller="Product" asp-route-Id="@product.Id" class="quick-view btn"><i class="fa fa-eye"></i><span class="tooltipp"> quick view</span></a>
+						</div>
+					</div>
+					<div class="add-to-cart">
+						<button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
+					</div>
+				</div>
+			</div>
+			<!-- /product -->
+		}
+
+	</div>
+	<!-- /store products -->
+
+
+
+</div>
+<!-- /STORE -->

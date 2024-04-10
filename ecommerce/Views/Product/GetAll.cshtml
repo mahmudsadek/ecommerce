@@ -1,0 +1,430 @@
+﻿@model ecommerce.ViewModels.Product.Products_With_CategoriesVM
+
+@{
+    ViewData["Title"] = "GetAll";
+}
+
+@section Styles {
+    <style>
+        /* Additional CSS for table styling */
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px; /* Adjust margin as needed */
+        }
+
+            .table th,
+            .table td {
+                text-align: center;
+                vertical-align: middle;
+                padding: 8px; /* Adjust padding as needed */
+            }
+
+            .table img {
+                display: block;
+                margin: 0 auto;
+            }
+
+        .btn-action {
+            margin-right: 5px;
+        }
+
+        td {
+            vertical-align: middle;
+            text-align: center;
+        }
+    </style>
+}
+
+<!-- BREADCRUMB -->
+<div id="breadcrumb" class="section">
+    <!-- container -->
+    <div class="container">
+        <!-- row -->
+        <div class="row">
+            <div class="col-md-12">
+                <ul class="breadcrumb-tree">
+                    <li><a asp-action="Index" asp-controller="Home">Home</a></li>
+                    <li><a asp-action="GetAll" asp-controller="Category">All Categories</a></li>
+                    <li class="active">All Products</li>
+                </ul>
+            </div>
+        </div>
+        <!-- /row -->
+    </div>
+    <!-- /container -->
+</div>
+<!-- /BREADCRUMB -->
+
+
+
+<!-- SECTION -->
+<div class="section">
+    <!-- container -->
+    <div class="container">
+        <!-- row -->
+        <div class="row">
+            <!-- ASIDE -->
+            <div id="aside" class="col-md-3">
+                <!-- aside Widget -->
+                <div class="aside">
+                    <h3 class="aside-title">Categories</h3>
+                    <div class="checkbox-filter">
+
+                        @foreach (Category category in Model.Categories)
+                        {
+                            <div class="input-checkbox">
+                                <input checked type="checkbox" id="category-@category.Id" onchange="DisplayCategoryPoducts()">
+                                <label for="category-@category.Id">
+                                    <span></span>
+                                    @category.Name
+                                    <small>(@category.Products.Count())</small>
+                                </label>
+                            </div>
+                        }
+                    </div>
+                </div>
+                <!-- /aside Widget -->
+
+                <!-- aside Widget -->
+                <div class="aside">
+                    <h3 class="aside-title">Price</h3>
+                    <div class="price-filter">
+                        <div id="price-slider" onmouseup="filterByPrice()"></div>
+                        <div class="input-number price-min">
+                            <input id="price-min" type="number" onblur="filterByPrice()">
+                            <span class="qty-up">+</span>
+                            <span class="qty-down">-</span>
+                        </div>
+                        <span>-</span>
+                        <div class="input-number price-max">
+                            <input id="price-max" type="number" onblur="filterByPrice()">
+                            <span class="qty-up">+</span>
+                            <span class="qty-down">-</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- /aside Widget -->
+
+                <!-- aside Widget -->
+                <div class="aside">
+                    <h3 class="aside-title">Brand</h3>
+                    <div class="checkbox-filter">
+                        <div class="input-checkbox">
+                            <input type="checkbox" id="brand-1">
+                            <label for="brand-1">
+                                <span></span>
+                                SAMSUNG
+                                <small>(578)</small>
+                            </label>
+                        </div>
+                        <div class="input-checkbox">
+                            <input type="checkbox" id="brand-2">
+                            <label for="brand-2">
+                                <span></span>
+                                LG
+                                <small>(125)</small>
+                            </label>
+                        </div>
+                        <div class="input-checkbox">
+                            <input type="checkbox" id="brand-3">
+                            <label for="brand-3">
+                                <span></span>
+                                SONY
+                                <small>(755)</small>
+                            </label>
+                        </div>
+                        <div class="input-checkbox">
+                            <input type="checkbox" id="brand-4">
+                            <label for="brand-4">
+                                <span></span>
+                                SAMSUNG
+                                <small>(578)</small>
+                            </label>
+                        </div>
+                        <div class="input-checkbox">
+                            <input type="checkbox" id="brand-5">
+                            <label for="brand-5">
+                                <span></span>
+                                LG
+                                <small>(125)</small>
+                            </label>
+                        </div>
+                        <div class="input-checkbox">
+                            <input type="checkbox" id="brand-6">
+                            <label for="brand-6">
+                                <span></span>
+                                SONY
+                                <small>(755)</small>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <!-- /aside Widget -->
+                <!-- aside Widget -->
+                <div class="aside">
+                    <h3 class="aside-title">Top selling</h3>
+                    <div class="product-widget">
+                        <div class="product-img">
+                            <img src="/img/product01.png" alt="">
+                        </div>
+                        <div class="product-body">
+                            <p class="product-category">Category</p>
+                            <h3 class="product-name"><a href="#">product name goes here</a></h3>
+                            <h4 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h4>
+                        </div>
+                    </div>
+
+                    <div class="product-widget">
+                        <div class="product-img">
+                            <img src="/img/product02.png" alt="">
+                        </div>
+                        <div class="product-body">
+                            <p class="product-category">Category</p>
+                            <h3 class="product-name"><a href="#">product name goes here</a></h3>
+                            <h4 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h4>
+                        </div>
+                    </div>
+
+                    <div class="product-widget">
+                        <div class="product-img">
+                            <img src="/img/product03.png" alt="">
+                        </div>
+                        <div class="product-body">
+                            <p class="product-category">Category</p>
+                            <h3 class="product-name"><a href="#">product name goes here</a></h3>
+                            <h4 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h4>
+                        </div>
+                    </div>
+                </div>
+                <!-- /aside Widget -->
+            </div>
+            <!-- /ASIDE -->
+
+            <!-- STORE ---------------------------------------------------------->
+            <div id="productsPartial">
+                <partial name="_ProductsPartial"></partial>
+            </div>
+            <!-- /STORE --------------------------------------------------------->
+
+            <!-- store bottom filter -->
+            <div class="store-filter clearfix pagination">
+                <span class="store-qty">Showing 20-100 products</span>
+                <ul class="store-pagination " aria-label="Pagination">
+                    @for (int i = 1; i <= ViewBag.TotalPages; i++)
+                    {
+                        <li class="page-item">
+                            <a class="page-link" asp-action="GetAllFiltered"  asp-controller="Product" data-page="@i" asp-route-page="@i">
+                                @i
+                            </a>
+                        </li>
+                    }
+                    <li><a href="#"><i class="fa fa-angle-right"></i></a></li>
+                </ul>
+            </div>
+            <!-- /store bottom filter -->
+
+        </div>
+        <!-- /row -->
+    </div>
+    <!-- /container -->
+</div>
+<!-- /SECTION -->
+
+@section Scripts
+{
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+    <script>
+        $(document).ready(function ()
+        {
+            function DisplayCategoryProducts() {
+                console.log("entered");
+
+                // Get the selected category IDs
+                let selectedCategIdsArr = $('input[type="checkbox"][id^="category-"]:checked')
+                    .map(function () {
+                        return parseInt(this.id.replace('category-', ''));
+
+                    }).get();
+
+                console.log(selectedCategIdsArr);
+
+                let minInput = parseInt(document.getElementById('price-min').value);
+
+                let maxInput = parseInt(document.getElementById('price-max').value);
+
+                console.log("Min price from checkBox :" + minInput);
+
+                console.log("Max price from checkBox  :" + maxInput);
+
+                // Perform Ajax call
+                $.ajax({
+                    url: '/Product/GetAllFiltered',
+                    type: 'GET',
+                    traditional: true, // Set traditional to true
+                    data: { 
+                        categIds: selectedCategIdsArr , 
+                        minPrice : minInput , 
+                        maxPrice : maxInput ,
+                    },
+                    success: function (response) 
+                    {
+                        console.log("success");
+                        // Handle the response here
+                        $("#productsPartial").html(response);
+                    },
+                    error: function (xhr, status, error) 
+                    {
+                        console.error("AJAX request failed:", status, error);
+                        // Handle the failure here
+                    }
+                });
+            }
+
+            // Attach onchange event handler to checkboxes
+            $('input[type="checkbox"][id^="category-"]').change(DisplayCategoryProducts);
+        });
+
+        $(function () 
+        {
+            var productsNames = @Json.Serialize(@ViewBag.AllProductsNames);
+
+            $("#searchProdName").autocomplete({
+                source: productsNames,
+                minLength: 1
+            });
+        });
+
+         function filterByPrice()
+         {
+            let minInput = parseInt( document.getElementById('price-min').value);
+
+            let maxInput = parseInt(document.getElementById('price-max').value);
+
+             console.log("Min price :" + minInput);
+
+             console.log("Max price :" + maxInput);
+
+            // Get all the checkboxes within the checkbox-filter div
+            var checkboxes = document.querySelectorAll('.checkbox-filter input[type="checkbox"]');
+
+            // Array to store the IDs of selected checkboxes as integers
+            var selectedCheckboxes = [];
+
+            // Loop through each checkbox
+            checkboxes.forEach(function (checkbox) {
+                // Check if the checkbox is checked
+                if (checkbox.checked) {
+                    // Extract the category ID from the checkbox ID and parse it to integer
+                    var categoryId = parseInt(checkbox.id.split('-')[1]);
+                    // Add the category ID to the selectedCheckboxes array
+                    selectedCheckboxes.push(categoryId);
+                }
+            });
+
+            // Now selectedCheckboxes array contains the IDs of all selected checkboxes as integers
+            console.log(selectedCheckboxes);
+
+            $.ajax({
+                url: '/Product/GetAllFiltered',
+                type: 'GET',
+                traditional: true, // Set traditional to true
+                data: {
+                    minPrice : minInput, 
+                    maxPrice: maxInput ,
+                    categIds: selectedCheckboxes
+                },
+                success: function (response) 
+                {
+                    console.log("success");
+
+                    $("#productsPartial").html(response);
+                },
+                error: function (xhr, status, error)
+                {
+                    console.error("AJAX request failed:", status, error);
+                }
+            });
+
+         }
+    
+
+        //---------------------------------------------
+        // pagination using ajax returning partial view
+
+        $(document).ready(function ()
+        {
+            $(".pagination a").click(function (e) 
+            {
+                e.preventDefault();
+
+                var pageNum = $(this).data("page");
+
+                // Get all the checkboxes within the checkbox-filter div
+                var checkboxes = document.querySelectorAll('.checkbox-filter input[type="checkbox"]');
+
+                // Array to store the IDs of selected checkboxes as integers
+                var selectedCheckboxes = [];
+
+                // Loop through each checkbox
+                checkboxes.forEach(function (checkbox) 
+                {
+                    // Check if the checkbox is checked
+                    if (checkbox.checked) 
+                    {
+                        // Extract the category ID from the checkbox ID and parse it to integer
+                        var categoryId = parseInt(checkbox.id.split('-')[1]);
+                        // Add the category ID to the selectedCheckboxes array
+                        selectedCheckboxes.push(categoryId);
+                    }
+                });
+
+                // Now selectedCheckboxes array contains the IDs of all selected checkboxes as integers
+                console.log(selectedCheckboxes);
+
+                let minInput = parseInt(document.getElementById('price-min').value);
+
+                let maxInput = parseInt(document.getElementById('price-max').value);
+
+                loadProducts(pageNum, selectedCheckboxes, minInput , maxInput );
+            });
+
+            function loadProducts(pageNum, selectedCategIdsArr, minInput, maxInput) 
+            {
+                console.log("suceessfully got : " + selectedCategIdsArr);
+
+                console.log("suceessfully got : " + pageNum);
+                    
+                console.log("Min price from pagination :" + minInput);
+
+                console.log("Max price from pagination  :" + maxInput);
+
+                $.ajax({
+                    url: '/Product/GetAllFiltered',
+                    type: 'GET',
+                    traditional: true, // Set traditional to true
+                    data: {
+                        page: pageNum,
+                        categIds: selectedCategIdsArr ,
+                        minPrice : minInput , maxPrice : maxInput ,
+                    }, 
+
+                    success: function (response) 
+                    {
+                        console.log("success");
+
+                        $("#productsPartial").html(response);
+                    },
+                    error: function (xhr, status, error) 
+                    {
+                        console.error("AJAX request failed:", status, error);
+                    }
+                });
+            }
+        });
+
+    </script>
+}

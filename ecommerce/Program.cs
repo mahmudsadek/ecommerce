@@ -26,6 +26,9 @@ namespace ecommerce
             //register Model.
             builder.Services.AddScoped<IProductRepository, ProductRepository>();
             builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
+            builder.Services.AddScoped<ICommentRepository, CommentRepository>();
+
+            builder.Services.AddScoped<ICommentService, CommentService>();
 
             //AbdElraheem
             builder.Services.AddScoped<IOrderItemRepository, OrderItemRepository>();
@@ -39,8 +42,15 @@ namespace ecommerce
             // omar : registering orderservice
             builder.Services.AddScoped<IOrderService, OrderService>();
 
-            builder.Services.AddScoped<IShipmentRepository, ShipmentRepository>();   
-            builder.Services.AddScoped<IShipmentService,ShipmentService>();  
+		      	// omar : registering ProductService
+      			builder.Services.AddScoped<IProductService, ProductService>();
+
+            // omar : registering CategoryService
+            builder.Services.AddScoped<ICategoryService, CategoryService>();
+
+            builder.Services.AddScoped<IShipmentRepository, ShipmentRepository>();
+            builder.Services.AddScoped<IShipmentService,ShipmentService>();
+
             
 
 

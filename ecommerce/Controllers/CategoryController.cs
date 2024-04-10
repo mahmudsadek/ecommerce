@@ -1,42 +1,160 @@
 ﻿using ecommerce.Models;
 using ecommerce.Repository;
+using ecommerce.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ecommerce.Controllers
 {
     public class CategoryController : Controller
     {
-        private readonly ICategoryRepository CategoryRepository;
-        public CategoryController(ICategoryRepository CategoryRepository) 
+        private readonly ICategoryService categoryService;
+
+        public CategoryController(ICategoryService categoryService) 
         {
-            this.CategoryRepository = CategoryRepository;
+            this.categoryService = categoryService;
         }
 
+        //*********************************************************
 
-        public IActionResult Index(string include = null)
+        [HttpGet]
+        //[Route("/Dashbourd/categories")]
+        public IActionResult GetAll(string? include = null)
         {
-            CategoryRepository.GetAll(include);
+            List<Category> categories = categoryService.GetAll(include);
 
-            return View();
+            return View(categories);
         }
 
+        [HttpGet]
+        public IActionResult Details(int id)
+        {
+            Category category = categoryService.Get(id);
 
+            if (category != null)
+            {
+                return View("Get" ,category);
+            }
+
+            return RedirectToAction("GetAll");
+        }
+
+        [HttpGet]
+        public IActionResult Get(Func<Category, bool> where)
+        {
+            List<Category> categories = categoryService.Get(where);
+
+            return View(categories);
+        }
+
+        //--------------------------------------------
+
+        [HttpGet]
+        // [Authorize("Admin")]
         public IActionResult Insert()
         {
             return View();
         }
 
-        public IActionResult Update(int CategoryId)
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        // [Authorize("Admin")]
+        public IActionResult Insert(Category category)
         {
-            return View("", CategoryRepository.Get(CategoryId));
+            if (ModelState.IsValid)
+            {
+                categoryService.Insert(category);
+
+                categoryService.Save();
+
+                return RedirectToAction("GetAll");
+            }
+
+            return View(category);
         }
 
-        public IActionResult ShowCategoryProducts(int CategoryId)
-        {
-            Category category = CategoryRepository.Get(CategoryId);
+        //--------------------------------------------
 
-            return View("", category.Products);
+        [HttpGet]
+        // [Authorize("Admin")]
+        public IActionResult Update(int id)
+        {
+            Category category = categoryService.Get(id);
+
+            if (category != null)
+            {
+                return View(category);
+            }
+
+            return RedirectToAction("GetAll");
         }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        //   [Authorize("Admin")]
+        public IActionResult Update(Category category)
+        {
+            if (ModelState.IsValid)
+            {
+                categoryService.Update(category);
+
+                categoryService.Save();
+
+                return RedirectToAction("GetAll");
+            }
+
+            return View(category);
+        }
+
+        //--------------------------------------------
+
+        [HttpGet]
+        // [Authorize("Admin")]
+        public IActionResult Delete(int id)
+        {
+            Category category = categoryService.Get(id);
+
+            if (category != null)
+            {
+                return View(category);
+            }
+
+            return RedirectToAction("GetAll");
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        // [Authorize("Admin")]
+        public IActionResult Delete(Category category)
+        {
+            categoryService.Delete(category);
+
+            categoryService.Save();
+
+            return RedirectToAction("GetAll");
+        }
+
+        //--------------------------------------------
+
+
+
+        // refaaey
+
+        //public IActionResult Insert()
+        //      {
+        //          return View();
+        //      }
+
+        //      public IActionResult Update(int CategoryId)
+        //      {
+        //          return View("", categoryService.Get(CategoryId));
+        //      }
+
+        //      public IActionResult ShowCategoryProducts(int CategoryId)
+        //      {
+        //          Category category = categoryService.Get(CategoryId);
+
+        //          return View("", category.Products);
+        //      }
 
 
     }
