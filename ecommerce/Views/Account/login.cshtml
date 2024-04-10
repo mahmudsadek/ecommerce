@@ -42,10 +42,14 @@
                                 <span asp-validation-for="password" class="text-danger"></span>
                             </div>
 
-                            <div class="form-group form-check input-label-div">
-                                <label class="form-check-label">
+                            <div class="form-group form-check input-label-div row">
+                                <label class="form-check-label col-7">
                                     <input class="form-check-input" asp-for="rememberMe" /> @Html.DisplayNameFor(model => model.rememberMe)
                                 </label>
+
+                                @* <div> *@
+                              <a href="/account/forgotPassword" class="col-5 justify-content-end">Forgot password</a>
+                                @* </div>  *@
 
                             </div>
 

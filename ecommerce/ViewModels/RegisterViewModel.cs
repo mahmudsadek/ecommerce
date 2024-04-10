@@ -7,7 +7,7 @@ namespace ecommerce.ViewModel
         [Required, MaxLength(20), MinLength(2, ErrorMessage = "User name must be at least 2 characters"), Display(Name = "User name")]
         public string userName { get; set; }
 
-        [Required, DataType(DataType.Password), MinLength(6, ErrorMessage = "Password must be at least 6 characters")]
+        [Required, DataType(DataType.Password), MinLength(6, ErrorMessage = "Password must be at least 6 characters")] 
         public string password { get; set; }
 
         [Required, Compare("password"), DataType(DataType.Password),
@@ -18,7 +18,7 @@ namespace ecommerce.ViewModel
             ErrorMessage = "Invalid phone number")]
         public string phoneNumber { get; set; }
 
-        [Required]
-        public string Address { get; set; }
-    }
+        [Required , RegularExpression(@"[a-zA-Z0-9]+@[a-zA-Z0-9]+\.(com){1}\s*$")] 
+        public string? Email { get; set; }
+    }    
 }

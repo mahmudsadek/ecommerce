@@ -22,5 +22,12 @@ namespace ecommerce.Models
         {
             base.OnConfiguring(optionsBuilder);
         }
+
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            base.OnModelCreating(builder);
+            builder.Entity<ApplicationUser>().HasIndex(appUser => appUser.Email)
+                .IsUnique();
+        }
     }
 }
