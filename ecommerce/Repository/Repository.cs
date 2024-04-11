@@ -12,6 +12,8 @@ namespace ecommerce.Repository
             Context = _context;
         }
 
+        //******************************************************
+
         public void Delete(T item)
         {
             Context.Remove(item);
