@@ -1,4 +1,6 @@
-﻿namespace ecommerce.Models
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace ecommerce.Models
 {
     public class CartItem
     {
@@ -6,10 +8,17 @@
 
         public int Quantity { get; set; }
 
+        //------------------------------------
+
+        [ForeignKey("Product")]
         public int ProductId { get; set; }
+
         public  Product Product { get; set; }
 
+
+        [ForeignKey("Cart")]
         public int CarttId { get; set; }
-        public  Cart cart { get; set; }
+
+        public  Cart Cart { get; set; }
     }
 }

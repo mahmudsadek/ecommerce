@@ -1,22 +1,19 @@
-﻿using Azure.Identity;
-using ecommerce.Models;
+﻿using ecommerce.Models;
 using ecommerce.Services;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ecommerce.Controllers
 {
-    //[Authorize]
-    public class OrderController : Controller
+    public class CartController : Controller
     {
-        private readonly IOrderService orderService;
+        private readonly ICartService cartService;
 
-        public OrderController(IOrderService orderService)
+        public CartController(ICartService cartService)
         {
-            this.orderService = orderService;
+            this.cartService = cartService;
         }
 
-        //***********************************************
+        //*******************************************
 
         // omar :  used GetAll Action instead
         //public IActionResult Index(string include = null)
@@ -29,30 +26,30 @@ namespace ecommerce.Controllers
         [HttpGet]
         public IActionResult GetAll(string? include = null)
         {
-            List<Order> orders = orderService.GetAll(include);
+            List<Cart> carts = cartService.GetAll(include);
 
-            return View(orders);
+            return View(carts);
         }
 
         [HttpGet]
         public IActionResult Get(int id)
         {
-            Order order = orderService.Get(id);
+            Cart cart = cartService.Get(id);
 
-            if (order != null)
+            if (cart != null)
             {
-                return View(order);
+                return View(cart);
             }
 
             return RedirectToAction("GetAll");
         }
 
         [HttpGet]
-        public IActionResult Get(Func<Order, bool> where)
+        public IActionResult Get(Func<Cart, bool> where)
         {
-            List<Order> orders = orderService.Get(where);
+            List<Cart> carts = cartService.Get(where);
 
-            return View(orders);
+            return View(carts);
         }
 
         //--------------------------------------------
@@ -69,18 +66,18 @@ namespace ecommerce.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         // [Authorize("Admin")]
-        public IActionResult Insert(Order order)
+        public IActionResult Insert(Cart cart)
         {
             if (ModelState.IsValid)
             {
-                orderService.Insert(order);
+                cartService.Insert(cart);
 
-                orderService.Save();
+                cartService.Save();
 
                 return RedirectToAction("GetAll");
             }
 
-            return View(order);
+            return View(cart);
         }
 
         //--------------------------------------------
@@ -89,11 +86,11 @@ namespace ecommerce.Controllers
         // [Authorize("Admin")]
         public IActionResult Update(int id)
         {
-            Order order = orderService.Get(id);
+            Cart cart = cartService.Get(id);
 
-            if (order != null)
+            if (cart != null)
             {
-                return View(order);
+                return View(cart);
             }
 
             return RedirectToAction("GetAll");
@@ -102,18 +99,18 @@ namespace ecommerce.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         //   [Authorize("Admin")]
-        public IActionResult Update(Order order)
+        public IActionResult Update(Cart cart)
         {
             if (ModelState.IsValid)
             {
-                orderService.Update(order);
+                cartService.Update(cart);
 
-                orderService.Save();
+                cartService.Save();
 
                 return RedirectToAction("GetAll");
             }
 
-            return View(order);
+            return View(cart);
         }
 
         //--------------------------------------------
@@ -122,11 +119,11 @@ namespace ecommerce.Controllers
         // [Authorize("Admin")]
         public IActionResult Delete(int id)
         {
-            Order order = orderService.Get(id);
+            Cart cart = cartService.Get(id);
 
-            if (order != null)
+            if (cart != null)
             {
-                return View(order);
+                return View(cart);
             }
 
             return RedirectToAction("GetAll");
@@ -135,11 +132,11 @@ namespace ecommerce.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         // [Authorize("Admin")]
-        public IActionResult Delete(Order order)
+        public IActionResult Delete(Cart cart)
         {
-            orderService.Delete(order);
+            cartService.Delete(cart);
 
-            orderService.Save();
+            cartService.Save();
 
             return RedirectToAction("GetAll");
         }
