@@ -5,44 +5,52 @@
     Layout = "_DashbourdLayout";
 }
 
-<h2>Insert</h2>
+<div class="container">
 
-<h4>Category</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Insert" asp-controller="category">
-            <div asp-validation-summary="All" class="text-danger"></div>
-            @* <div class="form-group">
-                <label asp-for="Id" class="control-label"></label>
-                <input asp-for="Id" class="form-control" />
-                <span asp-validation-for="Id" class="text-danger"></span>
-            </div> *@
-            <div class="form-group">
-                <label asp-for="Name" class="control-label"></label>
-                <input asp-for="Name" class="form-control" />
-                <span asp-validation-for="Name" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Description" class="control-label"></label>
-                <input asp-for="Description" class="form-control" />
-                <span asp-validation-for="Description" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ImageUrl" class="control-label"></label>
-                <input asp-for="ImageUrl" class="form-control" />
-                <span asp-validation-for="ImageUrl" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-default" />
-            </div>
-        </form>
+    <div class=" text-center mt-5">
+        <h1>Add Category</h1>
     </div>
+
+    <div class="row">
+        <div class="col-md-8 mt-3 mx-auto bg-light">
+            <form asp-action="Insert" asp-controller="category">
+                @* <div class="form-group">
+                    <label asp-for="Id" class="control-label"></label>
+                    <input asp-for="Id" class="form-control" />
+                    <span asp-validation-for="Id" class="text-danger"></span>
+                </div> *@
+                <div class="form-group">
+                    <label asp-for="Name" class="control-label"></label>
+                    <input asp-for="Name" class="form-control" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Description" class="control-label"></label>
+                    <input asp-for="Description" class="form-control" />
+                    <span asp-validation-for="Description" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="ImageUrl" class="control-label"></label>
+                    <input asp-for="ImageUrl" class="form-control" />
+                    <span asp-validation-for="ImageUrl" class="text-danger"></span>
+                </div>
+                <div class="form-group text-center px me-2 mx-auto">
+                    <input type="submit" value="Create" class="btn btn-primary me-5 px-5 btn-block" />
+                    <a asp-action="GetAll" class="btn btn-danger btn-send  px-3 btn-block">Back to List</a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    
 </div>
 
-<div>
-    <a asp-action="GetAll">Back to List</a>
-</div>
+<style>
+    .form-group
+    {
+        margin-top: 20px;
+    }
+</style>
 
 @* @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

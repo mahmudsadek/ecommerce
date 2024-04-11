@@ -28,5 +28,7 @@ namespace ecommerce.Repository
         void Delete(int id);
 
         void Save();
+
+        public List<Category> GetPageList(int skipstep, int pageSize);
     }
 }

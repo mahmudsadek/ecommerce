@@ -1,11 +1,27 @@
 ﻿@model IEnumerable<ecommerce.Models.Category>
 
 @{
-    ViewData["Title"] = "GetAll";
-    Layout = "_DashbourdLayout";
+    ViewData["Title"] = "Categories";
 }
 
-<h2>Category List</h2>
+<!-- BREADCRUMB -->
+<div id="breadcrumb" class="section">
+    <!-- container -->
+    <div class="container">
+        <!-- row -->
+        <div class="row">
+            <div class="col-md-12">
+                <ul class="breadcrumb-tree">
+                    <li><a asp-action="Index" asp-controller="Home">Home</a></li>
+                    <li class="active">All Categories</li>
+                </ul>
+            </div>
+        </div>
+        <!-- /row -->
+    </div>
+    <!-- /container -->
+</div>
+<!-- /BREADCRUMB -->
 
 <div class="container">
     <div class="row">
@@ -51,3 +67,44 @@
         </div>
     </div>
 </div>
+
+
+@section Styles {
+    <style>
+        /* Additional CSS for table styling */
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px; /* Adjust margin as needed (I recomend that We should standardize the layout calculations) */
+        }
+
+            .table th, .table td {
+            text-align: center;
+            vertical-align: middle;
+            padding: 8px; /* Adjust padding as needed */
+        }
+
+            .table img {
+                display: block;
+                margin: 0 auto;
+            }
+
+        .btn-action {
+            margin-right: 5px;
+        }
+
+        td {
+            vertical-align: middle;
+            text-align: center;
+        }
+    </style>
+}
+
+@section Scripts
+{
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+}
+
+
