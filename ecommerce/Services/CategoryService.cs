@@ -35,6 +35,9 @@ namespace ecommerce.Services
 		public void Update(Category updatedCategory)
 		{
 			Category category = Get(updatedCategory.Id);
+			category.Name = updatedCategory.Name;
+			category.Description = updatedCategory.Description;
+			category.ImageUrl = updatedCategory.ImageUrl;
 
 			categoryRepository.Update(category);
 		}
