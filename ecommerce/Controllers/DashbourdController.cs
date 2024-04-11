@@ -16,18 +16,22 @@ namespace ecommerce.Controllers
         private readonly ICommentService commentService;
         private readonly IOrderService orderService;
         private readonly UserManager<ApplicationUser> userManager;
+        private readonly IOrderItemService orderItemService;
 
         public DashbourdController(IProductService productService, 
             ICategoryService categoryService, 
             ICommentService commentService,
             IOrderService orderService,
-            UserManager<ApplicationUser> userManager)
+            UserManager<ApplicationUser> userManager,
+            IOrderItemService orderItemService
+            )
         {
             this.productService = productService;
             this.categoryService = categoryService;
             this.commentService = commentService;
             this.orderService = orderService;
             this.userManager = userManager;
+            this.orderItemService = orderItemService;
         }
         public IActionResult Index()
         {
@@ -57,6 +61,20 @@ namespace ecommerce.Controllers
             return View(orders);
         }
 
+        public IActionResult OrderDetails(int id)
+        {
+            decimal total = 0;
+            Order order = orderService.Get(id);
+            order.OrderItems = orderItemService.Get(i => i.OrderId == id);
+            foreach (OrderItem item in order.OrderItems)
+            {
+                item.Product = productService.Get(item.ProductId);
+                total += item.Product.Price * item.Quantity;
+            }
+            ViewBag.total = total;
+            return View(order);
+        }
+
         public IActionResult getOrdersPartial()
         {
             List<Order> orders = orderService.GetAll("User");
@@ -65,7 +83,8 @@ namespace ecommerce.Controllers
         }
         public IActionResult categories()
         {
-            return View();
+            List<Category> cates = categoryService.GetAll();
+            return View(cates);
         }
 
         public IActionResult users()
@@ -90,6 +109,28 @@ namespace ecommerce.Controllers
         {
             List<CommentWithUserNameViewModel> comments =  await commentService.GetCommentWithUserNameTake(5);
             return PartialView("_CommentPartial",comments);    
+        }
+
+        public IActionResult GetTotalOrdersPrice()
+        {
+            decimal total = 0;
+            List<Order> orders = orderService.GetAll("OrderItems");
+            
+            foreach(Order order in orders)
+            {
+                foreach (OrderItem item in order.OrderItems)
+                {
+                    item.Product = productService.Get(item.ProductId);
+                    total += item.Product.Price * item.Quantity;
+                }
+            }
+            return Json(total);
+        }
+
+        public IActionResult OrderCount()
+        {
+            List<Order> orders = orderService.GetAll("OrderItems");
+            return Json(orders.Count);
         }
 
     }

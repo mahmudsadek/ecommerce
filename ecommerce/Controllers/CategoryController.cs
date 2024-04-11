@@ -66,7 +66,7 @@ namespace ecommerce.Controllers
 
                 categoryService.Save();
 
-                return RedirectToAction("GetAll");
+                return RedirectToAction("categories","dashbourd");
             }
 
             return View(category);
@@ -85,7 +85,7 @@ namespace ecommerce.Controllers
                 return View(category);
             }
 
-            return RedirectToAction("GetAll");
+            return RedirectToAction("categories", "dashbourd");
         }
 
         [HttpPost]
@@ -99,7 +99,7 @@ namespace ecommerce.Controllers
 
                 categoryService.Save();
 
-                return RedirectToAction("GetAll");
+                return RedirectToAction("categories", "dashbourd");
             }
 
             return View(category);
@@ -118,7 +118,7 @@ namespace ecommerce.Controllers
                 return View(category);
             }
 
-            return RedirectToAction("GetAll");
+            return RedirectToAction("categories", "dashbourd");
         }
 
         [HttpPost]
@@ -130,7 +130,7 @@ namespace ecommerce.Controllers
 
             categoryService.Save();
 
-            return RedirectToAction("GetAll");
+            return RedirectToAction("categories", "dashbourd");
         }
 
         //--------------------------------------------
