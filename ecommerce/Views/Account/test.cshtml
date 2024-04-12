@@ -1,4 +1,13 @@
-﻿@model ecommerce.ViewModel.LoginViewModel
+﻿@{
+    Layout = null; 
+    ViewData["Title"] = "test";
+}
+
+<h2>test</h2>
+
+
+
+@model ecommerce.ViewModel.LoginViewModel
 
 
 <style>
@@ -8,10 +17,10 @@
 </style>
 
 <section style="height: 100vh;" class="d-flex align-items-center">
-    <div class="container box"> 
+    <div class="container box">
         <div class="d-flex  flex-row bg-white  w-75 m-auto shadow rounded-5 ">
 
-            <div id="log_img" class="bg-danger py-5 col-5 rounded-start-5 align-items-center">
+            <div id="log_img" class="bg-info py-5 col-5 rounded-start-5 align-items-center">
                 <img src="~/img/Sign up-cuate.svg" class="w-100" alt="">
             </div>
 
@@ -48,7 +57,7 @@
                                 </label>
 
                                 @* <div> *@
-                              <a href="/account/forgotPassword" class="col-5 justify-content-end">Forgot password</a>
+                                <a href="/account/forgotPassword" class="col-5 justify-content-end">Forgot password</a>
                                 @* </div>  *@
 
                             </div>
@@ -60,11 +69,11 @@
 
                         </form>
                     </div>
-                 
 
-                   
+
+
                 </div>
-             
+
                 <div class="row text-center justify-content-center m-4">
                     <a href="/account/register" class="col-4 btn btn-primary">Create your account</a>
                 </div>
@@ -83,5 +92,4 @@
 
 
 
- 
 
