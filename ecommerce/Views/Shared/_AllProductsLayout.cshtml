@@ -23,7 +23,6 @@
 
     <!-- Font Awesome Icon -->
     <link rel="stylesheet" href="/css/font-awesome.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-XXX" crossorigin="anonymous" />
 
     <!-- Custom stlylesheet -->
     <link type="text/css" rel="stylesheet" href="/css/style.css" />
@@ -65,8 +64,7 @@
                 border-color: #a93226; /* Hover border color */
             }
 
-        #searchProdName
-        {
+        #searchProdName {
             margin: 0;
         }
 
@@ -77,178 +75,6 @@
 
 </head>
 <body>
-
-     <!-- HEADER -->
-    <header>
-        <!-- TOP HEADER -->
-        <div id="top-header">
-            <div class="container">
-                <ul class="header-links pull-left">
-                    <li><a href="#"><i class="fa fa-phone"></i> +021-95-51-84</a></li>
-                    <li><a href="#"><i class="fa fa-envelope-o"></i> email@email.com</a></li>
-                    <li><a href="#"><i class="fa fa-map-marker"></i> 1734 Stonecoal Road</a></li>
-                </ul>
-                <ul class="header-links pull-right">
-                    @if(User.Identity.IsAuthenticated)
-                    {
-                        <li><a href="#"><i class="fa fa-dollar"></i> USD</a></li>
-                        <li><a href="#"><i class="fa fa-user-o"></i> My Account</a></li>
-                    }
-                    else 
-                    {
-                        <li class="nav-item"> 
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="login">Login</a>
-                        </li>
-                    }
-
-                </ul>
-            </div>
-        </div>
-        <!-- /TOP HEADER -->
-        <!-- MAIN HEADER -->
-        <div id="header">
-            <!-- container -->
-            <div class="container">
-                <!-- row -->
-                <div class="row">
-                    <!-- LOGO -->
-                    <div class="col-md-3">
-                        <div class="header-logo">
-                            <a href="#" class="logo">
-                                <img src="/img/logo.png" alt="">
-                            </a>
-                        </div>
-                    </div>
-                    <!-- /LOGO -->
-                    <!-- SEARCH BAR -->
-                    <div class="col-md-6">
-                        <div class="header-search">
-                            <form asp-action="Search" asp-controller="Product" method="post">
-                                  <a asp-action="GetAll" asp-controller="Product" class="btn btn-info clear-search-btn">Clear search</a>
-
-                                <input class="input" name="searchProdName" id="searchProdName" placeholder="Search here">
-                                <button type="submit" class="search-btn">Search</button>
-                            </form>
-                        </div>
-                    </div>
-                    <!-- /SEARCH BAR -->
-                    <!-- ACCOUNT -->
-                    <div class="col-md-3 clearfix">
-                        <div class="header-ctn"> 
-                  @*           <!-- Wishlist -->
-                            <div>
-                                <a href="#">
-                                    <i class="fa fa-heart-o"></i>
-                                    <span>Your Wishlist</span>
-                                    <div class="qty">2</div>
-                                </a>
-                            </div>
-                            <!-- /Wishlist --> *@
-                            <!-- Cart -->
-                            <div class="dropdown">
-                                <a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
-                                    <i class="fa fa-shopping-cart"></i>
-                                    <span>Your Cart</span>
-                                    <div class="qty">3</div>
-                                </a>
-                                <div class="cart-dropdown">
-                                    <div class="cart-list">
-                                        <div class="product-widget">
-                                            <div class="product-img">
-                                                <img src="/img/product01.png" alt="">
-                                            </div>
-                                            <div class="product-body">
-                                                <h3 class="product-name"><a href="#">product name goes here</a></h3>
-                                                <h4 class="product-price"><span class="qty">1x</span>$980.00</h4>
-                                            </div>
-                                            <button class="delete"><i class="fa fa-close"></i></button>
-                                        </div>
-
-                                        <div class="product-widget">
-                                            <div class="product-img">
-                                                <img src="/img/product02.png" alt="">
-                                            </div>
-                                            <div class="product-body">
-                                                <h3 class="product-name"><a href="#">product name goes here</a></h3>
-                                                <h4 class="product-price"><span class="qty">3x</span>$980.00</h4>
-                                            </div>
-                                            <button class="delete"><i class="fa fa-close"></i></button>
-                                        </div>
-                                    </div>
-                                    <div class="cart-summary">
-                                        <small>3 Item(s) selected</small>
-                                        <h5>SUBTOTAL: $2940.00</h5>
-                                    </div>
-                                    <div class="cart-btns">
-                                        <a href="#">View Cart</a>
-                                        <a href="#">Checkout  <i class="fa fa-arrow-circle-right"></i></a>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- /Cart -->
-                            <!-- Menu Toogle -->
-                            <div class="menu-toggle">
-                                <a href="#">
-                                    <i class="fa fa-bars"></i>
-                                    <span>Menu</span>
-                                </a>
-                            </div>
-                            <!-- /Menu Toogle -->
-                        </div>
-                    </div>
-                    <!-- /ACCOUNT -->
-                </div>
-                <!-- row -->
-            </div>
-            <!-- container -->
-        </div>
-        <!-- /MAIN HEADER -->
-    </header> 
-    <!-- /HEADER -->
-    <!-- NAVIGATION -->
-    <nav id="navigation">
-        <!-- container -->
-        <div class="container">
-            <!-- responsive-nav -->
-            <div id="responsive-nav">
-                <!-- NAV -->
-                <ul class="main-nav nav navbar-nav">
-                    <li><a asp-action="Index" asp-controller="Home">Home</a></li>
-
-                    <li><a asp-action="GetAll" asp-controller="Category">Categories</a></li>
-                    <li><a asp-action="GetAll" asp-controller="Product">Products</a></li>
-
-                    <li><a asp-action="Details" asp-controller="Category" asp-route-Id="1">Smartphones</a></li>
-                    <li><a asp-action="Details" asp-controller="Category" asp-route-Id="2">Laptops</a></li>
-                    <li><a asp-action="Details" asp-controller="Category" asp-route-Id="3">Cameras</a></li>
-                    <li><a asp-action="Details" asp-controller="Category" asp-route-Id="4">Accessories</a></li>
-
-                </ul>
-                <!-- /NAV -->
-            </div>
-            <!-- /responsive-nav -->
-        </div>
-        <!-- /container -->
-    </nav> 
-    <!-- /NAVIGATION -->  
-    <!-- BREADCRUMB -->
-    @* 	<div id="breadcrumb" class="section">
-    <!-- container -->
-    <div class="container">
-    <!-- row -->
-    <div class="row">
-    <div class="col-md-12">
-    <h3 class="breadcrumb-header">Regular Page</h3>
-    <ul class="breadcrumb-tree">
-    <li><a asp-action="Index" asp-controller="Home" asp-fragment="main">Home</a></li>
-    <li class="active">Blank</li>
-    </ul>
-    </div>
-    </div>
-    <!-- /row -->
-    </div>
-    <!-- /container -->
-    </div> *@
 
     <!-- /BREADCRUMB -->
     <!-- SECTION -->
@@ -264,11 +90,9 @@
     </div>
     <!-- /SECTION -->
     <!-- body -->
-  
-    <main id="main" >
-
+    <main id="main">
         @RenderBody()
-    </main> 
+    </main>
     <!-- /body -->
     <!-- NEWSLETTER -->
     <div id="newsletter" class="section">
@@ -402,12 +226,12 @@
     </footer>
     <!-- /FOOTER -->
     <!-- jQuery Plugins -->
-    <script src="/js/jquery.min.js"></script> 
+    <script src="/js/jquery.min.js"></script>
     <script src="/js/bootstrap.min.js"></script>
-    <script src="/js/slick.min.js"></script> 
+    <script src="/js/slick.min.js"></script>
     <script src="/js/nouislider.min.js"></script>
     <script src="/js/jquery.zoom.min.js"></script>
-    <script src="/js/main.js"></script>  
+    <script src="/js/main.js"></script>
 
     @await RenderSectionAsync("Scripts", required: false)
 

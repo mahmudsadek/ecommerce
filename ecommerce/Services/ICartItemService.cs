@@ -5,5 +5,6 @@ namespace ecommerce.Services
 {
     public interface ICartItemService : IRepository<CartItem>
     {
+
     }
 }

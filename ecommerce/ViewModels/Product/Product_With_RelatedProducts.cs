@@ -9,6 +9,8 @@ namespace ecommerce.ViewModels.Product
 
         public string CategoryName { get; set; }
 
+        public Cart? Cart { get; set; } //= new Cart() { CartItems = new List<CartItem>()};
+
         //====================================
 
         public int Id { get; set; }

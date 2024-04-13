@@ -1,8 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using ecommerce.Models;
+using System.ComponentModel.DataAnnotations.Schema;
 
-namespace ecommerce.Models
+namespace ecommerce.ViewModels.CartItem
 {
-    public class CartItem
+    public class CartItemViewModel
     {
         public int Id { get; set; }
 
@@ -13,12 +14,12 @@ namespace ecommerce.Models
         [ForeignKey("Product")]
         public int ProductId { get; set; }
 
-        public  Product? Product { get; set; }
-
+        public ecommerce.Models.Product? Product { get; set; }
 
         [ForeignKey("Cart")]
         public int? CartId { get; set; }
 
-        public  Cart? Cart { get; set; }
+        public Cart? Cart { get; set; }
+
     }
 }
