@@ -1,3 +1,4 @@
+using ecommerce.Hubs;
 using ecommerce.Models;
 using ecommerce.Repository;
 using ecommerce.Services;
@@ -12,7 +13,8 @@ namespace ecommerce
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
-
+            //Add comment
+            builder.Services.AddSignalR();
             // Add services to the container.
             builder.Services.AddControllersWithViews();
 
@@ -42,20 +44,20 @@ namespace ecommerce
             // omar : registering orderservice
             builder.Services.AddScoped<IOrderService, OrderService>();
 
-		      	// omar : registering ProductService
-      			builder.Services.AddScoped<IProductService, ProductService>();
+            // omar : registering ProductService
+            builder.Services.AddScoped<IProductService, ProductService>();
 
             // omar : registering CategoryService
             builder.Services.AddScoped<ICategoryService, CategoryService>();
 
             builder.Services.AddScoped<IShipmentRepository, ShipmentRepository>();
-            builder.Services.AddScoped<IShipmentService,ShipmentService>();
+            builder.Services.AddScoped<IShipmentService, ShipmentService>();
 
-            
+
 
 
             //register the identityuser 
-            builder.Services.AddIdentity<ApplicationUser, IdentityRole>(        
+            builder.Services.AddIdentity<ApplicationUser, IdentityRole>(
                 options =>
                 {
                     options.Password.RequireNonAlphanumeric = false;  // for easier testing  <= Omar : thanks Saeed :D
@@ -64,16 +66,16 @@ namespace ecommerce
                     options.Password.RequireLowercase = false;
                     options.Password.RequireDigit = false;
 
-/**/                   // options.SignIn.RequireConfirmedAccount = true;        // saeed 
+                    /**/                   // options.SignIn.RequireConfirmedAccount = true;        // saeed 
                 }
-                ).AddEntityFrameworkStores<Context>().AddDefaultTokenProviders() ;
+                ).AddEntityFrameworkStores<Context>().AddDefaultTokenProviders();
 
             builder.Services.Configure<MailSettings>
                 (builder.Configuration.GetSection("MailSettings"));
 
             builder.Services.AddTransient<IMailService, MailService>();
-            
-            builder.Services.AddTransient<IMailService , MailService>();
+
+            builder.Services.AddTransient<IMailService, MailService>();
 
             var app = builder.Build();
 
@@ -87,7 +89,8 @@ namespace ecommerce
             app.UseRouting();
 
             app.UseAuthorization();
-
+            //Comment
+            app.MapHub<CommentHub>("/CommentHub");
             app.MapControllerRoute(
                 name: "default",
                 pattern: "{controller=Home}/{action=Index}/{id?}");
