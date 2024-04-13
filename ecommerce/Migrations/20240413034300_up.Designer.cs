@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ecommerce.Models;
 
@@ -11,9 +12,11 @@ using ecommerce.Models;
 namespace ecommerce.Migrations
 {
     [DbContext(typeof(Context))]
-    partial class ContextModelSnapshot : ModelSnapshot
+    [Migration("20240413034300_up")]
+    partial class up
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -245,7 +248,7 @@ namespace ecommerce.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int?>("CartId")
+                    b.Property<int>("CarttId")
                         .HasColumnType("int");
 
                     b.Property<int>("ProductId")
@@ -256,7 +259,7 @@ namespace ecommerce.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CartId");
+                    b.HasIndex("CarttId");
 
                     b.HasIndex("ProductId");
 
@@ -512,8 +515,9 @@ namespace ecommerce.Migrations
                 {
                     b.HasOne("ecommerce.Models.Cart", "Cart")
                         .WithMany("CartItems")
-                        
-                        .HasForeignKey("CartId");
+                        .HasForeignKey("CarttId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("ecommerce.Models.Product", "Product")
                         .WithMany()

@@ -89,8 +89,18 @@
                     <li><a href="#"><i class="fa fa-map-marker"></i> 1734 Stonecoal Road</a></li>
                 </ul>
                 <ul class="header-links pull-right">
-                    <li><a href="#"><i class="fa fa-dollar"></i> USD</a></li>
-                    <li><a href="#"><i class="fa fa-user-o"></i> My Account</a></li>
+                    @if(User.Identity.IsAuthenticated)
+                    {
+                        <li><a href="#"><i class="fa fa-dollar"></i> USD</a></li>
+                        <li><a href="#"><i class="fa fa-user-o"></i> My Account</a></li>
+                    }
+                    else 
+                    {
+                        <li class="nav-item"> 
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="login">Login</a>
+                        </li>
+                    }
+
                 </ul>
             </div>
         </div>
@@ -115,6 +125,7 @@
                         <div class="header-search">
                             <form asp-action="Search" asp-controller="Product" method="post">
                                   <a asp-action="GetAll" asp-controller="Product" class="btn btn-info clear-search-btn">Clear search</a>
+
                                 <input class="input" name="searchProdName" id="searchProdName" placeholder="Search here">
                                 <button type="submit" class="search-btn">Search</button>
                             </form>
@@ -192,7 +203,7 @@
             <!-- container -->
         </div>
         <!-- /MAIN HEADER -->
-    </header>
+    </header> 
     <!-- /HEADER -->
     <!-- NAVIGATION -->
     <nav id="navigation">
@@ -253,9 +264,11 @@
     </div>
     <!-- /SECTION -->
     <!-- body -->
+  
     <main id="main" >
+
         @RenderBody()
-    </main>
+    </main> 
     <!-- /body -->
     <!-- NEWSLETTER -->
     <div id="newsletter" class="section">
@@ -389,12 +402,12 @@
     </footer>
     <!-- /FOOTER -->
     <!-- jQuery Plugins -->
-    <script src="/js/jquery.min.js"></script>
+    <script src="/js/jquery.min.js"></script> 
     <script src="/js/bootstrap.min.js"></script>
-    <script src="/js/slick.min.js"></script>
+    <script src="/js/slick.min.js"></script> 
     <script src="/js/nouislider.min.js"></script>
     <script src="/js/jquery.zoom.min.js"></script>
-    <script src="/js/main.js"></script>
+    <script src="/js/main.js"></script>  
 
     @await RenderSectionAsync("Scripts", required: false)
 
