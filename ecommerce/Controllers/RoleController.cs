@@ -23,9 +23,9 @@ namespace ecommerce.Controllers
             IdentityRole role = new IdentityRole();
 
 
-           // role.Name = "Admin";    // first call 
+            //role.Name = "Admin";    // first call 
 
-           // role.Name = "User";   // second call 
+            //role.Name = "User";   // second call 
 
             await roleManager.CreateAsync(role);
 

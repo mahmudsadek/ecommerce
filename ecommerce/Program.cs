@@ -75,6 +75,14 @@ namespace ecommerce
             
             builder.Services.AddTransient<IMailService , MailService>();
 
+            // omar : registering cart and cartItems
+            builder.Services.AddScoped<ICartService, CartService>();
+            builder.Services.AddScoped<ICartItemService, CartItemService>();
+
+            builder.Services.AddScoped<ICartRepository , CartRepository>();
+            builder.Services.AddScoped<ICartItemRepository , CartItemRepository>();
+
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.

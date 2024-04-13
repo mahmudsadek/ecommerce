@@ -1,0 +1,54 @@
+﻿@model ecommerce.Models.CartItem
+
+@{
+    ViewData["Title"] = "Update";
+}
+
+<main class="container">
+
+    <h2>Update</h2>
+
+    <h4>CartItem</h4>
+    <hr />
+    <div class="row">
+        <div class="col-md-4">
+            <form asp-action="Update">
+                <div asp-validation-summary="All" class="text-danger"></div>
+                <div class="form-group" hidden>
+                    <label asp-for="Id" class="control-label"></label>
+                    <input asp-for="Id" class="form-control" />
+                    <span asp-validation-for="Id" class="text-danger"></span>
+                </div>
+                <div class="form-group" >
+                    <label asp-for="Quantity" class="control-label"></label>
+                    <input asp-for="Quantity" class="form-control" />
+                    <span asp-validation-for="Quantity" class="text-danger"></span>
+                </div>
+                <div class="form-group" hidden>
+                    <label asp-for="ProductId" class="control-label"></label>
+                    <input asp-for="ProductId" class="form-control" />
+                    <span asp-validation-for="ProductId" class="text-danger"></span>
+                </div>
+                <div class="form-group" hidden>
+                    <label asp-for="CartId" class="control-label"></label>
+                    <input asp-for="CartId" class="form-control" />
+                    <span asp-validation-for="CartId" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Save" class="btn btn-success" />
+                </div> 
+            </form>
+        </div>
+    </div>
+
+    <div>
+        <a class="btn btn-info" asp-action="GetAll">Back to List</a>
+    </div>
+
+</main>
+
+  @section Scripts {
+        @{
+            await Html.RenderPartialAsync("_ValidationScriptsPartial");
+        }
+    }
