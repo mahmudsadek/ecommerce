@@ -51,6 +51,7 @@ namespace ecommerce.Services
             #endregion
 
             orderRepository.Insert(order);
+            orderRepository.Save();
         }
 
         public void Update(Order updatedOrder)
@@ -81,6 +82,13 @@ namespace ecommerce.Services
         public void Save()
         {
             orderRepository.Save();
+        }
+
+        public Order InsertOrder(Order order)
+        {
+            Order o = orderRepository.InsertOrder(order);
+            orderRepository.Save();
+            return o;
         }
     }
 }
