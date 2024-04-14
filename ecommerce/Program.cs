@@ -50,10 +50,10 @@ namespace ecommerce
 
             builder.Services.AddScoped<IShipmentRepository, ShipmentRepository>();
             builder.Services.AddScoped<IShipmentService,ShipmentService>();
-
-            
-
-
+            builder.Services.AddScoped<ICartRepository, CartRepository>();
+            builder.Services.AddScoped<ICartService, CartService>();
+            builder.Services.AddScoped<ICartItemRepository, CartItemRepository>();
+            builder.Services.AddScoped<ICartItemService, CartItemService>();
             //register the identityuser 
             builder.Services.AddIdentity<ApplicationUser, IdentityRole>(        
                 options =>
@@ -74,7 +74,7 @@ namespace ecommerce
             builder.Services.AddTransient<IMailService, MailService>();
             
             builder.Services.AddTransient<IMailService , MailService>();
-
+            builder.Services.AddSession();
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -87,6 +87,8 @@ namespace ecommerce
             app.UseRouting();
 
             app.UseAuthorization();
+
+            app.UseSession();
 
             app.MapControllerRoute(
                 name: "default",
