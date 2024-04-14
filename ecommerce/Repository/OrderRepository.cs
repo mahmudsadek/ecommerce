@@ -8,5 +8,11 @@ namespace ecommerce.Repository
         {
 
         }
+
+        Order IOrderRepository.InsertOrder(Order order)
+        {
+            Context.Order.Add(order);
+            return order;
+        }
     }
 }

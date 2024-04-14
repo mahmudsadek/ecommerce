@@ -52,7 +52,12 @@ namespace ecommerce
             builder.Services.AddScoped<ICategoryService, CategoryService>();
 
             builder.Services.AddScoped<IShipmentRepository, ShipmentRepository>();
-            builder.Services.AddScoped<IShipmentService, ShipmentService>();
+
+            builder.Services.AddScoped<IShipmentService,ShipmentService>();
+            builder.Services.AddScoped<ICartRepository, CartRepository>();
+            builder.Services.AddScoped<ICartService, CartService>();
+            builder.Services.AddScoped<ICartItemRepository, CartItemRepository>();
+            builder.Services.AddScoped<ICartItemService, CartItemService>();
 
 
 
@@ -75,8 +80,9 @@ namespace ecommerce
                 (builder.Configuration.GetSection("MailSettings"));
 
             builder.Services.AddTransient<IMailService, MailService>();
+            
+            builder.Services.AddSession();
 
-            builder.Services.AddTransient<IMailService, MailService>();
 
             // omar : registering cart and cartItems
             builder.Services.AddScoped<ICartService, CartService>();
@@ -98,8 +104,12 @@ namespace ecommerce
             app.UseRouting();
 
             app.UseAuthorization();
+
+            app.UseSession();
+
             //Comment
             app.MapHub<CommentHub>("/CommentHub");
+
             app.MapControllerRoute(
                 name: "default",
                 pattern: "{controller=Home}/{action=Index}/{id?}");
