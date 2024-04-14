@@ -33,6 +33,7 @@ namespace ecommerce
             builder.Services.AddScoped<ICommentService, CommentService>();
 
             //AbdElraheem
+            builder.Services.AddScoped<ICommentRepository, CommentRepository>();
             builder.Services.AddScoped<IOrderItemRepository, OrderItemRepository>();
             builder.Services.AddScoped<IOrderItemService, OrderItemService>();
 
