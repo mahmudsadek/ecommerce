@@ -1,6 +1,9 @@
 ﻿using ecommerce.Models;
 using ecommerce.Services;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
+using System.Text.Json;
 
 namespace ecommerce.Controllers
 {
@@ -8,11 +11,15 @@ namespace ecommerce.Controllers
     {
 
         private IShipmentService shipmentService;
+		private readonly IOrderItemService orderItemService;
+		private readonly IOrderService orderService;
 
-        public ShipmentController(IShipmentService shipment)
+		public ShipmentController(IShipmentService shipment, IOrderItemService orderItemService , IOrderService orderService)
         {
             shipmentService = shipment;
-        }
+			this.orderItemService = orderItemService;
+			this.orderService = orderService;
+		}
 
 
         [HttpGet]
@@ -122,6 +129,26 @@ namespace ecommerce.Controllers
             shipmentService.Save();
 
             return RedirectToAction("GetAll");
+        }
+
+        public IActionResult PlaceShipment(Shipment s)
+        {
+            
+                var order = HttpContext.Session.Get("order");
+                Order orderDesrialized = JsonSerializer.Deserialize<Order>(order);
+                Order o = new Order() { 
+                    OrderDate = orderDesrialized.OrderDate , 
+                    ApplicationUserId = orderDesrialized.ApplicationUserId , 
+                    };
+                orderService.Insert(o);
+                s.OrderId = o.Id;
+                s.Date = DateTime.Now.AddDays(3);
+                shipmentService.Insert(s);
+                o.ShipmentId = s.Id;
+                orderService.Save();
+                s.Order = null;
+                return View(s);
+            
         }
 
     }
