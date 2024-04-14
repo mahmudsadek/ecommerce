@@ -13,6 +13,7 @@ namespace ecommerce.Controllers
 		private readonly IProductService productService;
         private readonly ICartService cartService;
         private readonly ICartItemService cartItemService;
+        private readonly ICommentService commentService;
 
         public ICategoryService categoryService { get; }
 
@@ -20,8 +21,9 @@ namespace ecommerce.Controllers
 
 		public ProductController
 			(IProductService productService, ICategoryService categoryService ,
-			ICartService cartService , ICartItemService cartItemService)
+			ICartService cartService , ICartItemService cartItemService,ICommentService commentService)
 		{
+			this.commentService = commentService;
 			this.productService = productService;
 
 			this.categoryService = categoryService;
@@ -157,8 +159,10 @@ namespace ecommerce.Controllers
 		public IActionResult Details(int id)
 		{
 			Product productDB = productService.Get(id);
+			
+            ViewBag.Comments = commentService.GetComments(c=>c.ProductId == id);
 
-			if (productDB != null)
+            if (productDB != null)
 			{
 				Category prodCateg = categoryService.Get(productDB.CategoryId);
 

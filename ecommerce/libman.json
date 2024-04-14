@@ -1,0 +1,10 @@
+{
+  "version": "1.0",
+  "defaultProvider": "cdnjs",
+  "libraries": [
+    {
+      "library": "signalr.js@2.4.3",
+      "destination": "wwwroot/lib/signalr.js/"
+    }
+  ]
+}
