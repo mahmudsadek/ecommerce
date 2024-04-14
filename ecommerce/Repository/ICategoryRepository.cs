@@ -8,7 +8,7 @@ namespace ecommerce.Repository
 
         public List<Product> GetAllProductsInCategory(int CategoryId);
 
-        Category Get(int id);
+        Category Get(int id, string include);
 
         Category GetCategoryByName(string name);
 

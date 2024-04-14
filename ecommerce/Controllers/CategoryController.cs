@@ -87,6 +87,7 @@ namespace ecommerce.Controllers
             return RedirectToAction("GetAll");
         }
 
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         //   [Authorize("Admin")]
@@ -102,6 +103,19 @@ namespace ecommerce.Controllers
             }
 
             return View(category);
+        }
+
+
+        public IActionResult EditProducts(Category category)
+        {
+
+            if (category.Products.Count() != 0)
+            {
+                return View(category);
+            }
+
+            return RedirectToAction("Update");
+
         }
 
         //--------------------------------------------

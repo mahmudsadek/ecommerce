@@ -22,7 +22,7 @@ namespace ecommerce.Services
 			return categoryRepository.Get(id);
 		}
 
-        public Category Get(int id, string include = null)
+        public Category Get(int id, string? include = null)
         {
 			if(include != null)
 			{

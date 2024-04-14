@@ -70,10 +70,11 @@ namespace ecommerce.Repository
             }
         }
 
-        public void RenameCategory(string categoryName, string NewName)
-        {
-            GetCategoryByName(categoryName).Name = NewName;
-        }
+        // THERE IS NO NEED FOR IT
+        //public void RenameCategory(string categoryName, string NewName)
+        //{
+        //    GetCategoryByName(categoryName).Name = NewName;
+        //}
 
         public void DeleteAllProductsInCategory(int CategoryId)
         { 
