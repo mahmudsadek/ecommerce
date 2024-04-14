@@ -1,4 +1,4 @@
-﻿@model IQueryable<ApplicationUser>
+﻿@model IList<ApplicationUser>
 @{
     ViewData["Title"] = "Dashbourd";
     Layout = "_DashbourdLayout";
@@ -41,15 +41,42 @@
 </style>
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+@* saeed : add modal *@
+<div class="modal" id="confirmMsgModal" tabindex="-1" aria-labelledby="confirmMsgModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Confirmation message</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="text">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <a id="confirmBtn" class="btn btn-success">Confirm</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+<a href="/account/register" class="btn btn-success m-3">Register new user</a>  
+
 <div class="container">
-    <p class="my-4">
-        <a class="btn btn-primary" asp-action="insert" asp-controller="product">Add New Product</a>
-    </p>
+ @*    <p class="my-4">
+        <a class="btn btn-primary" asp-action="removeAdmin" asp-controller="account">Remove Admin</a>
+    </p> *@
     <section class="intro">
         <div class="bg-image h-100" style="background-color: #f5f7fa;">
             <div class="mask d-flex align-items-center h-100">
-                <div class="container">
-                    <div class="row justify-content-center">
+                <div class="container"> 
+                    <div class="row justify-content-center">   
                         <div class="col-12">
                             <div class="card">
                                 <div class="card-body p-0">
@@ -74,9 +101,12 @@
                                                         <td>@user.Email</td>
                                                         
                                                         <td>
-                                                            <a asp-action="userDetails" asp-route-id="@user.Id" asp-controller="dashbourd" class="btn btn-info"><i class="fa-solid fa-bars"></i></a>
-                                                            <a asp-action="update" asp-route-id="@user.Id" asp-controller="Account" class="btn btn-warning"><i class="fa-regular fa-pen-to-square"></i></a>
-                                                            <a asp-action="delete" asp-route-id="@user.Id" asp-controller="Account" class="btn btn-danger"><i class="fa-solid fa-trash"></i></a>
+                                    @*                         <a asp-action="userDetails" asp-route-id="@user.Id" asp-controller="dashbourd" class="btn btn-info"><i class="fa-solid fa-bars"></i></a>
+                                                            <a asp-action="update" asp-route-id="@user.Id" asp-controller="Account" class="btn btn-warning"><i class="fa-regular fa-pen-to-square"></i></a> *@
+                                                            <a title="add admin" asp-route-id="@user.Id" class="btn btn-info"
+                                                               data-bs-toggle="modal" data-bs-target="#confirmMsgModal" onclick="MakeAdmin('@user.UserName')"> <i class="fa-solid fa-user-tie"></i> </a>
+                                                            <a asp-action="delete" title="delete" asp-route-id="@user.Id" asp-controller="Account" class="btn btn-danger"
+                                                             onclick="deleteAccount('@user.UserName')"  data-bs-toggle="modal" data-bs-target="#confirmMsgModal"><i class="fa-solid fa-trash"></i></a>
 
                                                         </td>
                                                     </tr>
@@ -95,4 +125,12 @@
     </section>
 </div>
 
+
+
+@* saeed : add script *@
+
+@section scripts {
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/Users.js"></script>
+}
 

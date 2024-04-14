@@ -1,0 +1,53 @@
+﻿@model IEnumerable<ecommerce.Models.Category>
+
+@{
+    ViewData["Title"] = "GetAll";
+    Layout = "_DashbourdLayout";
+}
+
+<h2>Category List</h2>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <p>
+                <a class="btn btn-primary" asp-action="insert">Add New Category</a>
+            </p>
+            <div class="table-responsive">
+                <table class="table table-bordered table-striped">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th scope="col">ID</th>
+                            <th scope="col">Name</th>
+                            <th scope="col">Description</th>
+                            <th scope="col">Image</th>
+                            <th scope="col">Details</th>
+                            <th scope="col">Update</th>
+                            <th scope="col">Delete</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td style="vertical-align: middle; text-align: center;">@Html.DisplayFor(modelItem => item.Id)</td>
+                                <td style="vertical-align: middle; text-align: center;">@Html.DisplayFor(modelItem => item.Name)</td>
+                                <td style="vertical-align: middle; text-align: center;">@Html.DisplayFor(modelItem => item.Description)</td>
+                                <td style="vertical-align: middle; text-align: center;"><img src="@Html.DisplayFor(modelItem => item.ImageUrl)" height="100" /></td>
+                                <td style="vertical-align: middle; text-align: center;">
+                                    <a class="btn btn-sm btn-info mr-1" href="@Url.Action("Details", "Category", new { id = item.Id })">Details</a>
+                                </td>
+                                <td style="vertical-align: middle; text-align: center;">
+                                    <a class="btn btn-sm btn-warning mr-1" href="@Url.Action("Update", "Category", new { id = item.Id })">Edit</a>
+                                </td>
+                                <td style="vertical-align: middle; text-align: center;">
+                                    <a class="btn btn-sm btn-danger" href="@Url.Action("Delete", "Category", new { id = item.Id })">Delete</a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

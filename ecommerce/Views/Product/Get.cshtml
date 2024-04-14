@@ -2,8 +2,158 @@
 
 @{
     ViewData["Title"] = "Product Details";
+    Layout = "_AllProductsLayout";
+
 
 }
+
+@section Styles{
+    <style>
+        .myCart:hover {
+            cursor: pointer;
+            /* Add other hover effects here */
+        }
+    </style>
+}
+
+<!-- HEADER -->
+<header id="header" style="margin-top : 0px">
+    <!-- TOP HEADER -->
+    <div id="top-header">
+        <div class="container">
+            <ul class="header-links pull-left">
+                <li><a href="#"><i class="fa fa-phone"></i> +021-95-51-84</a></li>
+                <li><a href="#"><i class="fa fa-envelope-o"></i> email@email.com</a></li>
+                <li><a href="#"><i class="fa fa-map-marker"></i> 1734 Stonecoal Road</a></li>
+            </ul>
+            <ul class="header-links pull-right">
+                <li><a href="#"><i class="fa fa-dollar"></i> USD</a></li>
+                <li><a href="#"><i class="fa fa-user-o"></i> @User.Identity.Name Account</a></li>
+            </ul>
+        </div>
+    </div>
+    <!-- /TOP HEADER -->
+    <!-- MAIN HEADER -->
+    <div id="header">
+        <!-- container -->
+        <div class="container">
+            <!-- row -->
+            <div class="row">
+                <!-- LOGO -->
+                <div class="col-md-3">
+                    <div class="header-logo">
+                        <a href="#" class="logo">
+                            <img src="/img/logo.png" alt="">
+                        </a>
+                    </div>
+                </div>
+                <!-- /LOGO -->
+                <!-- SEARCH BAR -->
+                <div class="col-md-6">
+                    <div class="header-search">
+                        <form asp-action="Search" asp-controller="Product" method="post">
+                            <a asp-action="GetAll" asp-controller="Product" class="btn btn-info clear-search-btn">Clear search</a>
+                            <input class="input" name="searchProdName" id="searchProdName" placeholder="Search here">
+                            <button type="submit" class="search-btn">Search</button>
+                        </form>
+                    </div>
+                </div>
+                <!-- /SEARCH BAR -->
+                <!-- ACCOUNT -->
+                <div class="col-md-3 clearfix">
+                    <div class="header-ctn">
+
+                        @*           <!-- Wishlist -->
+                        <div>
+                        <a href="#">
+                        <i class="fa fa-heart-o"></i>
+                        <span>Your Wishlist</span>
+                        <div class="qty">2</div>
+                        </a>
+                        </div>
+                        <!-- /Wishlist --> *@
+
+                        <!-- Cart -->
+                        <div class="dropdown myCart">
+                            <a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
+                                <i class="fa fa-shopping-cart"></i>
+                                <span>Your Cart</span>
+                                <div class="qty">@Model.Cart.CartItems.Count</div>
+                            </a>
+                            <div class="cart-dropdown">
+                                <div class="cart-list">
+                                    @foreach (var item in Model.Cart.CartItems)
+                                    {
+                                        <div class="product-widget">
+                                            <div class="product-img">
+                                                <img src="~/img/@item.Product.ImageUrl" alt="@item.Product.Name" width="200" />
+                                            </div>
+                                            <div class="product-body">
+                                                <h3 class="product-name"><a asp-action="Details" asp-controller="Product" asp-route-id="@item.Product.Id">@item.Product.Name</a></h3>
+                                                <h4 class="product-price"><span class="qty">@item.Quantity x</span>$ @item.Product.Price</h4>
+                                            </div>
+                                            <button class="delete"><i class="fa fa-close"></i></button>
+                                        </div>
+                                    }
+                                </div>
+
+                                <div class="cart-summary">
+                                    <small>@Model.Cart.CartItems.Count Item(s) selected</small>
+                                    <h5>SUBTOTAL: $ @Model.Cart.CartItems.Sum(c => c.Product.Price * c.Quantity)</h5>
+                                </div>
+                                <div class="cart-btns">
+                                    <a asp-action="GetAll" asp-controller="CartItem">View Cart</a>
+                                    <a asp-action="Checkout" asp-controller="Order" asp-route-cartId="@Model.Cart.Id" asp-route-userId="@ViewBag.UserId">Checkout  <i class="fa fa-arrow-circle-right"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /Cart -->
+
+                        <!-- Menu Toogle -->
+                        <div class="menu-toggle">
+                            <a href="#">
+                                <i class="fa fa-bars"></i>
+                                <span>Menu</span>
+                            </a>
+                        </div>
+                        <!-- /Menu Toogle -->
+                    </div>
+                </div>
+                <!-- /ACCOUNT -->
+            </div>
+            <!-- row -->
+        </div>
+        <!-- container -->
+    </div>
+    <!-- /MAIN HEADER -->
+</header>
+<!-- /HEADER -->
+<!-- NAVIGATION -->
+<nav id="navigation">
+    <!-- container -->
+    <div class="container">
+        <!-- responsive-nav -->
+        <div id="responsive-nav">
+            <!-- NAV -->
+            <ul class="main-nav nav navbar-nav">
+                <li><a asp-action="Index" asp-controller="Home">Home</a></li>
+
+                <li><a asp-action="GetAll" asp-controller="Category">Categories</a></li>
+                <li><a asp-action="GetAll" asp-controller="Product">Products</a></li>
+
+                <li><a asp-action="Details" asp-controller="Category" asp-route-Id="1">Smartphones</a></li>
+                <li><a asp-action="Details" asp-controller="Category" asp-route-Id="2">Laptops</a></li>
+                <li><a asp-action="Details" asp-controller="Category" asp-route-Id="3">Cameras</a></li>
+                <li><a asp-action="Details" asp-controller="Category" asp-route-Id="4">Accessories</a></li>
+
+            </ul>
+            <!-- /NAV -->
+        </div>
+        <!-- /responsive-nav -->
+    </div>
+    <!-- /container -->
+</nav>
+<!-- /NAVIGATION -->
 <!-- BREADCRUMB -->
 <div id="breadcrumb" class="section">
     <!-- container -->
@@ -13,7 +163,6 @@
             <div class="col-md-12">
                 <ul class="breadcrumb-tree">
                     <li><a asp-action="Index" asp-controller="Home" asp-fragment="main">Home</a></li>
-                    <li><a asp-action="GetAll" asp-controller="Category" asp-fragment="main">Categories</a></li>
                     <li><a asp-action="GetAll" asp-controller="Product" asp-fragment="main">Products</a></li>
                     <li class="active">@Model.Name</li>
                 </ul>
@@ -109,15 +258,17 @@
                     </div>
 
                     <div class="add-to-cart">
-                        <div class="qty-label">
-                            Qty
-                            <div class="input-number">
-                                <input type="number">
-                                <span class="qty-up">+</span>
-                                <span class="qty-down">-</span>
+                        <form asp-action="AddToCart" asp-controller="Product" asp-route-id="@Model.Id" method="get">
+                            <div class="qty-label">
+                                Qty
+                                <div class="input-number">
+                                    <input type="number" name="quantity">
+                                    <span class="qty-up">+</span>
+                                    <span class="qty-down">-</span>
+                                </div>
                             </div>
-                        </div>
-                        <button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
+                                <button type="submit" onclick="AddProduct()" class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
+                            </form>
                     </div>
 
                     <ul class="product-btns">
@@ -140,6 +291,7 @@
                 </div>
             </div>
             <!-- /Product details -->
+
             <!-- Product tab -->
             <div class="col-md-12">
                 <div id="product-tab">
@@ -150,6 +302,7 @@
                         <li><a data-toggle="tab" href="#tab3">Reviews (3)</a></li>
                     </ul>
                     <!-- /product tab nav -->
+
                     <!-- product tab content -->
                     <div class="tab-content">
                         <!-- tab1  -->
@@ -256,21 +409,45 @@
                                     </div>
                                 </div>
                                 <!-- /Rating -->
+                                <!--
+                                    /a
+                                    /a
+                                    /a
+                                    /a
+                                    /a
+                                    /a
+                                    /a
+                                    /a
+                                    /a
+                                    /
+                                    /a
+                                    /
+                                    /a
+                                    /
+                                    /
+
+                                -->
                                 <!-- Reviews -->
                                 <div class="col-md-6">
                                     <div id="reviews">
-                                        <ul class="reviews">
+                                        
+                                        <ul class="reviews" id="UlReviews">
+                                            @foreach (Comment c in ViewBag.Comments)
+                                            {
+                                                <li>
+                                                    <div class="review-heading">
+                                                        <h5 class="name">c.User.UserName</h5>
+
+                                                    </div>
+                                                    <div class="review-body">
+                                                        <p>c.text</p>
+                                                    </div>
+                                                </li>
+                                            }
                                             <li>
                                                 <div class="review-heading">
                                                     <h5 class="name">John</h5>
-                                                    <p class="date">27 DEC 2018, 8:0 PM</p>
-                                                    <div class="review-rating">
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star-o empty"></i>
-                                                    </div>
+                                                    
                                                 </div>
                                                 <div class="review-body">
                                                     <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua</p>
@@ -325,7 +502,7 @@
                                         <form class="review-form">
                                             <input class="input" type="text" placeholder="Your Name">
                                             <input class="input" type="email" placeholder="Your Email">
-                                            <textarea class="input" placeholder="Your Review"></textarea>
+                                            <textarea class="input" placeholder="Your Review " id="Msg"></textarea>
                                             <div class="input-rating">
                                                 <span>Your Rating: </span>
                                                 <div class="stars">
@@ -336,7 +513,8 @@
                                                     <input id="star1" name="rating" value="1" type="radio"><label for="star1"></label>
                                                 </div>
                                             </div>
-                                            <button class="primary-btn">Submit</button>
+                                            <input type="button" onclick="SendData()" value="Submit" class="primary-btn" />
+                                            
                                         </form>
                                     </div>
                                 </div>
@@ -410,3 +588,32 @@
     <!-- /container -->
 </div>
 <!-- /Section -->
+
+@section Scripts{
+    <script>
+        function AddProduct() {
+            alert("Product Added To cart successfully");
+        }
+    </script>
+}
+
+<script src="/lib/jquery/dist/jquery.min.js"> </script>
+<script src="/lib/signalr.js/jquery.signalR.min.js"> </script>
+<script>
+    var PrdId = @Model.Id
+        var hub = new signalR.HubConnectionBuilder().withUrl("/CommentHub").build();
+    hub.start().then(function () { console.log("connection success") });
+
+    hub.on("ReciveComment", function (UserName, review , Prd_Id) {
+        if (PrdId == Prd_Id) {
+            $("#UlReviews").append('<li><div class="review-heading" ><h5 class="name" > '+ UserName + '< /h5>< /div> < div class= "review-body" ><p>'+review+'< /p>< /div>< /li>');
+        }
+    })
+
+    function SendData() {
+        var UserID = ViewBag.UserId;
+        var msg = $("#Msg").val();
+        var id = parseInt(@Model.Id);
+        hub.invoke("SendComment", UserID, msg, id);
+    }
+</script>

@@ -3,6 +3,12 @@
 @{
     ViewData["Title"] = "Get";
 }
+@section Scripts
+{
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+}
 
 @section Styles{
     <style>
@@ -66,6 +72,27 @@
     </style>
 }
 
+<!-- BREADCRUMB -->
+<div id="breadcrumb" class="section">
+    <!-- container -->
+    <div class="container">
+        <!-- row -->
+        <div class="row">
+            <div class="col-md-12">
+                <ul class="breadcrumb-tree">
+                    <li><a asp-action="Index" asp-controller="Home">Home</a></li>
+                    <li><a asp-action="GetAll" asp-controller="Category">All Categories</a></li>
+                    <li class="active">@Model.Name</li>
+                </ul>
+            </div>
+        </div>
+        <!-- /row -->
+    </div>
+    <!-- /container -->
+</div>
+<!-- /BREADCRUMB -->
+
+
 <div class="category-details">
     <h2>Category Details</h2>
 
@@ -81,6 +108,17 @@
         
         <dt>Image</dt>
         <dd><img src="@Html.DisplayFor(model => model.ImageUrl)" alt="Category Image" height="300"></dd>
+        <dt>Products Numbers</dt>
+            @if(Model.Products != null)
+            {
+            <dd>
+                Model.Products.Count()
+            </dd>
+            }
+            else
+            {
+            <dd>0</dd>
+            }
     </dl>
 
     <div class="btn-container">

@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace ecommerce.Migrations
 {
     /// <inheritdoc />
-    public partial class Omar_Clean : Migration
+    public partial class Omar_New4 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -270,18 +270,16 @@ namespace ecommerce.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Quantity = table.Column<int>(type: "int", nullable: false),
                     ProductId = table.Column<int>(type: "int", nullable: false),
-                    CarttId = table.Column<int>(type: "int", nullable: false),
-                    cartId = table.Column<int>(type: "int", nullable: false)
+                    CartId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_CartItem", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_CartItem_Cart_cartId",
-                        column: x => x.cartId,
+                        name: "FK_CartItem_Cart_CartId",
+                        column: x => x.CartId,
                         principalTable: "Cart",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.NoAction);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_CartItem_Product_ProductId",
                         column: x => x.ProductId,
@@ -377,6 +375,13 @@ namespace ecommerce.Migrations
                 column: "NormalizedEmail");
 
             migrationBuilder.CreateIndex(
+                name: "IX_AspNetUsers_Email",
+                table: "AspNetUsers",
+                column: "Email",
+                unique: true,
+                filter: "[Email] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
                 name: "UserNameIndex",
                 table: "AspNetUsers",
                 column: "NormalizedUserName",
@@ -384,9 +389,9 @@ namespace ecommerce.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_CartItem_cartId",
+                name: "IX_CartItem_CartId",
                 table: "CartItem",
-                column: "cartId");
+                column: "CartId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_CartItem_ProductId",

@@ -87,9 +87,9 @@ namespace ecommerce.Controllers
             return View(cates);
         }
 
-        public IActionResult users()
+        public async Task <IActionResult> users()
         {
-            IQueryable<ApplicationUser> users =  userManager.Users;
+            IList<ApplicationUser> users = await userManager.GetUsersInRoleAsync("User"); 
             return View(users);
         }
 
@@ -97,6 +97,13 @@ namespace ecommerce.Controllers
         {
             int users =  userManager.Users.Count();
             return Json(users);
+        }
+
+
+        public async Task<IActionResult> admins()
+        {
+            IList<ApplicationUser> users = await userManager.GetUsersInRoleAsync("Admin");
+            return View(users);
         }
 
         public IActionResult numOfProducts()
@@ -131,6 +138,36 @@ namespace ecommerce.Controllers
         {
             List<Order> orders = orderService.GetAll("OrderItems");
             return Json(orders.Count);
+        }
+
+
+        // saeed
+        public async Task <IActionResult> deleteAccount(string userName) 
+        {
+          ApplicationUser? userApp = await userManager.FindByNameAsync(userName);
+            if (userApp != null) 
+            {
+              if(await userManager.IsInRoleAsync(userApp, "Admin")) 
+                {
+                  await userManager.RemoveFromRolesAsync(userApp, await userManager.GetRolesAsync(userApp)); 
+                  await userManager.DeleteAsync(userApp);
+                    if(User.FindFirst("name")?.Value == userName)
+                    {
+                        return RedirectToAction("logout" , "account"); 
+                    }
+                    return RedirectToAction("admins");  
+                }
+
+              else
+                {
+                    await userManager.RemoveFromRolesAsync(userApp, await userManager.GetRolesAsync(userApp));
+                    await userManager.DeleteAsync(userApp);
+                    return RedirectToAction("users");
+                }
+                    
+            }
+            return RedirectToAction("users");
+
         }
 
     }

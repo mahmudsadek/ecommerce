@@ -1,3 +1,4 @@
+using ecommerce.Hubs;
 using ecommerce.Models;
 using ecommerce.Repository;
 using ecommerce.Services;
@@ -12,7 +13,8 @@ namespace ecommerce
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
-
+            //Add comment
+            builder.Services.AddSignalR();
             // Add services to the container.
             builder.Services.AddControllersWithViews();
 
@@ -31,6 +33,7 @@ namespace ecommerce
             builder.Services.AddScoped<ICommentService, CommentService>();
 
             //AbdElraheem
+            builder.Services.AddScoped<ICommentRepository, CommentRepository>();
             builder.Services.AddScoped<IOrderItemRepository, OrderItemRepository>();
             builder.Services.AddScoped<IOrderItemService, OrderItemService>();
 
@@ -42,20 +45,25 @@ namespace ecommerce
             // omar : registering orderservice
             builder.Services.AddScoped<IOrderService, OrderService>();
 
-		      	// omar : registering ProductService
-      			builder.Services.AddScoped<IProductService, ProductService>();
+            // omar : registering ProductService
+            builder.Services.AddScoped<IProductService, ProductService>();
 
             // omar : registering CategoryService
             builder.Services.AddScoped<ICategoryService, CategoryService>();
 
             builder.Services.AddScoped<IShipmentRepository, ShipmentRepository>();
+
             builder.Services.AddScoped<IShipmentService,ShipmentService>();
             builder.Services.AddScoped<ICartRepository, CartRepository>();
             builder.Services.AddScoped<ICartService, CartService>();
             builder.Services.AddScoped<ICartItemRepository, CartItemRepository>();
             builder.Services.AddScoped<ICartItemService, CartItemService>();
+
+
+
+
             //register the identityuser 
-            builder.Services.AddIdentity<ApplicationUser, IdentityRole>(        
+            builder.Services.AddIdentity<ApplicationUser, IdentityRole>(
                 options =>
                 {
                     options.Password.RequireNonAlphanumeric = false;  // for easier testing  <= Omar : thanks Saeed :D
@@ -64,17 +72,26 @@ namespace ecommerce
                     options.Password.RequireLowercase = false;
                     options.Password.RequireDigit = false;
 
-/**/                   // options.SignIn.RequireConfirmedAccount = true;        // saeed 
+                    /**/                   // options.SignIn.RequireConfirmedAccount = true;        // saeed 
                 }
-                ).AddEntityFrameworkStores<Context>().AddDefaultTokenProviders() ;
+                ).AddEntityFrameworkStores<Context>().AddDefaultTokenProviders();
 
             builder.Services.Configure<MailSettings>
                 (builder.Configuration.GetSection("MailSettings"));
 
             builder.Services.AddTransient<IMailService, MailService>();
             
-            builder.Services.AddTransient<IMailService , MailService>();
             builder.Services.AddSession();
+
+
+            // omar : registering cart and cartItems
+            builder.Services.AddScoped<ICartService, CartService>();
+            builder.Services.AddScoped<ICartItemService, CartItemService>();
+
+            builder.Services.AddScoped<ICartRepository , CartRepository>();
+            builder.Services.AddScoped<ICartItemRepository , CartItemRepository>();
+
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -89,6 +106,9 @@ namespace ecommerce
             app.UseAuthorization();
 
             app.UseSession();
+
+            //Comment
+            app.MapHub<CommentHub>("/CommentHub");
 
             app.MapControllerRoute(
                 name: "default",

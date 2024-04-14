@@ -73,12 +73,16 @@ namespace ecommerce.Controllers
                     {
                         case true:
                             await userManager.AddToRoleAsync(applicationUser, "Admin");
+                            return RedirectToAction("admins", "dashbourd");
                             break;
+
                         default:
                             await userManager.AddToRoleAsync(applicationUser, "User");
-                            break;
+                            if (User.IsInRole("Admin"))
+                                return RedirectToAction("users", "dashbourd");
+                                break;
                     }
-                    return View("login");
+                    return View("login"); 
                 }
               
           
@@ -112,7 +116,9 @@ namespace ecommerce.Controllers
                  bool matched = await userManager.CheckPasswordAsync(user, model.password);
                     if(matched) 
                     {
-                    await signInManager.SignInAsync(user, model.rememberMe); 
+                        List<Claim> claims = new List<Claim>();
+                        claims.Add(new Claim("name", model.userName));
+                      await signInManager.SignInWithClaimsAsync(user, model.rememberMe, claims);  
                       return RedirectToAction("Index", "Home");  
                     }
                     ModelState.AddModelError("", "invalid password");
@@ -131,20 +137,22 @@ namespace ecommerce.Controllers
         }
 
 
-        [HttpGet , Authorize(Roles = "Admin")]
-        public async Task<IActionResult> AddAdmin()
-        {
-            List<string> userNames = new List<string>();
+        // hoda aswan made another func in dashboard
 
-            IList<ApplicationUser> users =  await userManager.GetUsersInRoleAsync("User");
+        //[HttpGet , Authorize(Roles = "Admin")]
+        //public async Task<IActionResult> AddAdmin()
+        //{
+        //    List<string> userNames = new List<string>();
 
-            foreach (ApplicationUser user in users)
-            {
-                userNames.Add(user.UserName);
-            }
+        //    IList<ApplicationUser> users =  await userManager.GetUsersInRoleAsync("User");
 
-            return View(userNames);
-        }
+        //    foreach (ApplicationUser user in users)
+        //    {
+        //        userNames.Add(user.UserName);
+        //    }
+
+        //    return View(userNames);  
+        //}
 
 
         public async Task<IActionResult> confirmMakeAdmin(string userName)
@@ -152,37 +160,47 @@ namespace ecommerce.Controllers
             ApplicationUser user = await userManager.FindByNameAsync(userName);
             if (user != null)
             {
-                await userManager.RemoveFromRoleAsync(user, "User");
+                await userManager.RemoveFromRoleAsync(user, "User"); 
                 await userManager.AddToRoleAsync(user, "Admin");
-                return RedirectToAction("addadmin");
+                return RedirectToAction("users", "Dashbourd");
             }
-            return RedirectToAction("addadmin");
+            return RedirectToAction("users", "Dashbourd");
         }
 
-        public async Task <IActionResult> removeAdmin(string userName)
-        {
-            List<string> userNames = new List<string>();
 
-            IList<ApplicationUser> users = await userManager.GetUsersInRoleAsync("Admin");
+        // hoda aswan made another func in dashboard
 
-            foreach (ApplicationUser user in users)
-            {  
-                userNames.Add(user.UserName);
-            }
+        //public async Task <IActionResult> removeAdmin(string userName)
+        //{
+        //    List<string> userNames = new List<string>();
 
-            return View(userNames);
-        }
+        //    IList<ApplicationUser> users = await userManager.GetUsersInRoleAsync("Admin");
+
+        //    foreach (ApplicationUser user in users)
+        //    {  
+        //        userNames.Add(user.UserName);
+        //    }
+
+        //    return View(userNames);
+        //}
+
+
 
         public async Task<IActionResult> confirmRemoveAdmin(string userName)
         {
-            ApplicationUser user = await userManager.FindByNameAsync(userName);
-            if (user != null) 
+          //  return Content(userName);
+            ApplicationUser appUser = await userManager.FindByNameAsync(userName);
+            if (appUser != null) 
             {
-                await userManager.RemoveFromRoleAsync(user, "Admin");
-                await userManager.AddToRoleAsync(user, "User");
-                return RedirectToAction("removeAdmin");
-            }
-            return RedirectToAction("removeAdmin");
+                await userManager.RemoveFromRoleAsync(appUser, "Admin");
+                await userManager.AddToRoleAsync(appUser, "User");
+                if(User.FindFirst("name")?.Value == userName)
+                {
+                    return RedirectToAction("logout");
+                }
+                return RedirectToAction("admins" , "dashbourd"); 
+            } 
+            return RedirectToAction("admins", "dashbourd");   // which view should be returned if user not found!!!!!
         }
 
 
@@ -250,5 +268,11 @@ namespace ecommerce.Controllers
             } 
             return View("resetPassword" , model);
         }
+
+
+        //public IActionResult test()
+        //{
+        //    return View();
+        //}
     }
 }
