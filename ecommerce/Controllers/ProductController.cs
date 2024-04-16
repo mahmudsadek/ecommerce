@@ -14,6 +14,8 @@ namespace ecommerce.Controllers
         private readonly ICartService cartService;
         private readonly ICartItemService cartItemService;
         private readonly ICommentService commentService;
+        private readonly IWebHostEnvironment _webHostEnvironment;
+
 
         public ICategoryService categoryService { get; }
 
@@ -21,7 +23,8 @@ namespace ecommerce.Controllers
 
 		public ProductController
 			(IProductService productService, ICategoryService categoryService ,
-			ICartService cartService , ICartItemService cartItemService,ICommentService commentService)
+			ICartService cartService , ICartItemService cartItemService,ICommentService commentService
+			, IWebHostEnvironment webHostEnvironment)
 		{
 			this.commentService = commentService;
 			this.productService = productService;
@@ -29,6 +32,7 @@ namespace ecommerce.Controllers
 			this.categoryService = categoryService;
             this.cartService = cartService;
             this.cartItemService = cartItemService;
+			this._webHostEnvironment = webHostEnvironment;
         }
 
 		//********************************************************
@@ -225,8 +229,18 @@ namespace ecommerce.Controllers
 		// [Authorize("Admin")]
 		public IActionResult Insert(ProductWithListOfCatesViewModel product)
 		{
-			if (ModelState.IsValid)
+            string uploadpath = Path.Combine(_webHostEnvironment.WebRootPath, "images");
+            string imagename = Guid.NewGuid().ToString() + "_" + product.image.FileName;
+            string filepath = Path.Combine(uploadpath, imagename);
+            using (FileStream fileStream = new FileStream(filepath, FileMode.Create))
+            {
+                product.image.CopyTo(fileStream);
+            }
+            product.ImageUrl = imagename;
+
+            if (ModelState.IsValid)
 			{
+
 				productService.Insert(product);
 
 				return RedirectToAction("products","Dashbourd");

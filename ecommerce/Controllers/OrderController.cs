@@ -167,7 +167,7 @@ namespace ecommerce.Controllers
             HttpContext.Session.SetString("uId", UserId);
             HttpContext.Session.SetInt32("cId", CartId);
 
-            List<CartItem> items = cartItemService.Get(i => i.CarttId == CartId);
+            List<CartItem> items = cartItemService.Get(i => i.CartId == CartId);
             ApplicationUser? user = await userManager.FindByIdAsync(UserId);
             if (user != null)
             {
