@@ -27,7 +27,7 @@
                 <div class="card-body bg-light">
 
                     <div class="container">
-                        <form id="contact-form" role="form" asp-action="insert" asp-controller="product">
+                        <form id="contact-form" role="form" asp-action="insert" asp-controller="product" enctype="multipart/form-data">
 
                             <div class="controls">
 
@@ -41,9 +41,9 @@
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label asp-for="ImageUrl" class="control-label"></label>
-                                            <input asp-for="ImageUrl" class="form-control" />
-                                            <span asp-validation-for="ImageUrl" class="text-danger"></span>
+                                            <label asp-for="image" class="control-label"></label>
+                                            <input type="file" asp-for="image" class="form-control" />
+                                            <span asp-validation-for="image" class="text-danger"></span>
                                         </div>
                                     </div>
                                 </div>
