@@ -1,4 +1,5 @@
 ﻿using ecommerce.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace ecommerce.Repository
 {
@@ -14,7 +15,7 @@ namespace ecommerce.Repository
         }
         public List<Comment> Get(Func<Comment, bool> where)
         {
-            return Context.Comments.Where(where).ToList();
+            return Context.Comments.Include(c  => c.User).Where(where).ToList();
         }
     }
 }

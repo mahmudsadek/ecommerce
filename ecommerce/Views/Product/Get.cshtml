@@ -440,11 +440,11 @@
                                             {
                                                 <li>
                                                     <div class="review-heading">
-                                                        <h5 class="name">c.User.UserName</h5>
+                                                        <h5 class="name">@c.User.UserName</h5>
 
                                                     </div>
                                                     <div class="review-body">
-                                                        <p>c.text</p>
+                                                        <p>@c.text</p>
                                                     </div>
                                                 </li>
                                             }
@@ -610,7 +610,15 @@
     hub.start().then(function () { console.log(PrdId) });
     hub.on("ReciveComment", function (UserName, review, Prd_Id) {
         if (PrdId == Prd_Id) {
-            $("#UlReviews").append('<li><div class="review-heading" ><h5 class="name" > ' + UserName + '< /h5>< /div> < div class= "review-body" ><p>' + review + '< /p>< /div>< /li>');
+            $("#UlReviews").append(` <li>
+                                                        <div class="review-heading">
+                                                            <h5 class="name">${UserName}</h5>
+
+                                                        </div>
+                                                        <div class="review-body">
+                                                            <p>${review}</p>
+                                                        </div>
+                                                    </li>`);
         }
     })
     function SendData() {

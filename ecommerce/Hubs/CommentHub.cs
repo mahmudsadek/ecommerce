@@ -19,11 +19,12 @@ namespace ecommerce.Hubs
         public async void SendComment(string userId, string Text, int ProductId)
         {
 
-            ApplicationUser applicationUser = await userManager.FindByIdAsync(userId);
+            //ApplicationUser applicationUser = await userManager.FindByIdAsync(userId);
             Comment comment = new Comment() { UserId = userId, text = Text, ProductId = ProductId };
             commentRepository.Insert(comment);
             commentRepository.Save();
-            Clients.All.SendAsync("ReciveComment", applicationUser.UserName , Text, ProductId);
+            Comment resivedComment =  commentRepository.Get(c => c.Id  == comment.Id).ToList()[0];
+            Clients.All.SendAsync("ReciveComment", resivedComment.User.UserName , Text, ProductId);
         }
 
 
