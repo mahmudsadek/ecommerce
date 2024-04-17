@@ -20,7 +20,7 @@ namespace ecommerce.Hubs
         {
 
             ApplicationUser applicationUser = await userManager.FindByIdAsync(userId);
-            Comment comment = new Comment() { User = applicationUser, text = Text, ProductId = ProductId };
+            Comment comment = new Comment() { UserId = userId, text = Text, ProductId = ProductId };
             commentRepository.Insert(comment);
             commentRepository.Save();
             Clients.All.SendAsync("ReciveComment", applicationUser.UserName , Text, ProductId);

@@ -12,5 +12,9 @@ namespace ecommerce.Repository
         {
             return Context.Comments.Take(num).ToList();
         }
+        public List<Comment> Get(Func<Comment, bool> where)
+        {
+            return Context.Comments.Where(where).ToList();
+        }
     }
 }
