@@ -107,7 +107,7 @@
                             <input class="input" type="email" placeholder="Enter Your Email">
                             <button class="newsletter-btn"><i class="fa fa-envelope"></i> Subscribe</button>
                         </form>
-                        <ul class="newsletter-follow">
+                        <ul class="newsletter-follow" style="margin-bottom:20px">
                             <li>
                                 <a href="#"><i class="fa fa-facebook"></i></a>
                             </li>
@@ -153,11 +153,12 @@
                         <div class="footer">
                             <h3 class="footer-title">Categories</h3>
                             <ul class="footer-links">
-                                <li><a href="#">Hot deals</a></li>
-                                <li><a href="#">Laptops</a></li>
-                                <li><a href="#">Smartphones</a></li>
-                                <li><a href="#">Cameras</a></li>
-                                <li><a href="#">Accessories</a></li>
+                                @foreach (var item in Model.Categories)
+                                {
+                                    <li>
+                                        <a asp-action="Details" asp-controller="Category" asp-route-id="@item.Id">@item.Name</a>
+                                    </li>
+                                }
                             </ul>
                         </div>
                     </div>
@@ -182,8 +183,8 @@
                             <h3 class="footer-title">Service</h3>
                             <ul class="footer-links">
                                 <li><a href="#">My Account</a></li>
-                                <li><a href="#">View Cart</a></li>
-                                <li><a href="#">Wishlist</a></li>
+                                <li><a asp-action="GetAll" asp-controller="CartItem">View Cart</a></li>
+                                @* <li><a href="#">Wishlist</a></li> *@
                                 <li><a href="#">Track My Order</a></li>
                                 <li><a href="#">Help</a></li>
                             </ul>
@@ -201,21 +202,19 @@
                 <!-- row -->
                 <div class="row">
                     <div class="col-md-12 text-center">
-                        <ul class="footer-payments">
-                            <li><a href="#"><i class="fa fa-cc-visa"></i></a></li>
-                            <li><a href="#"><i class="fa fa-credit-card"></i></a></li>
-                            <li><a href="#"><i class="fa fa-cc-paypal"></i></a></li>
-                            <li><a href="#"><i class="fa fa-cc-mastercard"></i></a></li>
-                            <li><a href="#"><i class="fa fa-cc-discover"></i></a></li>
-                            <li><a href="#"><i class="fa fa-cc-amex"></i></a></li>
-                        </ul>
-                        <span class="copyright">
+                        @* 	<ul class="footer-payments">
+                        <li><a href="#"><i class="fa fa-cc-visa"></i></a></li>
+                        <li><a href="#"><i class="fa fa-credit-card"></i></a></li>
+                        <li><a href="#"><i class="fa fa-cc-paypal"></i></a></li>
+                        <li><a href="#"><i class="fa fa-cc-mastercard"></i></a></li>
+                        <li><a href="#"><i class="fa fa-cc-discover"></i></a></li>
+                        <li><a href="#"><i class="fa fa-cc-amex"></i></a></li>
+                        </ul> *@
+                        <span class="copyright" style="margin-bottom:20px">
                             <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-                            Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
+                            Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This Site is made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">ITI PWD 44</a>
                             <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
                         </span>
-
-
                     </div>
                 </div>
                 <!-- /row -->
