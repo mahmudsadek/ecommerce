@@ -229,7 +229,7 @@ namespace ecommerce.Controllers
 		// [Authorize("Admin")]
 		public IActionResult Insert(ProductWithListOfCatesViewModel product)
 		{
-            string uploadpath = Path.Combine(_webHostEnvironment.WebRootPath, "images");
+            string uploadpath = Path.Combine(_webHostEnvironment.WebRootPath, "img");
             string imagename = Guid.NewGuid().ToString() + "_" + product.image.FileName;
             string filepath = Path.Combine(uploadpath, imagename);
             using (FileStream fileStream = new FileStream(filepath, FileMode.Create))
