@@ -13,12 +13,12 @@ namespace ecommerce.Models
         [ForeignKey("Product")]
         public int ProductId { get; set; }
 
-        public  Product Product { get; set; }
+        public  Product? Product { get; set; }
 
 
         [ForeignKey("Cart")]
-        public int CarttId { get; set; }
+        public int? CartId { get; set; }
 
-        public  Cart Cart { get; set; }
+        public  Cart? Cart { get; set; }
     }
 }

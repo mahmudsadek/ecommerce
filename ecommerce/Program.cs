@@ -34,6 +34,7 @@ namespace ecommerce
             builder.Services.AddScoped<ICommentService, CommentService>();
 
             //AbdElraheem
+            builder.Services.AddScoped<ICommentRepository, CommentRepository>();
             builder.Services.AddScoped<IOrderItemRepository, OrderItemRepository>();
             builder.Services.AddScoped<IOrderItemService, OrderItemService>();
 
@@ -52,7 +53,12 @@ namespace ecommerce
             builder.Services.AddScoped<ICategoryService, CategoryService>();
 
             builder.Services.AddScoped<IShipmentRepository, ShipmentRepository>();
-            builder.Services.AddScoped<IShipmentService, ShipmentService>();
+
+            builder.Services.AddScoped<IShipmentService,ShipmentService>();
+            builder.Services.AddScoped<ICartRepository, CartRepository>();
+            builder.Services.AddScoped<ICartService, CartService>();
+            builder.Services.AddScoped<ICartItemRepository, CartItemRepository>();
+            builder.Services.AddScoped<ICartItemService, CartItemService>();
 
 
 
@@ -78,8 +84,17 @@ namespace ecommerce
                 (builder.Configuration.GetSection("MailSettings"));
 
             builder.Services.AddTransient<IMailService, MailService>();
+            
+            builder.Services.AddSession();
 
-            builder.Services.AddTransient<IMailService, MailService>();
+
+            // omar : registering cart and cartItems
+            builder.Services.AddScoped<ICartService, CartService>();
+            builder.Services.AddScoped<ICartItemService, CartItemService>();
+
+            builder.Services.AddScoped<ICartRepository , CartRepository>();
+            builder.Services.AddScoped<ICartItemRepository , CartItemRepository>();
+
 
 
             // saeed : try to change in claim without log user out using this service
@@ -105,8 +120,12 @@ namespace ecommerce
             // saeed
             app.UseAuthentication();
             app.UseAuthorization();
+
+            app.UseSession();
+
             //Comment
             app.MapHub<CommentHub>("/CommentHub");
+
             app.MapControllerRoute(
                 name: "default",
                 pattern: "{controller=Home}/{action=Index}/{id?}");

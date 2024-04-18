@@ -1,0 +1,115 @@
+﻿@model ecommerce.Models.Shipment
+
+@{
+    ViewData["Title"] = "checkout";
+    Layout = "~/Views/Shared/_CheckoutLayout.cshtml";
+}
+
+<!-- SECTION -->
+<div class="section">
+	<!-- container -->
+	<div class="container">
+		<!-- row -->
+		<div class="row">
+
+			<div class="col-md-7">
+				<!-- Billing Details -->
+				<form asp-action="checkout" method="post" class="billing-details">
+					<div class="section-title">
+						<h3 class="title">Shipment address</h3>
+					</div>
+					<div class="row">
+						<div class="col-md-6">
+							<div class="form-group">
+								<label asp-for="Country" class="control-label"></label>
+								<input asp-for="Country" class="form-control" />
+								<span asp-validation-for="Country" class="text-danger"></span>
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="form-group">
+								<label asp-for="Region" class="control-label"></label>
+								<input asp-for="Region" class="form-control" />
+								<span asp-validation-for="Region" class="text-danger"></span>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-6">
+							<div class="form-group">
+								<label asp-for="City" class="control-label"></label>
+								<input asp-for="City" class="form-control" />
+								<span asp-validation-for="City" class="text-danger"></span>
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="form-group">
+								<label asp-for="PostalCode" class="control-label"></label>
+								<input asp-for="PostalCode" class="form-control" />
+								<span asp-validation-for="PostalCode" class="text-danger"></span>
+							</div>
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label asp-for="Address" class="control-label"></label>
+						<input asp-for="Address" class="form-control" />
+						<span asp-validation-for="Address" class="text-danger"></span>
+					</div>
+			
+					<div class="form-group" hidden>
+						<input asp-for="OrderId" value="@ViewBag.order.Id" class="form-control" />
+						<span asp-validation-for="OrderId" class="text-danger"></span>
+					</div>
+					<div class="form-group" hidden>
+						<input asp-for="UserId" value="@ViewBag.order.ApplicationUserId" class="form-control" />
+						<span asp-validation-for="UserId" class="text-danger"></span>
+					</div>
+					<div class="form-group" hidden>
+						<input asp-for="Date" value="@DateTime.Now.AddDays(2)" class="form-control" />
+						<span asp-validation-for="Date" class="text-danger"></span>
+					</div>
+					<div class="form-group mt-2 text-center">
+						<input type="submit" class="primary-btn order-submit" value="Place Order">
+					</div>
+				</form>
+				<!-- /Billing Details -->
+			</div>
+
+			<!-- Order Details -->
+			<div class="col-md-5 order-details mt-5">
+				<div class="section-title text-center">
+					<h3 class="title">Your Order</h3>
+				</div>
+				<div class="order-summary">
+					<div class="order-col">
+						<div><strong>PRODUCT</strong></div>
+						<div><strong>TOTAL</strong></div>
+					</div>
+					<div class="order-products">
+						@foreach (OrderItem i in ViewBag.order.OrderItems)
+						{
+							<div class="order-col">
+								<div>@(i.Quantity)x @i.Product.Name</div>
+								<div>$@(i.Quantity*i.Product.Price)</div>
+							</div>
+						}
+					</div>
+					<div class="order-col">
+						<div>Shiping</div>
+						<div><strong>$15</strong></div>
+					</div>
+					<div class="order-col">
+						<div><strong>TOTAL</strong></div>
+						<div><strong class="order-total">$@(ViewBag.total + 15)</strong></div>
+					</div>
+				</div>
+				
+			</div>
+			<!-- /Order Details -->
+		</div>
+		<!-- /row -->
+	</div>
+	<!-- /container -->
+</div>
+<!-- /SECTION -->

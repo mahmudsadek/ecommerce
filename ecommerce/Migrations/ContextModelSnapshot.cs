@@ -245,7 +245,7 @@ namespace ecommerce.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("CarttId")
+                    b.Property<int?>("CartId")
                         .HasColumnType("int");
 
                     b.Property<int>("ProductId")
@@ -256,7 +256,7 @@ namespace ecommerce.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CarttId");
+                    b.HasIndex("CartId");
 
                     b.HasIndex("ProductId");
 
@@ -512,9 +512,8 @@ namespace ecommerce.Migrations
                 {
                     b.HasOne("ecommerce.Models.Cart", "Cart")
                         .WithMany("CartItems")
-                        .HasForeignKey("CarttId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        
+                        .HasForeignKey("CartId");
 
                     b.HasOne("ecommerce.Models.Product", "Product")
                         .WithMany()

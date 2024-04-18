@@ -25,7 +25,7 @@
 			<li class="active"><i class="fa fa-th"></i></li>
 			<li><a href="#"><i class="fa fa-th-list"></i></a></li>
 		</ul>
-		<a class="btn btn-primary" asp-action="Insert">Add New Product</a>
+		@* <a class="btn btn-primary" asp-action="Insert">Add New Product</a> *@
 
 	</div>
 	<!-- /store top filter -->
@@ -68,7 +68,9 @@
 						</div>
 					</div>
 					<div class="add-to-cart">
-						<button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
+						<a asp-action="AddToCart" asp-controller="Product" asp-route-id="@product.Id">
+							<button class="add-to-cart-btn" onclick="AddProduct()"><i class="fa fa-shopping-cart"></i> add to cart</button>
+						</a>
 					</div>
 				</div>
 			</div>
@@ -82,3 +84,5 @@
 
 </div>
 <!-- /STORE -->
+
+	

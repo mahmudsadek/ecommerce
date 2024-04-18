@@ -1,23 +1,30 @@
 ﻿using ecommerce.Models;
+using ecommerce.Repository;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.SignalR;
+using System.Security.Claims;
 
 namespace ecommerce.Hubs
 {
     public class CommentHub : Hub
     {
-        protected readonly Context context;
-        public CommentHub(Context context)
+        protected readonly ICommentRepository commentRepository;
+        protected readonly UserManager<ApplicationUser> userManager;
+
+        public CommentHub(ICommentRepository commentRepository,UserManager<ApplicationUser> userManager)
         {
-            this.context = context;
+            this.commentRepository= commentRepository;
+            this.userManager= userManager;
         }
-        public void SendComment(ApplicationUser User, string Text, int ProductId)
+        public async void SendComment(string userId, string Text, int ProductId)
         {
 
-            Comment comment = new Comment() { User = User, text = Text, ProductId = ProductId };
-            context.Comments.Add(comment);
-            context.SaveChanges();
-
-            Clients.All.SendAsync("ReciveComment", User, Text, ProductId);
+            //ApplicationUser applicationUser = await userManager.FindByIdAsync(userId);
+            Comment comment = new Comment() { UserId = userId, text = Text, ProductId = ProductId };
+            commentRepository.Insert(comment);
+            commentRepository.Save();
+            Comment resivedComment =  commentRepository.Get(c => c.Id  == comment.Id).ToList()[0];
+            Clients.All.SendAsync("ReciveComment", resivedComment.User.UserName , Text, ProductId);
         }
 
 

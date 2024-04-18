@@ -35,6 +35,7 @@ namespace ecommerce.Services
         public void Insert(Shipment item)
         {
             shipmentRepository.Insert(item);
+            shipmentRepository.Save();
         }
 
 

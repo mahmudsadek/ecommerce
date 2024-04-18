@@ -7,32 +7,44 @@ namespace ecommerce.Controllers
     public class CartController : Controller
     {
         private readonly ICartService cartService;
+        private readonly IProductService productService;
+        private readonly ICartItemService cartItemService;
 
-        public CartController(ICartService cartService)
+        //public static Cart SingleCart { get; private set; }
+
+        public CartController
+            (ICartService cartService ,
+            IProductService productService ,
+            ICartItemService cartItemService)
         {
             this.cartService = cartService;
+            this.productService = productService;
+            this.cartItemService = cartItemService;
+
+            //SingleCart = new Cart()
+            //{
+            //    CartItems = new List<CartItem>()
+            //};
+
+        //    SingleCart = new Cart() { CartItems = new List<CartItem>()};
+
+        //    cartService.Insert(SingleCart);
+
+        //    cartService.Save();
         }
 
-        //*******************************************
-
-        // omar :  used GetAll Action instead
-        //public IActionResult Index(string include = null)
-        //{
-        //    orderService.GetAll(include);
-
-        //    return View();
-        //}
+        //*****************************************************
 
         [HttpGet]
-        public IActionResult GetAll(string? include = null)
+        public IActionResult GetAll()
         {
-            List<Cart> carts = cartService.GetAll(include);
+            List<Cart> carts = cartService.GetAll();
 
             return View(carts);
         }
 
         [HttpGet]
-        public IActionResult Get(int id)
+        public IActionResult Details(int id)
         {
             Cart cart = cartService.Get(id);
 
@@ -141,7 +153,29 @@ namespace ecommerce.Controllers
             return RedirectToAction("GetAll");
         }
 
-        //--------------------------------------------
+        //********************************************************
 
+        //public void AddToCart(int id, int quantity)
+        //{
+        //    Product product = productService.Get(id);
+
+        //    CartItem item = new CartItem()
+        //    {
+        //        Quantity = quantity,
+
+        //        ProductId = id,
+        //        Product = product,
+
+        //        CartId = SingleCart.Id ,
+        //        Cart = SingleCart, 
+        //    };
+
+        //    cartItemService.Insert(item);
+
+        //    cartItemService.Save();
+
+        //    cartService.Save();
+
+        //}
     }
 }

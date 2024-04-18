@@ -14,7 +14,6 @@ namespace ecommerce.Services
 
         //***************************************************
 
-
         public List<CartItem> GetAll(string include = null)
         {
             return cartItemRepository.GetAll(include);  // the base function handles the null with if condition

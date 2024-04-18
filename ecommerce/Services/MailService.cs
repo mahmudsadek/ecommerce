@@ -12,7 +12,7 @@ using ecommerce.TempelateMails;
 using ecommerce.ViewModels;
 namespace ecommerce.Services
 {
-    public class MailService : IMailService
+    public class MailService : IMailService 
     {
         private readonly MailSettings _mailsettings;
 
