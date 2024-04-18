@@ -145,18 +145,22 @@ namespace ecommerce.Controllers
             List<Product> searchedProducts = productService.GetAll()
                 .Where(p => p.Name.Contains(searchProdName)).ToList();
 
-            Products_With_CategoriesVM products_CategoriesVM = new Products_With_CategoriesVM()
-            {
-                Products = searchedProducts,
+			int id = searchedProducts.Select(p => p.Id).FirstOrDefault();
 
-                Categories = categoryService.GetAll(),
-            };
+			return RedirectToAction("Details" , "Product" , new { id =	id });
 
-            ViewData["TotalPages"] = Math.Ceiling(productService.GetAll().Count() / (double)_pageSize);
+            //Products_With_CategoriesVM products_CategoriesVM = new Products_With_CategoriesVM()
+            //{
+            //    Products = searchedProducts,
 
-            ViewData["AllProductsNames"] = productService.GetAll().Select(c => c.Name).ToList();
+            //    Categories = categoryService.GetAll(),
+            //};
 
-            return View("GetAll", products_CategoriesVM);
+            //ViewData["TotalPages"] = Math.Ceiling(productService.GetAll().Count() / (double)_pageSize);
+
+            //ViewData["AllProductsNames"] = productService.GetAll().Select(c => c.Name).ToList();
+
+            //return View("GetAll", products_CategoriesVM);
         }
 
         [HttpGet]
@@ -180,6 +184,7 @@ namespace ecommerce.Controllers
                 Product_With_RelatedProducts prodVM = new Product_With_RelatedProducts()
 				{
 					Id = productDB.Id,
+
 					Name = productDB.Name,
 					Description = productDB.Description,
 					Price = productDB.Price,
@@ -198,6 +203,8 @@ namespace ecommerce.Controllers
 					RealtedProducts = productService.Get(p => p.CategoryId == productDB.CategoryId) ,
 
 					Cart = cart,
+
+					Categories = categoryService.GetAll(),
 				};
 				return View("Get", prodVM);
 			}
