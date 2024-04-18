@@ -1,0 +1,108 @@
+﻿
+@model ecommerce.ViewModels.AccountInfoViewModel
+@* @using Newtonsoft.Json *@
+@{
+    Layout = null;
+    // string modelJson = JsonConvert.SerializeObject(Model);
+}
+
+
+<div class="card">
+    <div class="card-header">
+        Account Info
+    </div>
+    <div class="card-body">
+
+
+@* 
+          <form asp-action="login" asp-controller="Account" method="post" class="offset-1 row">
+
+
+                            <div asp-validation-summary="All" class="text-danger"></div>
+                            <div class="form-group input-label-div">
+                                <label asp-for="userName" class="control-label"></label>
+                                <input asp-for="userName" class="form-control" />
+                                <span asp-validation-for="userName" class="text-danger"></span> 
+                            </div> *@
+
+
+
+        <form asp-action="editAccountInfo" asp-controller="Account" method="post">    <!--here model not sent-->
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form d-flex row flex-wrap">
+                    <div class="form-group col-5 m-2 input-label-div">
+                    <label asp-for="Email" class="control-label"></label>
+                    <input asp-for="Email" disabled type="email" class="form-control" id="inputEmail4" /> <!--when disabled send as null-->
+                        <span asp-validation-for="Email" class="text-danger"></span>
+                    </div>
+
+                    <input type="email" hidden value="@Model.Email" name="Email"/>  <!--send email value through it-->
+
+                     <div class="form-group col-5 m-2 input-label-div">
+                    <label asp-for="userName" class="control-label"></label>
+                    <input asp-for="userName" type="text" class="form-control" id="inputEmail4">
+                        <span asp-validation-for="userName" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group col-5 m-2 input-label-div">
+                        <label asp-for="phoneNumber" class="control-label"></label>
+                        <input asp-for="phoneNumber" type="number" class="form-control" id="inputEmail4">
+                        <span asp-validation-for="phoneNumber" class="text-danger"></span>
+                    </div>
+
+
+
+              @*   <div class="form-group col-5 m-2">
+                    <label for="userNameInput">User name</label>
+                    <input type="text" class="form-control" id="userNameInput" value="@Model.userName">
+                </div>
+                <div class="form-group col-5 m-2">
+                    <label for="phoneNumberInput">Phone number</label>
+                    <input type="text" class="form-control" id="phoneNumberInput">
+                </div> 
+                <div class="form-group col-md-2 m-2">
+                    <label for="imgInput">Image</label>
+                    <input type="file" class="form-control" id="imgInput">
+                </div> *@
+                <div class="row my-4">
+                    <button type="submit" class="btn btn-primary col-3 m-auto"> Update</button>
+                </div> 
+            </div>
+        </form>
+    </div>
+
+
+
+
+
+
+    <!--change password-->
+
+   @*  <div class="card-body">
+
+
+
+        <form asp-action="editPassword" asp-controller="Account" method="post">
+            <!--here model not sent-->
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <div class="form d-flex row flex-wrap">
+
+                <div class="form-group col-5 m-2 input-label-div">
+                    <label asp-for="password" class="control-label"></label>
+                    <input asp-for="password" type="password" class="form-control" id="inputPassword">
+                    <span asp-validation-for="password" class="text-danger"></span>
+                </div>
+
+                <div class="form-group col-5 m-2 input-label-div">
+                    <label asp-for="confirmPassword" class="control-label"></label>
+                    <input asp-for="confirmPassword" type="password" class="form-control" id="inputConfirmPassword">
+                    <span asp-validation-for="confirmPassword" class="text-danger"></span>
+                </div>
+
+                <div class="row my-4">
+                    <button type="submit" class="btn btn-primary col-3 m-auto"> Update</button>
+                </div>
+            </div>
+        </form> *@
+    </div>
+           

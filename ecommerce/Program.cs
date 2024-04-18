@@ -3,6 +3,7 @@ using ecommerce.Models;
 using ecommerce.Repository;
 using ecommerce.Services;
 using ecommerce.Settings;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -70,12 +71,25 @@ namespace ecommerce
                 }
                 ).AddEntityFrameworkStores<Context>().AddDefaultTokenProviders();
 
+
+
+            // saeed : mail configuration
             builder.Services.Configure<MailSettings>
                 (builder.Configuration.GetSection("MailSettings"));
 
             builder.Services.AddTransient<IMailService, MailService>();
 
             builder.Services.AddTransient<IMailService, MailService>();
+
+
+            // saeed : try to change in claim without log user out using this service
+
+            //builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+            //    .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, options =>
+            //{
+            //    options.LoginPath = "/account/login";
+            //    options.LogoutPath = "/account/logout";
+            //});
 
             var app = builder.Build();
 
@@ -88,6 +102,8 @@ namespace ecommerce
 
             app.UseRouting();
 
+            // saeed
+            app.UseAuthentication();
             app.UseAuthorization();
             //Comment
             app.MapHub<CommentHub>("/CommentHub");
