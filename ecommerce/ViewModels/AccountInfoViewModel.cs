@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace ecommerce.ViewModel 
+namespace ecommerce.ViewModels
 {
-    public class RegisterViewModel 
+    public class AccountInfoViewModel       // as compiler dont want to access registerviewModel!!!!!!!!!!!!!!!!
     {
         [Required, MaxLength(20), MinLength(2, ErrorMessage = "User name must be at least 2 characters"), Display(Name = "User name")]
         public string userName { get; set; }
@@ -20,5 +20,5 @@ namespace ecommerce.ViewModel
 
         [Required , RegularExpression(@"[a-zA-Z0-9]+@[a-zA-Z0-9]+\.(com){1}\s*$")] 
         public string? Email { get; set; }
-    }    
+    }
 }

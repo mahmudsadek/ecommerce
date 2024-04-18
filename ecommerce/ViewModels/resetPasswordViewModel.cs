@@ -12,8 +12,8 @@ namespace ecommerce.ViewModels
             Display(Name = "Confirm Password")]
         public string confirmNewPassword { get; set; }
 
-        public string userName { get; set; }
+        public string? userName { get; set; }
 
-        public string token { get; set; }
+        public string? token { get; set; }
     }
 }

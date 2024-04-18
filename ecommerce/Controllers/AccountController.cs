@@ -2,6 +2,8 @@
 using ecommerce.Services;
 using ecommerce.ViewModel;
 using ecommerce.ViewModels;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -101,6 +103,7 @@ namespace ecommerce.Controllers
         [HttpGet]
         public IActionResult login()
         {
+           // return Content("<h1>saeed</h1>");
             return View("login");
         } 
 
@@ -117,7 +120,7 @@ namespace ecommerce.Controllers
                     if(matched) 
                     {
                         List<Claim> claims = new List<Claim>();
-                        claims.Add(new Claim("name", model.userName));
+                        claims.Add(new Claim("name", model.userName)); 
                       await signInManager.SignInWithClaimsAsync(user, model.rememberMe, claims);  
                       return RedirectToAction("Index", "Home");  
                     }
@@ -221,7 +224,7 @@ namespace ecommerce.Controllers
 
                 if (user != null) 
                 {
-                    string token = await userManager.GeneratePasswordResetTokenAsync(user);
+                    string token = await userManager.GeneratePasswordResetTokenAsync(user); 
                   //  token = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(token));         // saeed : search for decoding 
                     string callBackUrl = Url.Action("resetPassword", "account" , values: new { token , userName = user.UserName },
                         protocol: Request.Scheme);   
@@ -270,9 +273,124 @@ namespace ecommerce.Controllers
         }
 
 
+
+
+        public async Task <IActionResult> myAccount(string selectedPartial = "_accountInfoPartial", resetPasswordViewModel changePasswordModel = null)
+        {
+			//Claim nameClaim = User.Claims.FirstOrDefault(c => c.Type == "name");
+			//if (nameClaim != null)
+			//    ViewBag.Name = nameClaim.Value; 
+			ApplicationUser user = await userManager.FindByNameAsync(User.Identity.Name);  // err
+			AccountInfoViewModel model = new AccountInfoViewModel()
+			{
+				userName = user.UserName,
+				phoneNumber = user.PhoneNumber,
+				Email = user.Email
+			};
+            ViewBag.selectedPartial = selectedPartial;
+            ViewBag.resetPasswordModel = changePasswordModel;
+			return View(model);
+        }
+
+
+
+        public async Task <IActionResult> getAccountInfoPartial()
+        {
+            ApplicationUser user = await userManager.FindByNameAsync (User.Identity.Name);
+            AccountInfoViewModel model = new AccountInfoViewModel() { userName = user.UserName,
+                phoneNumber = user.PhoneNumber, Email = user.Email };
+            return View("_accountInfoPartial" , model);  // send v.m 
+        }
+
+        public IActionResult getAccountChangePasswordPartial()
+        {
+            return View("_accountChangePasswordPartial");
+        }
+
+
+        public IActionResult getAccountOrdersPartial()
+        {
+            return View("_accountOrdersPartial");
+        }
+
+
+        public IActionResult getAccountShipmentsPartial()
+        {
+            return View("_accountShipmentsPartial");
+        }
+
+
+
+        [HttpPost]
+        public async Task <IActionResult> editAccountInfo(string userName , string phoneNumber , string Email)  // cannot send model it self from partial view , when try serialize and send json from view >> json come with old data
+        {
+            AccountInfoViewModel model = new AccountInfoViewModel()
+            {
+                userName = userName,
+                phoneNumber = phoneNumber,
+                Email = Email
+            };
+
+            if(ModelState.IsValid)
+            {
+                ApplicationUser user = await userManager.FindByEmailAsync(Email);
+                if (user != null)
+                {
+                    try
+                    {
+                        user.UserName = model.userName;
+                        user.PhoneNumber = model.phoneNumber;
+                        await userManager.UpdateAsync(user);      // saeed : if new userName is not unique to validation msg appear to user and no update also will happen try to solve
+                    }
+                    catch(Exception ex) 
+                    {
+                        ModelState.AddModelError(string.Empty, ex.Message);
+                        return RedirectToAction("myAccount", "account", model);
+                    }
+
+
+                    //ClaimsIdentity claimsIdentity = new ClaimsIdentity(User.Identity);
+                    //claimsIdentity.RemoveClaim(claimsIdentity.FindFirst(ClaimTypes.Name));
+                    //claimsIdentity.AddClaim(new Claim(ClaimTypes.Name, model.userName));
+
+                    //await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+                    //await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity));
+
+                    if(User.Identity.Name != user.UserName)
+                        return RedirectToAction("logout", "account");   // saeed : try to update name in claim without log user out
+
+                    return RedirectToAction("Index" , "Home"); 
+                }
+                ModelState.AddModelError("invalidSentEmail", "User not fount");
+                return RedirectToAction("myAccount", "account" , model);  
+            }
+            return RedirectToAction("myAccount", "account", model);
+        }
+
+
+        public async Task <IActionResult> editAccountPassword(resetPasswordViewModel model)
+        {
+            if(ModelState.IsValid)
+            {
+               ApplicationUser user = await userManager.FindByNameAsync(User.Identity?.Name);
+
+                if(user != null) 
+                {
+                    string token = await userManager.GeneratePasswordResetTokenAsync(user);
+                    await userManager.ResetPasswordAsync(user, token , model.newPassword);
+                    return RedirectToAction("Index", "Home");
+                }
+                ModelState.AddModelError(string.Empty, "Invalid user");
+                return RedirectToAction("myAccount","_accountChangePasswordPartial" , model); // partial view only will return >> impossible for this case to match
+            }
+            return RedirectToAction("myAccount", new { selectedPartial = "_accountChangePasswordPartial", changePasswordModel = model}); // partial view only will return >> impossible for this case to match
+
+           // return RedirectToAction("getAccountChangePasswordPartial", "account", model); // partial view only will return >> impossible for this case to match
+        }
+
         //public IActionResult test()
         //{
         //    return View();
-        //}
+        //} 
     }
 }
