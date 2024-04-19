@@ -210,6 +210,10 @@ namespace ecommerce.Controllers
                     ApplicationUserId = orderDesrialized.ApplicationUserId,
                 };
                 orderService.Insert(o);
+                foreach (OrderItem item in orderDesrialized.OrderItems)
+                {
+                    orderItemService.Insert(item);
+                }
                 s.OrderId = o.Id;
                 s.Date = DateTime.Now.AddDays(3);
                 shipmentService.Insert(s);
