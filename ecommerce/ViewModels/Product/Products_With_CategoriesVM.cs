@@ -6,8 +6,10 @@ namespace ecommerce.ViewModels.Product
 {
 	public class Products_With_CategoriesVM
 	{
-        public List<ecommerce.Models.Product> Products { get; set; }
+        public List<Models.Product> Products { get; set; }
 
         public List<Category> Categories { get; set; }
+
+        public Cart? Cart { get; set; } //= new Cart() { CartItems = new List<CartItem>()};
     }
 }

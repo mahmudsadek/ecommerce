@@ -1,0 +1,149 @@
+﻿@model IList<ApplicationUser>
+@{
+    ViewData["Title"] = "Dashbourd";
+    Layout = "_DashbourdLayout";
+}
+
+<style>
+    html,
+    body,
+    .intro {
+        height: 100%;
+    }
+
+    table td,
+    table th {
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
+    }
+
+    thead th {
+        color: #fff;
+    }
+
+    .card {
+        border-radius: .5rem;
+    }
+
+    .table-scroll {
+        border-radius: .5rem;
+    }
+
+        .table-scroll table thead th {
+            font-size: 1.25rem;
+        }
+
+    thead {
+        top: 0;
+        position: sticky;
+    }
+</style>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+@* saeed : add modal *@
+<div class="modal" id="confirmMsgModal" tabindex="-1" aria-labelledby="confirmMsgModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Confirmation message</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="text">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <a id="confirmBtn" class="btn btn-success">Confirm</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+<a href="/account/register?IsAdmin=true" class="btn btn-primary m-3">Register new admin</a>
+
+<div class="container">
+    @*    <p class="my-4">
+    <a class="btn btn-primary" asp-action="removeAdmin" asp-controller="account">Remove Admin</a>
+    </p> *@
+    <section class="intro">
+        <div class="bg-image h-100" style="background-color: #f5f7fa;">
+            <div class="mask d-flex align-items-center h-100">
+                <div class="container">
+                    <div class="row justify-content-center">
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card-body p-0">
+                                    <div class="table-responsive table-scroll" data-mdb-perfect-scrollbar="true" style="position: relative; height: 700px">
+                                        <table class="table table-striped mb-0">
+                                            <thead style="background-color: #002d72;">
+                                                <tr>
+                                                    <th scope="col">#</th>
+                                                    <th scope="col">Name</th>
+                                                    <th scope="col">Phone Number</th>
+                                                    <th scope="col">Email</th>
+                                                    <th scope="col">action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach (ApplicationUser user in Model)
+                                                {
+                                                    <tr>
+                                                        <td>@user.Id</td>
+                                                        <td>@user.UserName</td>
+                                                        <td>@user.PhoneNumber</td>
+                                                        <td>@user.Email</td>
+
+                                                        <td>
+                                                            @*                         <a asp-action="userDetails" asp-route-id="@user.Id" asp-controller="dashbourd" class="btn btn-info"><i class="fa-solid fa-bars"></i></a>
+                                                        <a asp-action="update" asp-route-id="@user.Id" asp-controller="Account" class="btn btn-warning"><i class="fa-regular fa-pen-to-square"></i></a> *@
+                                                            <a title="remove admin" asp-route-id="@user.Id" class="btn btn-warning"
+                                                               data-bs-toggle="modal" data-bs-target="#confirmMsgModal" onclick="RemoveAdmin('@user.UserName')"> <i class="fa-solid fa-user-tie"></i> </a> 
+                                                            <a asp-action="delete" title="delete" asp-route-id="@user.Id" asp-controller="Account" class="btn btn-danger"
+                                                               data-bs-toggle="modal" data-bs-target="#confirmMsgModal" onclick="deleteAccount('@user.UserName')"><i class="fa-solid fa-trash"></i></a>
+
+                                                        </td>
+                                                    </tr>
+                                                }
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+
+
+@* saeed : add script *@
+
+@section scripts {  
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    @* <script src="~/js/Admins.js"></script>  *@
+      <script>
+        function RemoveAdmin(name) {
+              document.getElementById("text").innerText = `That will make ${name} unauthorized to access any data..\n  Are you sure to remove ${name} from admin?`;
+            document.getElementById("confirmBtn").href = `/account/confirmRemoveAdmin?userName=${name}`;
+        } 
+
+          function deleteAccount(name) {
+            document.getElementById("text").innerText = `Are you sure to delete ${name}'s account?`;
+            document.getElementById("confirmBtn").href = `/Dashbourd/deleteAccount?userName=${name}`;
+        }
+    </script> 
+}
+
+
+

@@ -13,21 +13,21 @@ namespace ecommerce.Models
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]  // specifies that the formatting should also be applied when the value is displayed in a text box for editing
         public DateTime OrderDate { get; set; }
 
-        public List<OrderItem> OrderItems { get; set; }
+        public List<OrderItem>? OrderItems { get; set; }
 
         // --------------------------------------------
 
         [ForeignKey("User")]
         public string ApplicationUserId { get; set; }
 
-        public ApplicationUser User { get; set; }
+        public ApplicationUser? User { get; set; }
 
         // --------------------------------------------
 
         [ForeignKey("Shipment")]
-        public int ShipmentId { get; set; }
+        public int? ShipmentId { get; set; }
 
-        public Shipment Shipment { get; set; }
+        public Shipment? Shipment { get; set; }
 
         // Omar : New Update
     }

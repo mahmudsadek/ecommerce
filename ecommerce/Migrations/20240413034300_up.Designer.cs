@@ -12,8 +12,8 @@ using ecommerce.Models;
 namespace ecommerce.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20240402131958_init")]
-    partial class init
+    [Migration("20240413034300_up")]
+    partial class up
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -212,6 +212,10 @@ namespace ecommerce.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("Email")
+                        .IsUnique()
+                        .HasFilter("[Email] IS NOT NULL");
+
                     b.HasIndex("NormalizedEmail")
                         .HasDatabaseName("EmailIndex");
 
@@ -253,14 +257,11 @@ namespace ecommerce.Migrations
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
 
-                    b.Property<int>("cartId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("ProductId");
+                    b.HasIndex("CarttId");
 
-                    b.HasIndex("cartId");
+                    b.HasIndex("ProductId");
 
                     b.ToTable("CartItem");
                 });
@@ -332,7 +333,7 @@ namespace ecommerce.Migrations
                     b.Property<DateTime>("OrderDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("ShipmentId")
+                    b.Property<int?>("ShipmentId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -340,7 +341,8 @@ namespace ecommerce.Migrations
                     b.HasIndex("ApplicationUserId");
 
                     b.HasIndex("ShipmentId")
-                        .IsUnique();
+                        .IsUnique()
+                        .HasFilter("[ShipmentId] IS NOT NULL");
 
                     b.ToTable("Order");
                 });
@@ -511,21 +513,21 @@ namespace ecommerce.Migrations
 
             modelBuilder.Entity("ecommerce.Models.CartItem", b =>
                 {
+                    b.HasOne("ecommerce.Models.Cart", "Cart")
+                        .WithMany("CartItems")
+                        .HasForeignKey("CarttId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("ecommerce.Models.Product", "Product")
                         .WithMany()
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("ecommerce.Models.Cart", "cart")
-                        .WithMany("CartItems")
-                        .HasForeignKey("cartId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Navigation("Cart");
 
                     b.Navigation("Product");
-
-                    b.Navigation("cart");
                 });
 
             modelBuilder.Entity("ecommerce.Models.Comment", b =>
@@ -557,9 +559,7 @@ namespace ecommerce.Migrations
 
                     b.HasOne("ecommerce.Models.Shipment", "Shipment")
                         .WithOne("Order")
-                        .HasForeignKey("ecommerce.Models.Order", "ShipmentId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("ecommerce.Models.Order", "ShipmentId");
 
                     b.Navigation("Shipment");
 

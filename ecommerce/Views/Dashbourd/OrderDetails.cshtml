@@ -1,0 +1,164 @@
+﻿@model ecommerce.Models.Order
+
+@{
+    ViewData["Title"] = "OrderDetails";
+    Layout = "~/Views/Shared/_DashbourdLayout.cshtml";
+}
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/MaterialDesign-Webfont/5.3.45/css/materialdesignicons.css" integrity="sha256-NAxhqDvtY0l4xn+YVa6WjAcmd94NNfttjNsDmNatFVc=" crossorigin="anonymous" />
+<link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-xl-8">
+            @foreach(OrderItem item in Model.OrderItems)
+            {
+                <div class="card border shadow-none">
+                <div class="card-body">
+
+                    <div class="d-flex align-items-start border-bottom pb-3">
+                        <div class="me-4">
+                            <img src="@item.Product.ImageUrl" alt="" class="avatar-lg rounded">
+                        </div>
+                        <div class="flex-grow-1 align-self-center overflow-hidden">
+                            <div>
+                                <h5 class="text-truncate font-size-18"><a  class="text-dark">@item.Product.Name </a></h5>
+                                <p class="mb-0 mt-1">Color : <span class="fw-medium">@item.Product.Color</span></p>
+                            </div>
+                        </div>
+                        <div class="flex-shrink-0 ms-2">
+                            <ul class="list-inline mb-0 font-size-16">
+                                <li class="list-inline-item">
+                                    <a href="#" class="text-muted px-1">
+                                        <i class="mdi mdi-trash-can-outline"></i>
+                                    </a>
+                                </li>
+                                <li class="list-inline-item">
+                                    <a href="#" class="text-muted px-1">
+                                        <i class="mdi mdi-heart-outline"></i>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="mt-3">
+                                    <p class="text-muted mb-2">Price</p>
+                                    <h5 class="mb-0 mt-2">$ @item.Product.Price</h5>
+                                </div>
+                            </div>
+                            <div class="col-md-5">
+                                <div class="mt-3">
+                                    <p class="text-muted mb-2">Quantity</p>
+                                    <h5 class="mb-0 mt-2">$ @item.Quantity</h5>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="mt-3">
+                                    <p class="text-muted mb-2">Total</p>
+                                    <h5>$@(item.Quantity*item.Product.Price)</h5>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            }
+        </div>
+        <div class="col-xl-4">
+            <div class="mt-5 mt-lg-0">
+                <div class="card border shadow-none">
+                    <div class="card-header bg-transparent border-bottom py-3 px-4">
+                        <h5 class="font-size-16 mb-0">Order ID  <span class="float-end"> @Model.Id</span></h5>
+                    </div>
+                    <div class="card-body p-4 pt-2">
+
+                        <div class="table-responsive">
+                            <table class="table mb-0">
+                                <tbody>
+                                    <tr>
+                                        <td>Sub Total :</td>
+                                        <td class="text-end">$ @ViewBag.total</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Shipping Charge :</td>
+                                        <td class="text-end">$ 25</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Estimated Tax : </td>
+                                        <td class="text-end">$ 18.20</td>
+                                    </tr>
+                                    <tr class="bg-light">
+                                        <th>Total :</th>
+                                        <td class="text-end">
+                                            <span class="fw-bold">
+                                                    $ @(ViewBag.total + Convert.ToDecimal(25 + 18.20) )
+                                                </span>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <!-- end table-responsive -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- end row -->
+
+</div>
+
+
+<style>
+
+        .avatar-lg {
+            height: 5rem;
+            width: 5rem;
+        }
+
+        .font-size-18 {
+            font-size: 18px !important;
+        }
+
+        .text-truncate {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        a {
+            text-decoration: none !important;
+        }
+
+        .w-xl {
+            min-width: 160px;
+        }
+
+        .card {
+            margin-bottom: 24px;
+            -webkit-box-shadow: 0 2px 3px #e4e8f0;
+            box-shadow: 0 2px 3px #e4e8f0;
+        }
+
+        .card {
+            position: relative;
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: flex;
+            -webkit-box-orient: vertical;
+            -webkit-box-direction: normal;
+            -ms-flex-direction: column;
+            flex-direction: column;
+            min-width: 0;
+            word-wrap: break-word;
+            background-color: #fff;
+            background-clip: border-box;
+            border: 1px solid #eff0f2;
+            border-radius: 1rem;
+        }
+</style>

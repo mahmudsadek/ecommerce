@@ -35,6 +35,7 @@ namespace ecommerce.Services
         public void Insert(OrderItem item)
         {
             orderItemRepository.Insert(item);
+            orderItemRepository.Save();
         }
 
 
@@ -59,5 +60,7 @@ namespace ecommerce.Services
         {
             throw new NotImplementedException();
         }
+
+
     }
 }

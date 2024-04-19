@@ -15,6 +15,10 @@ namespace ecommerce.ViewModels.Product
 
         public string ImageUrl { get; set; } = "wwwroot/images/sfdsdf";  // default image
 
+        [NotMapped]
+        public IFormFile image { get; set; }
+
+
         [Column(TypeName = "Money")]
         public decimal Price { get; set; }
 

@@ -12,7 +12,7 @@ namespace ecommerce.Models
 
         [DataType(DataType.Date)]  // In this case we only want to keep track of the date, not the date and time
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]  // specifies that the formatting should also be applied when the value is displayed in a text box for editing
-        public DateTime Date { get; set; }
+        public DateTime? Date { get; set; }
       
         public string Address { get; set; }
 
@@ -29,11 +29,11 @@ namespace ecommerce.Models
         [ForeignKey("order")]
         public int OrderId { get; set; }
 
-        public Order Order { get; set; }
+        public Order? Order { get; set; }
 
         [ForeignKey("User")]
         public string UserId { get; set; }
 
-        public ApplicationUser User { get; set; }
+        public ApplicationUser? User { get; set; }
     }
 }

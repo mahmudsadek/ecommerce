@@ -9,6 +9,10 @@ namespace ecommerce.ViewModels.Product
 
         public string CategoryName { get; set; }
 
+        public Cart? Cart { get; set; } //= new Cart() { CartItems = new List<CartItem>()};
+
+        public List<Category> Categories { get; set; } // for the _AllProducts layout using it in the footer
+
         //====================================
 
         public int Id { get; set; }
@@ -40,6 +44,7 @@ namespace ecommerce.ViewModels.Product
         public int CategoryId { get; set; }
 
         public Category Category { get; set; }
+        /// TODO: try to add categories prop because there is an error => Done :)
 
         public List<Comment>? Comments { get; set; }
     }

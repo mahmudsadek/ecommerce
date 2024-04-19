@@ -4,23 +4,36 @@ using ecommerce.ViewModels.Product;
 using Microsoft.AspNetCore.Mvc;
 using NuGet.Protocol.Core.Types;
 using System.Drawing.Printing;
+using System.Security.Claims;
 
 namespace ecommerce.Controllers
 {
 	public class ProductController : Controller
 	{
 		private readonly IProductService productService;
+        private readonly ICartService cartService;
+        private readonly ICartItemService cartItemService;
+        private readonly ICommentService commentService;
+        private readonly IWebHostEnvironment _webHostEnvironment;
 
-		public ICategoryService categoryService { get; }
+
+        public ICategoryService categoryService { get; }
 
 		private const int _pageSize = 2;
 
-		public ProductController(IProductService productService, ICategoryService categoryService)
+		public ProductController
+			(IProductService productService, ICategoryService categoryService ,
+			ICartService cartService , ICartItemService cartItemService,ICommentService commentService
+			, IWebHostEnvironment webHostEnvironment)
 		{
+			this.commentService = commentService;
 			this.productService = productService;
 
 			this.categoryService = categoryService;
-		}
+            this.cartService = cartService;
+            this.cartItemService = cartItemService;
+			this._webHostEnvironment = webHostEnvironment;
+        }
 
 		//********************************************************
 
@@ -38,14 +51,38 @@ namespace ecommerce.Controllers
 
 			ViewData["AllProductsNames"] = productService.GetAll().Select(c => c.Name).ToList();
 
-			Products_With_CategoriesVM products_CategoriesVM = new Products_With_CategoriesVM()
-			{
-				Products = PaginatedProducts ,
-				Categories = categoryService.GetAll(),
-			};
+			List<Cart> carts = cartService.GetAll();
 
-			return View(products_CategoriesVM);
-		}
+            // Get the user ID
+            string userIdClaim = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            ViewBag.UserId = userIdClaim;
+
+            if (carts.Count == 0)
+			{
+				Cart cart = new Cart() { CartItems = new List<CartItem>()};
+
+                Products_With_CategoriesVM products_CategoriesVM1 = new Products_With_CategoriesVM()
+                {
+                    Products = PaginatedProducts,
+                    Categories = categoryService.GetAll(),
+                    Cart = cart
+                };
+
+                return View(products_CategoriesVM1);
+			}
+			else
+			{
+                Products_With_CategoriesVM products_CategoriesVM2 = new Products_With_CategoriesVM()
+                {
+                    Products = PaginatedProducts,
+                    Categories = categoryService.GetAll(),
+                    Cart = cartService.GetAll("CartItems").FirstOrDefault(),
+                };
+
+                return View(products_CategoriesVM2);
+            }
+        }
 
         [HttpGet]
         public IActionResult GetAllPartial(int[] catedIds , int page = 1, int pageSize = _pageSize)
@@ -108,32 +145,46 @@ namespace ecommerce.Controllers
             List<Product> searchedProducts = productService.GetAll()
                 .Where(p => p.Name.Contains(searchProdName)).ToList();
 
-            Products_With_CategoriesVM products_CategoriesVM = new Products_With_CategoriesVM()
-            {
-                Products = searchedProducts,
+			int id = searchedProducts.Select(p => p.Id).FirstOrDefault();
 
-                Categories = categoryService.GetAll(),
-            };
+			return RedirectToAction("Details" , "Product" , new { id =	id });
 
-            ViewData["TotalPages"] = Math.Ceiling(productService.GetAll().Count() / (double)_pageSize);
+            //Products_With_CategoriesVM products_CategoriesVM = new Products_With_CategoriesVM()
+            //{
+            //    Products = searchedProducts,
 
-            ViewData["AllProductsNames"] = productService.GetAll().Select(c => c.Name).ToList();
+            //    Categories = categoryService.GetAll(),
+            //};
 
-            return View("GetAll", products_CategoriesVM);
+            //ViewData["TotalPages"] = Math.Ceiling(productService.GetAll().Count() / (double)_pageSize);
+
+            //ViewData["AllProductsNames"] = productService.GetAll().Select(c => c.Name).ToList();
+
+            //return View("GetAll", products_CategoriesVM);
         }
 
         [HttpGet]
 		public IActionResult Details(int id)
 		{
 			Product productDB = productService.Get(id);
+			
+            ViewBag.Comments = commentService.GetComments(c=>c.ProductId == id);
 
-			if (productDB != null)
+            if (productDB != null)
 			{
 				Category prodCateg = categoryService.Get(productDB.CategoryId);
 
-				Product_With_RelatedProducts prodVM = new Product_With_RelatedProducts()
+				Cart cart = cartService.GetAll("CartItems").FirstOrDefault();
+
+                // Get the user ID
+                string userIdClaim = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+                ViewBag.UserId = userIdClaim;
+
+                Product_With_RelatedProducts prodVM = new Product_With_RelatedProducts()
 				{
 					Id = productDB.Id,
+
 					Name = productDB.Name,
 					Description = productDB.Description,
 					Price = productDB.Price,
@@ -149,7 +200,11 @@ namespace ecommerce.Controllers
 
 					Comments = productDB.Comments,
 
-					RealtedProducts = productService.Get(p => p.CategoryId == productDB.CategoryId)
+					RealtedProducts = productService.Get(p => p.CategoryId == productDB.CategoryId) ,
+
+					Cart = cart,
+
+					Categories = categoryService.GetAll(),
 				};
 				return View("Get", prodVM);
 			}
@@ -162,7 +217,7 @@ namespace ecommerce.Controllers
 		{
 			List<Product> products = productService.Get(where);
 
-			return View(products);
+			return View(products);	
 		}
 
 		//--------------------------------------------
@@ -181,8 +236,18 @@ namespace ecommerce.Controllers
 		// [Authorize("Admin")]
 		public IActionResult Insert(ProductWithListOfCatesViewModel product)
 		{
-			if (ModelState.IsValid)
+            string uploadpath = Path.Combine(_webHostEnvironment.WebRootPath, "img");
+            string imagename = Guid.NewGuid().ToString() + "_" + product.image.FileName;
+            string filepath = Path.Combine(uploadpath, imagename);
+            using (FileStream fileStream = new FileStream(filepath, FileMode.Create))
+            {
+                product.image.CopyTo(fileStream);
+            }
+            product.ImageUrl = imagename;
+
+            if (ModelState.IsValid)
 			{
+
 				productService.Insert(product);
 
 				return RedirectToAction("products","Dashbourd");
@@ -252,6 +317,78 @@ namespace ecommerce.Controllers
 			return RedirectToAction("products", "Dashbourd");
 		}
 
-		//--------------------------------------------
+		//*******************************************************
+
+		public IActionResult AddtoCart(int id , int quantity = 1)
+		{
+			List<Cart> carts = cartService.GetAll("CartItems");
+
+            Product product = productService.Get(id);
+
+            if (carts.Count == 0) // the first product added to cart => then create an insatace from cart
+			{
+                Cart cart = new Cart() { CartItems = new List<CartItem>() };
+
+                cartService.Insert(cart);
+
+                cartService.Save();
+
+                //-------------------
+
+                CartItem cartItem = new CartItem()
+                {
+                    Quantity = quantity,
+
+                    ProductId = id,
+                    Product = product,
+
+                    CartId = cart.Id,
+                    Cart = cart,
+                };
+
+                cartItemService.Insert(cartItem);
+
+                cartItemService.Save();
+
+                cartService.Save();
+
+                return RedirectToAction("Details", "Product", new { id = id });
+
+            }
+            else
+			{
+				Cart cart = cartService.GetAll("CartItems").FirstOrDefault();
+
+				CartItem? existedItem = cart.CartItems.FirstOrDefault(c => c.ProductId == id);
+
+				if (existedItem != null)
+				{
+					existedItem.Quantity += quantity;
+                }
+				else
+				{
+                    CartItem cartItem = new CartItem()
+                    {
+                        Quantity = quantity,
+
+                        ProductId = id,
+                        Product = product,
+
+                        CartId = cart.Id,
+                        Cart = cart,
+                    };
+
+                    cartItemService.Insert(cartItem);
+
+                }
+
+                cartItemService.Save();
+
+                cartService.Save();
+
+                return RedirectToAction("Details", "Product", new { id = id });
+
+            }
+        }
 	}
 }

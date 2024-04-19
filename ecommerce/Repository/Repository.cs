@@ -12,6 +12,8 @@ namespace ecommerce.Repository
             Context = _context;
         }
 
+        //******************************************************
+
         public void Delete(T item)
         {
             Context.Remove(item);
@@ -43,7 +45,7 @@ namespace ecommerce.Repository
 
         public void Save()
         {
-            Context.SaveChanges();
+                Context.SaveChanges();
         }
 
         public void Update(T item)

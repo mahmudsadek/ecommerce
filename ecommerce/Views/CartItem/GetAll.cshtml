@@ -1,0 +1,403 @@
+﻿@model IEnumerable<ecommerce.Models.CartItem>
+
+@{
+    ViewData["Title"] = "GetAll";
+    Layout = "_CartLayout";
+}
+
+<style>
+    .vertical-align-middle {
+        align-content: center;
+        text-align: center;
+    }
+
+    .modal-confirm {
+        color: #636363;
+        width: 400px;
+    }
+
+        .modal-confirm .modal-content {
+            padding: 20px;
+            border-radius: 5px;
+            border: none;
+            text-align: center;
+            font-size: 14px;
+        }
+
+        .modal-confirm .modal-header {
+            border-bottom: none;
+            position: relative;
+        }
+
+        .modal-confirm h4 {
+            text-align: center;
+            font-size: 26px;
+            margin: 30px 0 -10px;
+        }
+
+        .modal-confirm .close {
+            position: absolute;
+            top: -5px;
+            right: -2px;
+        }
+
+        .modal-confirm .modal-body {
+            color: #999;
+        }
+
+        .modal-confirm .modal-footer {
+            border: none;
+            text-align: center;
+            border-radius: 5px;
+            font-size: 13px;
+            padding: 10px 15px 25px;
+        }
+
+            .modal-confirm .modal-footer a {
+                color: #999;
+            }
+
+        .modal-confirm .icon-box {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto;
+            border-radius: 50%;
+            z-index: 9;
+            text-align: center;
+            border: 3px solid #f15e5e;
+        }
+
+            .modal-confirm .icon-box i {
+                color: #f15e5e;
+                font-size: 46px;
+                display: inline-block;
+                margin-top: 13px;
+            }
+
+        .modal-confirm .btn {
+            color: #fff;
+            border-radius: 4px;
+            background: #60c7c1;
+            text-decoration: none;
+            transition: all 0.4s;
+            line-height: normal;
+            min-width: 120px;
+            border: none;
+            min-height: 40px;
+            border-radius: 3px;
+            margin: 0 5px;
+            outline: none !important;
+        }
+
+        .modal-confirm .btn-info {
+            background: #c1c1c1;
+        }
+
+            .modal-confirm .btn-info:hover, .modal-confirm .btn-info:focus {
+                background: #a8a8a8;
+            }
+
+        .modal-confirm .btn-danger {
+            background: #f15e5e;
+        }
+
+            .modal-confirm .btn-danger:hover, .modal-confirm .btn-danger:focus {
+                background: #ee3535;
+            }
+
+    .trigger-btn {
+        display: inline-block;
+        margin: 100px auto;
+    }
+
+    .btn-text {
+        color: white !important;
+        text-decoration: none;
+        text-align: center;
+        align-content: center;
+    }
+
+    .icon-box i {
+        color: white;
+        font-size: 36px;
+        display: inline-block;
+        margin-top: 15px;
+    }
+
+    table td, table th {
+        text-align: center !important;
+    }
+
+    .main {
+        margin-top: 20px;
+        margin-bottom: 20px;
+        padding: 20px;
+    }
+
+    .cart-summary {
+        text-align: center;
+        margin-top: 30px;
+    }
+
+        .cart-summary h3 {
+            margin-bottom: 10px;
+        }
+
+    table {
+        margin-top: 100px;
+        margin-bottom: 100px;
+    }
+
+    #header,
+    #top-header {
+        width: 100%;
+        top: 0;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Optional: add a shadow */
+    }
+
+    .myCart:hover {
+        cursor: pointer;
+        /* Add other hover effects here */
+    }
+
+    .checkout-btn{
+
+        padding : 10px ;
+        font-size : 2rem ;
+        margin-top : 10px;
+
+    }
+
+</style>
+
+<!-- HEADER -->
+<header>
+    <!-- TOP HEADER -->
+    <div id="top-header">
+        <div class="container">
+            <ul class="header-links pull-left">
+                <li><a href="#"><i class="fa fa-phone"></i> +021-95-51-84</a></li>
+                <li><a href="#"><i class="fa fa-envelope-o"></i> email@email.com</a></li>
+                <li><a href="#"><i class="fa fa-map-marker"></i> 1734 Stonecoal Road</a></li>
+            </ul>
+            <ul class="header-links pull-right">
+                <li><a href="#"><i class="fa fa-dollar"></i> USD</a></li>
+                <li><a href="#"><i class="fa fa-user-o"></i> My Account</a></li>
+            </ul>
+        </div>
+    </div>
+    <!-- /TOP HEADER -->
+    <!-- MAIN HEADER -->
+    <div id="header">
+        <!-- container -->
+        <div class="container">
+            <!-- row -->
+            <div class="row">
+                <!-- LOGO -->
+                <div class="col-md-3">
+                    <div class="header-logo">
+                        <a href="#" class="logo">
+                            <img src="/img/logo.png" alt="">
+                        </a>
+                    </div>
+                </div>
+                <!-- /LOGO -->
+                <!-- SEARCH BAR -->
+                <div class="col-md-6">
+                    <div class="header-search">
+                        <form asp-action="Search" asp-controller="Product" method="post">
+                            <a asp-action="GetAll" asp-controller="Product" class="btn btn-info clear-search-btn">Clear search</a>
+                            <input class="input" name="searchProdName" id="searchProdName" placeholder="Search here">
+                            <button type="submit" class="search-btn">Search</button>
+                        </form>
+                    </div>
+                </div>
+                <!-- /SEARCH BAR -->
+                <!-- ACCOUNT -->
+                <div class="col-md-3 clearfix">
+                    <div class="header-ctn">
+
+                        <!-- Cart -->
+                        <div class="dropdown myCart">
+                            <a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
+                                <i class="fa fa-shopping-cart"></i>
+                                <span>Your Cart</span>
+                                <div class="qty">@Model.Count()</div>
+                            </a>
+                            <div class="cart-dropdown">
+                                <div class="cart-list">
+                                    @foreach (var item in Model)
+                                    {
+                                        <div class="product-widget">
+                                            <div class="product-img">
+                                                <img src="~/img/@item.Product.ImageUrl" alt="@item.Product.Name" width="200" />
+                                            </div>
+                                            <div class="product-body">
+                                                <h3 class="product-name"><a asp-action="Details" asp-controller="Product" asp-route-id="@item.Product.Id">@item.Product.Name</a></h3>
+                                                <h4 class="product-price"><span class="qty">@item.Quantity x</span>$ @item.Product.Price</h4>
+                                            </div>
+                                            <button class="delete"><i class="fa fa-close"></i></button>
+                                        </div>
+                                    }
+                                </div>
+
+                                <div class="cart-summary">
+                                    <small>@Model.Count() Item(s) selected</small>
+                                    <h5>SUBTOTAL: $ @Model.Sum(c => c.Product.Price * c.Quantity)</h5>
+                                </div>
+                                <div class="cart-btns">
+                                    <a asp-action="GetAll" asp-controller="CartItem">View Cart</a>
+                                    <a asp-action="Checkout" asp-controller="Order" asp-route-cartId="@Model.FirstOrDefault().Id" asp-route-userId="@ViewBag.UserId">Checkout  <i class="fa fa-arrow-circle-right"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /Cart -->
+
+                        <!-- Menu Toogle -->
+                        <div class="menu-toggle">
+                            <a href="#">
+                                <i class="fa fa-bars"></i>
+                                <span>Menu</span>
+                            </a>
+                        </div>
+                        <!-- /Menu Toogle -->
+                    </div>
+                </div>
+                <!-- /ACCOUNT -->
+            </div>
+            <!-- row -->
+        </div>
+        <!-- container -->
+    </div>
+    <!-- /MAIN HEADER -->
+</header>
+<!-- /HEADER -->
+<!-- NAVIGATION -->
+<nav id="navigation">
+    <!-- container -->
+    <div class="container">
+        <!-- responsive-nav -->
+        <div id="responsive-nav">
+            <!-- NAV -->
+            <ul class="main-nav nav navbar-nav">
+                <li><a asp-action="Index" asp-controller="Home">Home</a></li>
+
+                <li><a asp-action="GetAll" asp-controller="Category">Categories</a></li>
+                <li><a asp-action="GetAll" asp-controller="Product">Products</a></li>
+
+                <li><a asp-action="Details" asp-controller="Category" asp-route-Id="1">Smartphones</a></li>
+                <li><a asp-action="Details" asp-controller="Category" asp-route-Id="2">Laptops</a></li>
+                <li><a asp-action="Details" asp-controller="Category" asp-route-Id="3">Cameras</a></li>
+                <li><a asp-action="Details" asp-controller="Category" asp-route-Id="4">Accessories</a></li>
+
+            </ul>
+            <!-- /NAV -->
+        </div>
+        <!-- /responsive-nav -->
+    </div>
+    <!-- /container -->
+</nav>
+<!-- /NAVIGATION -->
+<!-- SECTION -->
+<div class="section">
+    <!-- container -->
+    <div class="container">
+        <!-- row -->
+        <div class="row">
+        </div>
+        <!-- /row -->
+    </div>
+    <!-- /container -->
+</div>
+<!-- /SECTION -->
+
+<!-- BREADCRUMB -->
+<div id="breadcrumb" class="section container">
+    <!-- container -->
+    <div class="container">
+        <!-- row -->
+        <div class="row">
+            <div class="col-md-12">
+                <ul class="breadcrumb-tree">
+                    <li><a asp-action="Index" asp-controller="Home">Home</a></li>
+                    <li><a asp-action="GetAll" asp-controller="Product">Products</a></li>
+                    <li class="active">Cart</li>
+                </ul>
+            </div>
+        </div>
+        <!-- /row -->
+    </div>
+    <!-- /container -->
+</div>
+<!-- /BREADCRUMB -->
+
+<main class="container main">
+
+    <h2 class="text-center p-5">Cart Items</h2>
+
+    <table class="table table-striped">
+        <thead class="thead-dark">
+            <tr>
+                <th>ID</th>
+                <th>Quantity</th>
+               @*  <th>Product ID</th>
+                <th>Cart ID</th> *@
+                <th>unit price</th>
+                <th>Total price</th>
+                <th>Product Name</th>
+                <th>Image</th>
+                <th>Update</th>
+                <th>Delete</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td class="vertical-align-middle">@item.Id</td>
+                    <td class="vertical-align-middle">@item.Quantity</td>
+                   @*  <td class="vertical-align-middle">@item.ProductId</td>
+                    <td class="vertical-align-middle">@item.CartId</td> *@
+                    <td class="vertical-align-middle">@item.Product.Price</td>
+                    <td class="vertical-align-middle">@(item.Product.Price * item.Quantity)</td>
+                    <td class="vertical-align-middle">@item.Product.Name</td>
+                    <td class="vertical-align-middle"><img src="~/img/@item.Product.ImageUrl" alt="@item.Product.Name" width="100" /></td>
+                    <td class="vertical-align-middle"><a class="btn btn-info" asp-action="Update" asp-controller="CartItem" asp-route-id="@item.Id">Update</a></td>
+                    <td class="vertical-align-middle">
+                        <div class="text-center">
+                            <a href="#myModal-@item.Id" class="trigger-btn btn btn-danger" data-toggle="modal">Delete</a>
+                        </div>
+
+                        <div id="myModal-@item.Id" class="modal fade">
+                            <div class="modal-dialog modal-confirm">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h4 class="modal-title">Are you sure?</h4>
+                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <p>Do you really want to delete these records? This process cannot be undone.</p>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <a asp-action="GetAll" asp-controller="CartItem" data-dismiss="modal" class="btn btn-text">Cancel</a>
+                                        <a asp-action="Delete" asp-controller="CartItem" asp-route-id="@item.Id" class="btn btn-danger btn-text">Delete</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <div class="cart-summary text-center">
+        <h3>Number of items in the cart : @Model.Count() Item(s)</h3>
+        <br />
+        <h3>SUBTOTAL: $ @Model.Sum(c => c.Product.Price * c.Quantity)</h3>
+    </div>
+
+    <div class="cart-btns container text-center">
+        <a class="btn btn-success checkout-btn" asp-action="Checkout" asp-controller="Order" asp-route-cartId="@Model.FirstOrDefault().Id" asp-route-userId="@ViewBag.UserId">Checkout Now <i class="fa fa-arrow-circle-right"></i></a>
+    </div>
+</main>
