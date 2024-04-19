@@ -212,7 +212,12 @@ namespace ecommerce.Controllers
                 orderService.Insert(o);
                 foreach (OrderItem item in orderDesrialized.OrderItems)
                 {
+                    item.OrderId = o.Id;
+                    Product prod = productService.Get(item.ProductId);
+                    prod.Quantity -= item.Quantity;
                     orderItemService.Insert(item);
+                    productService.Update(prod);
+                    productService.Save();
                 }
                 s.OrderId = o.Id;
                 s.Date = DateTime.Now.AddDays(3);
