@@ -75,7 +75,7 @@ namespace ecommerce.Controllers
         //--------------------------------------------
 
         [HttpGet]
-        // [Authorize("Admin")]
+        [Authorize(Roles = "Admin")]
         public IActionResult Insert()
         {
             /// TODO : continue from here make the VM and test the view
@@ -85,7 +85,7 @@ namespace ecommerce.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        // [Authorize("Admin")]
+        [Authorize(Roles = "Admin")]
         public IActionResult Insert(Order order)
         {
             if (ModelState.IsValid)
@@ -103,7 +103,7 @@ namespace ecommerce.Controllers
         //--------------------------------------------
 
         [HttpGet]
-        // [Authorize("Admin")]
+        [Authorize(Roles = "Admin")]
         public IActionResult Update(int id)
         {
             Order order = orderService.Get(id);
@@ -118,7 +118,7 @@ namespace ecommerce.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        //   [Authorize("Admin")]
+        [Authorize(Roles = "Admin")]
         public IActionResult Update(Order order)
         {
             if (ModelState.IsValid)
@@ -136,7 +136,7 @@ namespace ecommerce.Controllers
         //--------------------------------------------
 
         [HttpGet]
-        // [Authorize("Admin")]
+        [Authorize(Roles = "Admin")]
         public IActionResult Delete(int id)
         {
             Order order = orderService.Get(id);
@@ -151,7 +151,7 @@ namespace ecommerce.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        // [Authorize("Admin")]
+        [Authorize(Roles = "Admin")]
         public IActionResult Delete(Order order)
         {
             orderService.Delete(order);

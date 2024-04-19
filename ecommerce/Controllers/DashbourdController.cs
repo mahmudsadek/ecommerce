@@ -75,6 +75,12 @@ namespace ecommerce.Controllers
             return View(order);
         }
 
+        public IActionResult categoryDetails(int id)
+        {
+            Category cate = categoryService.Get(id);
+            return View(cate);
+        }
+
         public IActionResult getOrdersPartial()
         {
             List<Order> orders = orderService.GetAll("User");
