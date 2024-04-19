@@ -30,6 +30,7 @@ namespace ecommerce
             builder.Services.AddScoped<IProductRepository, ProductRepository>();
             builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
             builder.Services.AddScoped<ICommentRepository, CommentRepository>();
+           
 
             builder.Services.AddScoped<ICommentService, CommentService>();
 
@@ -60,7 +61,8 @@ namespace ecommerce
             builder.Services.AddScoped<ICartItemRepository, CartItemRepository>();
             builder.Services.AddScoped<ICartItemService, CartItemService>();
 
-
+            // saeed : register shipment using generic repository
+            builder.Services.AddScoped<IRepository<Shipment>, Repository<Shipment>>(); 
 
 
             //register the identityuser 

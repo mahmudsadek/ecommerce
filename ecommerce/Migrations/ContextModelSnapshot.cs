@@ -17,7 +17,7 @@ namespace ecommerce.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.3")
+                .HasAnnotation("ProductVersion", "8.0.4")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -432,7 +432,7 @@ namespace ecommerce.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("Date")
+                    b.Property<DateTime?>("Date")
                         .HasColumnType("datetime2");
 
                     b.Property<int>("OrderId")
@@ -512,7 +512,6 @@ namespace ecommerce.Migrations
                 {
                     b.HasOne("ecommerce.Models.Cart", "Cart")
                         .WithMany("CartItems")
-                        
                         .HasForeignKey("CartId");
 
                     b.HasOne("ecommerce.Models.Product", "Product")
@@ -634,8 +633,7 @@ namespace ecommerce.Migrations
 
             modelBuilder.Entity("ecommerce.Models.Shipment", b =>
                 {
-                    b.Navigation("Order")
-                        .IsRequired();
+                    b.Navigation("Order");
                 });
 #pragma warning restore 612, 618
         }

@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace ecommerce.Migrations
 {
     /// <inheritdoc />
-    public partial class forgetPassword : Migration
+    public partial class updatesRelatedToCart : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -189,7 +189,7 @@ namespace ecommerce.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Date = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Date = table.Column<DateTime>(type: "datetime2", nullable: true),
                     Address = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     City = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Region = table.Column<string>(type: "nvarchar(max)", nullable: false),
@@ -243,7 +243,7 @@ namespace ecommerce.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     OrderDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ApplicationUserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    ShipmentId = table.Column<int>(type: "int", nullable: false)
+                    ShipmentId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -258,8 +258,7 @@ namespace ecommerce.Migrations
                         name: "FK_Order_Shipment_ShipmentId",
                         column: x => x.ShipmentId,
                         principalTable: "Shipment",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.NoAction);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -270,18 +269,16 @@ namespace ecommerce.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Quantity = table.Column<int>(type: "int", nullable: false),
                     ProductId = table.Column<int>(type: "int", nullable: false),
-                    //CarttId = table.Column<int>(type: "int", nullable: false),
-                    cartId = table.Column<int>(type: "int", nullable: false)
+                    CartId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_CartItem", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_CartItem_Cart_cartId",
-                        column: x => x.cartId,
+                        name: "FK_CartItem_Cart_CartId",
+                        column: x => x.CartId,
                         principalTable: "Cart",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.NoAction);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_CartItem_Product_ProductId",
                         column: x => x.ProductId,
@@ -391,9 +388,9 @@ namespace ecommerce.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_CartItem_cartId",
+                name: "IX_CartItem_CartId",
                 table: "CartItem",
-                column: "cartId");
+                column: "CartId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_CartItem_ProductId",
@@ -419,7 +416,8 @@ namespace ecommerce.Migrations
                 name: "IX_Order_ShipmentId",
                 table: "Order",
                 column: "ShipmentId",
-                unique: true);
+                unique: true,
+                filter: "[ShipmentId] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
                 name: "IX_OrderItem_OrderId",
