@@ -13,7 +13,7 @@
                     <div class="card single_post">
                         <div class="body">
                             <div class="img-post">
-                                <img class="d-block img-fluid" src="@Model.ImageUrl" alt="First slide">
+                                <img class="d-block img-fluid" src="~/img/@Model.ImageUrl" alt="First slide">
                             </div>
                             <h3>@Model.Name</h3>
                             <p>@Model.Description</p>
@@ -36,10 +36,6 @@
                                             <div class="text-box col-md-10 col-8 p-l-0 p-r0">
                                                 <h5 class="m-b-0">@c.userName </h5>
                                                 <p>@c.text</p>
-                                                <ul class="list-inline">
-                                                    <li><a href="javascript:void(0);">Mar 09 2018</a></li>
-                                                    <li><a href="javascript:void(0);">Reply</a></li>
-                                                </ul>
                                             </div>
                                         </li>
                                     </ul>
@@ -59,7 +55,7 @@
 
                     <div class="card">
                         <div class="header">
-                            <h2>Categories Clouds</h2>
+                            <h2>Category</h2>
                         </div>
                         <div class="body widget">
                             <ul class="list-unstyled categories-clouds m-b-0">
@@ -67,7 +63,7 @@
                             </ul>
                         </div>
                     </div>
-                    <div class="card">
+                    @* <div class="card">
                         <div class="header">
                             <h2>Popular Posts</h2>
                         </div>
@@ -122,7 +118,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> *@
                 </div>
             </div>
 

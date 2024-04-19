@@ -1,6 +1,7 @@
 ﻿using ecommerce.Models;
 using ecommerce.Services;
 using ecommerce.ViewModels.Product;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using NuGet.Protocol.Core.Types;
 using System.Drawing.Printing;
@@ -223,8 +224,8 @@ namespace ecommerce.Controllers
 		//--------------------------------------------
 
 		[HttpGet]
-		// [Authorize("Admin")]
-		public IActionResult Insert()
+        [Authorize(Roles = "Admin")]
+        public IActionResult Insert()
 		{
 			ProductWithListOfCatesViewModel product = new();
 			product.categories = categoryService.GetAll();
@@ -233,8 +234,8 @@ namespace ecommerce.Controllers
 
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-		// [Authorize("Admin")]
-		public IActionResult Insert(ProductWithListOfCatesViewModel product)
+        [Authorize(Roles = "Admin")]
+        public IActionResult Insert(ProductWithListOfCatesViewModel product)
 		{
             string uploadpath = Path.Combine(_webHostEnvironment.WebRootPath, "img");
             string imagename = Guid.NewGuid().ToString() + "_" + product.image.FileName;
@@ -259,8 +260,8 @@ namespace ecommerce.Controllers
 		//--------------------------------------------
 
 		[HttpGet]
-		// [Authorize("Admin")]
-		public IActionResult Update(int id)
+        [Authorize(Roles = "Admin")]
+        public IActionResult Update(int id)
 		{
             ProductWithListOfCatesViewModel product = productService.GetViewModel(id);
 
@@ -274,8 +275,8 @@ namespace ecommerce.Controllers
 
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-		//   [Authorize("Admin")]
-		public IActionResult Update(ProductWithListOfCatesViewModel product)
+        [Authorize(Roles = "Admin")]
+        public IActionResult Update(ProductWithListOfCatesViewModel product)
 		{
 			if (ModelState.IsValid)
 			{
@@ -292,8 +293,8 @@ namespace ecommerce.Controllers
 		//--------------------------------------------
 
 		[HttpGet]
-		// [Authorize("Admin")]
-		public IActionResult Delete(int id)
+        [Authorize(Roles = "Admin")]
+        public IActionResult Delete(int id)
 		{
 			Product product = productService.Get(id);
 
@@ -307,7 +308,7 @@ namespace ecommerce.Controllers
 
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-		// [Authorize("Admin")]
+		[Authorize(Roles = "Admin")]
 		public IActionResult Delete(Product product)
 		{
 			productService.Delete(product);

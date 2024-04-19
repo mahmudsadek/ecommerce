@@ -58,7 +58,7 @@ namespace ecommerce.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        //[Authorize("Admin")]
+        [Authorize(Roles = "Admin")]
         public IActionResult Insert(Category category)
         {
             if (ModelState.IsValid)
@@ -76,7 +76,7 @@ namespace ecommerce.Controllers
         //--------------------------------------------
 
         [HttpGet]
-        // [Authorize("Admin")]
+        [Authorize(Roles = "Admin")]
         public IActionResult Update(int id)
         {
             Category category = categoryService.Get(id, "Products");
@@ -92,7 +92,7 @@ namespace ecommerce.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        //   [Authorize("Admin")]
+        [Authorize(Roles = "Admin")]
         public IActionResult Update(Category category)
         {
             if (ModelState.IsValid)
@@ -123,7 +123,7 @@ namespace ecommerce.Controllers
         //--------------------------------------------
 
         [HttpGet]
-        // [Authorize("Admin")]
+        [Authorize(Roles = "Admin")]
         public IActionResult Delete(int id)
         {
             Category category = categoryService.Get(id);
@@ -138,7 +138,7 @@ namespace ecommerce.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        // [Authorize("Admin")]
+        [Authorize(Roles = "Admin")]
         public IActionResult Delete(Category category)
         {
             categoryService.Delete(category);
