@@ -22,7 +22,16 @@ namespace ecommerce.Services
 			return categoryRepository.Get(id);
 		}
 
-		public List<Category> Get(Func<Category, bool> where)
+        public Category Get(int id, string? include = null)
+        {
+			if(include != null)
+			{
+				return categoryRepository.Get(id, include);
+			}
+            return categoryRepository.Get(id);
+        }
+
+        public List<Category> Get(Func<Category, bool> where)
 		{
 			return categoryRepository.Get(where);
 		}
@@ -30,9 +39,10 @@ namespace ecommerce.Services
 		public void Insert(Category category)
 		{
 			categoryRepository.Insert(category);
-		}
+			categoryRepository.Save();
+        }
 
-		public void Update(Category updatedCategory)
+        public void Update(Category updatedCategory)
 		{
 			Category category = Get(updatedCategory.Id);
 			category.Name = updatedCategory.Name;
@@ -51,5 +61,10 @@ namespace ecommerce.Services
 		{
 			categoryRepository.Save();
 		}
-	}
+
+        public List<Category> GetPageList(int skipstep, int pageSize)
+        {
+            return categoryRepository.GetPageList(skipstep, pageSize);
+        }
+    }
 }

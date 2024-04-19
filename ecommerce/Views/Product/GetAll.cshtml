@@ -257,9 +257,9 @@
                             <div class="input-checkbox">
                                 <input checked type="checkbox" id="category-@category.Id" onchange="DisplayCategoryPoducts()">
                                 <label for="category-@category.Id">
-                                    <span></span>
-                                    @category.Name
-                                    <small>(@category.Products.Count())</small>
+                                    <span>@category.Name</span>
+                                    
+                                    @* <small>(@category.Products.Count())</small> *@
                                 </label>
                             </div>
                         }

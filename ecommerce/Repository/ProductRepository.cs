@@ -49,11 +49,11 @@ namespace ecommerce.Repository
             Context.SaveChanges();
         }
 
-		//-------------------------------------------------------------
+        //-------------------------------------------------------------
 
-		public List<Product> GetPageList(int skipstep, int pageSize)
-		{
-			return Context.Product.Skip(skipstep).Take(pageSize).ToList();
-		}
-	}
+        public List<Product> GetPageList(int skipstep, int pageSize)
+        {
+            return Context.Product.Skip(skipstep).Take(pageSize).ToList();
+        }
+    }
 }

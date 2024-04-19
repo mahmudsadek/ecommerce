@@ -50,7 +50,7 @@ namespace ecommerce.Controllers
         //--------------------------------------------
 
         [HttpGet]
-        // [Authorize("Admin")]
+        //[Authorize("Admin")]
         public IActionResult Insert()
         {
             return View();
@@ -79,7 +79,7 @@ namespace ecommerce.Controllers
         [Authorize(Roles = "Admin")]
         public IActionResult Update(int id)
         {
-            Category category = categoryService.Get(id);
+            Category category = categoryService.Get(id, "Products");
 
             if (category != null)
             {
@@ -88,6 +88,7 @@ namespace ecommerce.Controllers
 
             return RedirectToAction("categories", "dashbourd");
         }
+
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -104,6 +105,19 @@ namespace ecommerce.Controllers
             }
 
             return View(category);
+        }
+
+
+        public IActionResult EditProducts(Category category)
+        {
+
+            if (category.Products.Count() != 0)
+            {
+                return View(category);
+            }
+
+            return RedirectToAction("Update");
+
         }
 
         //--------------------------------------------

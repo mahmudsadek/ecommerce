@@ -12,15 +12,15 @@ using ecommerce.Models;
 namespace ecommerce.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20240410174655_forgetPassword")]
-    partial class forgetPassword
+    [Migration("20240418191053_updatesRelatedToCart")]
+    partial class updatesRelatedToCart
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.3")
+                .HasAnnotation("ProductVersion", "8.0.4")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -248,7 +248,7 @@ namespace ecommerce.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("CarttId")
+                    b.Property<int?>("CartId")
                         .HasColumnType("int");
 
                     b.Property<int>("ProductId")
@@ -257,14 +257,11 @@ namespace ecommerce.Migrations
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
 
-                    b.Property<int>("cartId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("ProductId");
+                    b.HasIndex("CartId");
 
-                    b.HasIndex("cartId");
+                    b.HasIndex("ProductId");
 
                     b.ToTable("CartItem");
                 });
@@ -336,7 +333,7 @@ namespace ecommerce.Migrations
                     b.Property<DateTime>("OrderDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("ShipmentId")
+                    b.Property<int?>("ShipmentId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -344,7 +341,8 @@ namespace ecommerce.Migrations
                     b.HasIndex("ApplicationUserId");
 
                     b.HasIndex("ShipmentId")
-                        .IsUnique();
+                        .IsUnique()
+                        .HasFilter("[ShipmentId] IS NOT NULL");
 
                     b.ToTable("Order");
                 });
@@ -437,7 +435,7 @@ namespace ecommerce.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("Date")
+                    b.Property<DateTime?>("Date")
                         .HasColumnType("datetime2");
 
                     b.Property<int>("OrderId")
@@ -515,21 +513,19 @@ namespace ecommerce.Migrations
 
             modelBuilder.Entity("ecommerce.Models.CartItem", b =>
                 {
+                    b.HasOne("ecommerce.Models.Cart", "Cart")
+                        .WithMany("CartItems")
+                        .HasForeignKey("CartId");
+
                     b.HasOne("ecommerce.Models.Product", "Product")
                         .WithMany()
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("ecommerce.Models.Cart", "cart")
-                        .WithMany("CartItems")
-                        .HasForeignKey("cartId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Navigation("Cart");
 
                     b.Navigation("Product");
-
-                    b.Navigation("cart");
                 });
 
             modelBuilder.Entity("ecommerce.Models.Comment", b =>
@@ -561,9 +557,7 @@ namespace ecommerce.Migrations
 
                     b.HasOne("ecommerce.Models.Shipment", "Shipment")
                         .WithOne("Order")
-                        .HasForeignKey("ecommerce.Models.Order", "ShipmentId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("ecommerce.Models.Order", "ShipmentId");
 
                     b.Navigation("Shipment");
 
@@ -642,8 +636,7 @@ namespace ecommerce.Migrations
 
             modelBuilder.Entity("ecommerce.Models.Shipment", b =>
                 {
-                    b.Navigation("Order")
-                        .IsRequired();
+                    b.Navigation("Order");
                 });
 #pragma warning restore 612, 618
         }

@@ -1,4 +1,5 @@
 ﻿using ecommerce.Models;
+using ecommerce.Repository;
 using ecommerce.Services;
 using ecommerce.ViewModel;
 using ecommerce.ViewModels;
@@ -21,14 +22,16 @@ namespace ecommerce.Controllers
         private readonly UserManager<ApplicationUser> userManager;
         private readonly SignInManager<ApplicationUser> signInManager;
         private readonly RoleManager<IdentityRole> roleManager;
+        private readonly IRepository<Shipment> shipmentRepository;
 
         public AccountController(UserManager<ApplicationUser> _userManager ,
-            SignInManager<ApplicationUser> _signInManager , RoleManager<IdentityRole> _roleManager)
+            SignInManager<ApplicationUser> _signInManager , RoleManager<IdentityRole> _roleManager,
+            IRepository<Shipment> _Repository)
         {
             userManager = _userManager;
             signInManager = _signInManager;
             roleManager = _roleManager;
-            
+            shipmentRepository = _Repository;
         }
         public IActionResult Index()
         {
@@ -44,34 +47,44 @@ namespace ecommerce.Controllers
         }
 
 
-        [HttpPost]
-        public async Task<IActionResult> register(RegisterViewModel model , bool IsAdmin)
+        [HttpGet]
+        public async Task <IActionResult> mailConfirmed(string email)
         {
-            ApplicationUser applicationUser = new ApplicationUser 
+            ApplicationUser? user = await userManager.FindByEmailAsync(email);
+            user.EmailConfirmed = true;
+            await userManager.UpdateAsync(user);
+            return RedirectToAction("login"); 
+        }
+
+
+        [HttpPost]    
+        public async Task<IActionResult> register(RegisterViewModel model, bool isAdmin)  
+        {
+            ApplicationUser applicationUser = new ApplicationUser
             {
                 UserName = model.userName,
-                PasswordHash = model.password,
+                PasswordHash =model.password,
                 PhoneNumber = model.phoneNumber,
-/**/                Email = model.Email?.Trim()
+                Email = model.Email?.Trim()
             };
 
-            if(ModelState.IsValid)
+            if (ModelState.IsValid)                 
             {
                 IdentityResult result = new IdentityResult();
                 try
                 {
-                   result = await userManager.CreateAsync(applicationUser,
-                   applicationUser.PasswordHash);
+                    result = await userManager.CreateAsync(applicationUser,
+                    applicationUser.PasswordHash);
                 }
-                catch(Exception ex) 
+                catch (Exception ex)
                 {
-                   ModelState.AddModelError(string.Empty, "Already existing email");
+                    ModelState.AddModelError(string.Empty, "Already existing email");  // saeed : may cause bugs
                 }
-                
-               // IsAdmin = true; 
-                if(result.Succeeded)
+
+                // IsAdmin = true; 
+                if (result.Succeeded)
                 {
-                    switch(IsAdmin)
+                    switch (isAdmin)
                     {
                         case true:
                             await userManager.AddToRoleAsync(applicationUser, "Admin");
@@ -82,20 +95,21 @@ namespace ecommerce.Controllers
                             await userManager.AddToRoleAsync(applicationUser, "User");
                             if (User.IsInRole("Admin"))
                                 return RedirectToAction("users", "dashbourd");
-                                break;
+                            break;
                     }
-                    return View("login"); 
+                    //return View("login"); 
+                    return RedirectToAction("SendForceEmailConfirmationMail" , "Mail" , new { toEmail = model.Email});  // email sent null!!!!!!!!!!
                 }
-              
-          
-                foreach(IdentityError err in result.Errors) 
+
+
+                foreach (IdentityError err in result.Errors)
                 {
-                    ModelState.AddModelError(string.Empty , err.Description); 
+                    ModelState.AddModelError(string.Empty, err.Description);
                 }
 
             }
 
-            ViewBag.IsAdmin = IsAdmin;
+            ViewBag.IsAdmin = isAdmin;
             return View("register");
 
         }
@@ -103,7 +117,6 @@ namespace ecommerce.Controllers
         [HttpGet]
         public IActionResult login()
         {
-           // return Content("<h1>saeed</h1>");
             return View("login");
         } 
 
@@ -119,10 +132,15 @@ namespace ecommerce.Controllers
                  bool matched = await userManager.CheckPasswordAsync(user, model.password);
                     if(matched) 
                     {
-                        List<Claim> claims = new List<Claim>();
-                        claims.Add(new Claim("name", model.userName)); 
-                      await signInManager.SignInWithClaimsAsync(user, model.rememberMe, claims);  
-                      return RedirectToAction("Index", "Home");  
+                        if(user.EmailConfirmed)
+                        {
+                            List<Claim> claims = new List<Claim>();
+                            claims.Add(new Claim("name", model.userName));
+                            await signInManager.SignInWithClaimsAsync(user, model.rememberMe, claims);
+                            return RedirectToAction("Index", "Home");
+                        }
+                        ModelState.AddModelError("", "Unconfirmed email");
+                        return View("login");
                     }
                     ModelState.AddModelError("", "invalid password");
                     return View("login");
@@ -191,7 +209,6 @@ namespace ecommerce.Controllers
 
         public async Task<IActionResult> confirmRemoveAdmin(string userName)
         {
-          //  return Content(userName);
             ApplicationUser appUser = await userManager.FindByNameAsync(userName);
             if (appUser != null) 
             {
@@ -314,9 +331,12 @@ namespace ecommerce.Controllers
         }
 
 
-        public IActionResult getAccountShipmentsPartial()
+        public async Task <IActionResult> getAccountShipmentsPartial()
         {
-            return View("_accountShipmentsPartial");
+          //  return Content("sd");
+           ApplicationUser? user = await userManager.FindByNameAsync(User.Identity.Name);
+            List<Shipment>? shipments = shipmentRepository.Get(s => s.UserId == user.Id);
+            return View("_accountShipmentsPartial" , shipments);
         }
 
 
