@@ -12,6 +12,8 @@ using ecommerce.TempelateMails;
 using ecommerce.ViewModels;
 namespace ecommerce.Services
 {
+
+  
     public class MailService : IMailService 
     {
         private readonly MailSettings _mailsettings;
@@ -20,12 +22,12 @@ namespace ecommerce.Services
         {
            _mailsettings = mailsettings.Value;   
         }
-        public async Task SendEmailAsync(MailRequest mailrequest, MailAdditionalParamsViewModel? additionalParams = null) 
-        {
+        public async Task SendEmailAsync(MailRequest mailrequest, mailTemplate mailTemplate, MailAdditionalParamsViewModel? additionalParams = null) 
+        { 
             MimeMessage mail = new MimeMessage();
             mail.Sender = MailboxAddress.Parse(_mailsettings.Mail);
-            mail.To.Add(MailboxAddress.Parse(mailrequest.ToEmail));
-            mail.Subject = mailrequest.Subject;
+            mail.To.Add(MailboxAddress.Parse(mailrequest.ToEmail));   
+            mail.Subject = mailrequest.Subject; 
             BodyBuilder builder = new BodyBuilder();
 
             if (mailrequest.Attachments != null)
@@ -44,7 +46,7 @@ namespace ecommerce.Services
                     }
                 }
             }
-            builder.HtmlBody = ResetPasswordTempelate.htmlTags(additionalParams);  
+            builder.HtmlBody = mailTemplate.htmlTags(additionalParams);  
 
             mail.Body = builder.ToMessageBody();
             //SmtpClient smtp = new SmtpClient();
