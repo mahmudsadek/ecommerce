@@ -24,13 +24,17 @@ namespace ecommerce.Repository
 
         public List<Product> GetAllProductsInCategory(int CategoryId)
         {
-            Category category = Get(CategoryId);
+            Category category = Get(CategoryId, "products");
 
             return category.Products;
         }
 
-        public Category Get(int id)
+        public Category Get(int id, string? include =null)
         {
+            if(include != null)
+            {
+                Context.Category.Include(include).FirstOrDefault(c => c.Id == id);
+            }
             return Context.Category.FirstOrDefault(c => c.Id == id);
         }
 
@@ -47,6 +51,7 @@ namespace ecommerce.Repository
         public void Insert(Category item)
         {
             Context.Add(item);
+            item.Products = new List<Product>();
         }
 
         //void ChangeProductCategory(int product_id, int old_category_id, int new_category_id)
@@ -65,10 +70,11 @@ namespace ecommerce.Repository
             }
         }
 
-        public void RenameCategory(string categoryName, string NewName)
-        {
-            GetCategoryByName(categoryName).Name = NewName;
-        }
+        // THERE IS NO NEED FOR IT
+        //public void RenameCategory(string categoryName, string NewName)
+        //{
+        //    GetCategoryByName(categoryName).Name = NewName;
+        //}
 
         public void DeleteAllProductsInCategory(int CategoryId)
         { 
@@ -101,5 +107,9 @@ namespace ecommerce.Repository
             Context.SaveChanges();
         }
 
+        public List<Category> GetPageList(int skipstep, int pageSize)
+        {
+            return Context.Category.Skip(skipstep).Take(pageSize).ToList();
+        }
     }
 }

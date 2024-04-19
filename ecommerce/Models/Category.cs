@@ -11,8 +11,7 @@ namespace ecommerce.Models
         [DisplayFormat(NullDisplayText = "No Description yet")]
         public string? Description { get; set; }
 
-        public string ImageUrl { get; set; } //= "" default img
-
+        public string ImageUrl { get; set; } = "wwwroot/images/CatDefault.png";
         public List<Product>? Products { get; set; }
     }
 }
