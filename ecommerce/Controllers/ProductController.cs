@@ -195,7 +195,7 @@ namespace ecommerce.Controllers
 
 					Comments = productDB.Comments,
 
-					RealtedProducts = productService.Get(p => p.CategoryId == productDB.CategoryId) ,
+					RealtedProducts = productService.Get(p => p.CategoryId == productDB.CategoryId).Take(3).ToList() ,
 
 					Cart = cart,
 

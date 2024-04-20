@@ -248,6 +248,8 @@ namespace ecommerce.Controllers
 					OrderDate = orderDesrialized.OrderDate,
 					ApplicationUserId = orderDesrialized.ApplicationUserId,
 				};
+				shipmentService.Save();
+
 				orderService.Insert(o);
 				foreach (OrderItem item in orderDesrialized.OrderItems)
 				{
@@ -277,8 +279,9 @@ namespace ecommerce.Controllers
 					Date = checkoutVM.Date,
 				};
 				shipmentService.Insert(shipment);
+				shipmentService.Save();
 
-				o.ShipmentId = checkoutVM.Id;
+				o.ShipmentId = shipment.Id;
 				orderService.Save();
 				checkoutVM.Order = null;
 				return View("PlaceOrder");
