@@ -278,7 +278,17 @@ namespace ecommerce.Controllers
         [Authorize(Roles = "Admin")]
         public IActionResult Update(ProductWithListOfCatesViewModel product)
 		{
-			if (ModelState.IsValid)
+            string uploadpath = Path.Combine(_webHostEnvironment.WebRootPath, "img");
+            string imagename = Guid.NewGuid().ToString() + "_" + product.image.FileName;
+            string filepath = Path.Combine(uploadpath, imagename);
+            using (FileStream fileStream = new FileStream(filepath, FileMode.Create))
+            {
+                product.image.CopyTo(fileStream);
+            }
+            product.ImageUrl = imagename;
+
+
+            if (ModelState.IsValid)
 			{
 				productService.Update(product);
 

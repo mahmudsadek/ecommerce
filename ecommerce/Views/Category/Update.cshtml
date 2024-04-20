@@ -13,7 +13,7 @@
 
     <div class="row">
         <div class="col-md-5 mt-3 mx-auto bg-light">
-            <form asp-action="Update" asp-controller="category">
+            <form asp-action="Update" asp-controller="category" enctype="multipart/form-data">
                 <div class="form-group">
                     <label asp-for="Id" class="control-label"></label>
                     <input asp-for="Id" disabled class="form-control" />
@@ -30,9 +30,9 @@
                     <span asp-validation-for="Description" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <label asp-for="ImageUrl" class="control-label"></label>
-                    <input asp-for="ImageUrl" class="form-control" />
-                    <span asp-validation-for="ImageUrl" class="text-danger"></span>
+                    <label asp-for="image" class="control-label"></label>
+                    <input type="file" asp-for="image" class="form-control" />
+                    <span asp-validation-for="image" class="text-danger"></span>
                 </div>
 
                 <div class="form-group text-center px me-2 mx-auto">

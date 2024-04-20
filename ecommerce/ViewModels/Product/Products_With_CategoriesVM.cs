@@ -8,7 +8,7 @@ namespace ecommerce.ViewModels.Product
 	{
         public List<Models.Product> Products { get; set; }
 
-        public List<Category> Categories { get; set; }
+        public List<Models.Category> Categories { get; set; }
 
         public Cart? Cart { get; set; } //= new Cart() { CartItems = new List<CartItem>()};
     }
