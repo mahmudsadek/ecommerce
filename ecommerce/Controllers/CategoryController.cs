@@ -2,6 +2,7 @@
 using ecommerce.Repository;
 using ecommerce.Services;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ecommerce.Controllers
@@ -9,10 +10,13 @@ namespace ecommerce.Controllers
     public class CategoryController : Controller
     {
         private readonly ICategoryService categoryService;
+        private readonly IWebHostEnvironment _webHostEnvironment;
 
-        public CategoryController(ICategoryService categoryService) 
+        public CategoryController(ICategoryService categoryService,IWebHostEnvironment web) 
         {
             this.categoryService = categoryService;
+            this._webHostEnvironment = web;
+
         }
 
         //*********************************************************
@@ -58,16 +62,25 @@ namespace ecommerce.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         public IActionResult Insert(Category category)
         {
+            string uploadpath = Path.Combine(_webHostEnvironment.WebRootPath, "img");
+            string imagename = Guid.NewGuid().ToString() + "_" + category.image.FileName;
+            string filepath = Path.Combine(uploadpath, imagename);
+            using (FileStream fileStream = new FileStream(filepath, FileMode.Create))
+            {
+                category.image.CopyTo(fileStream);
+            }
+            category.ImageUrl = imagename;
+
             if (ModelState.IsValid)
             {
                 categoryService.Insert(category);
 
                 categoryService.Save();
 
-                return RedirectToAction("categories","dashbourd");
+                return RedirectToAction("categories", "dashbourd");
             }
 
             return View(category);
@@ -76,7 +89,7 @@ namespace ecommerce.Controllers
         //--------------------------------------------
 
         [HttpGet]
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         public IActionResult Update(int id)
         {
             Category category = categoryService.Get(id, "Products");
@@ -92,9 +105,17 @@ namespace ecommerce.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         public IActionResult Update(Category category)
         {
+            string uploadpath = Path.Combine(_webHostEnvironment.WebRootPath, "img");
+            string imagename = Guid.NewGuid().ToString() + "_" + category.image.FileName;
+            string filepath = Path.Combine(uploadpath, imagename);
+            using (FileStream fileStream = new FileStream(filepath, FileMode.Create))
+            {
+                category.image.CopyTo(fileStream);
+            }
+            category.ImageUrl = imagename;
             if (ModelState.IsValid)
             {
                 categoryService.Update(category);
@@ -123,7 +144,7 @@ namespace ecommerce.Controllers
         //--------------------------------------------
 
         [HttpGet]
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         public IActionResult Delete(int id)
         {
             Category category = categoryService.Get(id);
@@ -138,7 +159,7 @@ namespace ecommerce.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         public IActionResult Delete(Category category)
         {
             categoryService.Delete(category);

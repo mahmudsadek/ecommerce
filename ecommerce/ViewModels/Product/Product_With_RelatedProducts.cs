@@ -13,6 +13,7 @@ namespace ecommerce.ViewModels.Product
 
         public List<ecommerce.Models.Category> Categories { get; set; } // for the _AllProducts layout using it in the footer
 
+
         //====================================
 
         public int Id { get; set; }
@@ -44,6 +45,7 @@ namespace ecommerce.ViewModels.Product
         public int CategoryId { get; set; }
 
         public ecommerce.Models.Category Category { get; set; }
+
         /// TODO: try to add categories prop because there is an error => Done :)
 
         public List<Comment>? Comments { get; set; }

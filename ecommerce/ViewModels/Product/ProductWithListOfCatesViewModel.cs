@@ -40,5 +40,6 @@ namespace ecommerce.ViewModels.Product
         public int CategoryId { get; set; }
 
         public List<ecommerce.Models.Category>? categories { get; set; }
+
     }
 }

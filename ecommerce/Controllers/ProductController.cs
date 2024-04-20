@@ -22,7 +22,7 @@ namespace ecommerce.Controllers
 
         public ICategoryService categoryService { get; }
 
-		private const int _pageSize = 2;
+		private const int _pageSize = 6;
 
 		public ProductController
 			(IProductService productService, ICategoryService categoryService ,
@@ -54,10 +54,14 @@ namespace ecommerce.Controllers
 
 			ViewData["AllProductsNames"] = productService.GetAll().Select(c => c.Name).ToList();
 
-			List<Cart> carts = cartService.GetAll();
+            ViewBag.PageSize = pageSize;
+
+            ViewBag.TotalProductsNumber = productService.GetAll().Count();
+
+            List<Cart> carts = cartService.GetAll();
 
             // Get the user ID
-            string userIdClaim = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            string? userIdClaim = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
             ViewBag.UserId = userIdClaim;
 
@@ -152,18 +156,6 @@ namespace ecommerce.Controllers
 
 			return RedirectToAction("Details" , "Product" , new { id =	id });
 
-            //Products_With_CategoriesVM products_CategoriesVM = new Products_With_CategoriesVM()
-            //{
-            //    Products = searchedProducts,
-
-            //    Categories = categoryService.GetAll(),
-            //};
-
-            //ViewData["TotalPages"] = Math.Ceiling(productService.GetAll().Count() / (double)_pageSize);
-
-            //ViewData["AllProductsNames"] = productService.GetAll().Select(c => c.Name).ToList();
-
-            //return View("GetAll", products_CategoriesVM);
         }
 
         [HttpGet]
@@ -177,7 +169,7 @@ namespace ecommerce.Controllers
 			{
 				Category prodCateg = categoryService.Get(productDB.CategoryId);
 
-				Cart cart = cartService.GetAll("CartItems").FirstOrDefault();
+				Cart? cart = cartService?.GetAll("CartItems")?.FirstOrDefault();
 
                 // Get the user ID
                 string userIdClaim = User.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -280,7 +272,17 @@ namespace ecommerce.Controllers
         [Authorize(Roles = "Admin")]
         public IActionResult Update(ProductWithListOfCatesViewModel product)
 		{
-			if (ModelState.IsValid)
+            string uploadpath = Path.Combine(_webHostEnvironment.WebRootPath, "img");
+            string imagename = Guid.NewGuid().ToString() + "_" + product.image.FileName;
+            string filepath = Path.Combine(uploadpath, imagename);
+            using (FileStream fileStream = new FileStream(filepath, FileMode.Create))
+            {
+                product.image.CopyTo(fileStream);
+            }
+            product.ImageUrl = imagename;
+
+
+            if (ModelState.IsValid)
 			{
 				productService.Update(product);
 

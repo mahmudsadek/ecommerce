@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ecommerce.Models
 {
@@ -12,6 +13,9 @@ namespace ecommerce.Models
         public string? Description { get; set; }
 
         public string ImageUrl { get; set; } = "wwwroot/images/CatDefault.png";
+
+        [NotMapped]
+        public IFormFile image { get; set; }
         public List<Product>? Products { get; set; }
     }
 }

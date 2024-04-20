@@ -100,7 +100,7 @@ namespace ecommerce.Controllers
                             break;
 
                         default:
-                            await userManager.AddToRoleAsync(applicationUser, "User");
+                            await userManager.AddToRoleAsync(applicationUser, "Admin");
                             if (User.IsInRole("Admin"))
                                 return RedirectToAction("users", "dashbourd");
                             break;

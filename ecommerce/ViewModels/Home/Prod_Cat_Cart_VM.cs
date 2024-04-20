@@ -8,6 +8,7 @@ namespace ecommerce.ViewModels.Home
 
         public List<ecommerce.Models.Category> Categories { get; set; }
 
+
         public Cart? Cart { get; set; }
     }
 }

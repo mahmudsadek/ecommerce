@@ -10,6 +10,7 @@ namespace ecommerce.ViewModels.Product
 
         public List<ecommerce.Models.Category> Categories { get; set; }
 
+
         public Cart? Cart { get; set; } //= new Cart() { CartItems = new List<CartItem>()};
     }
 }
