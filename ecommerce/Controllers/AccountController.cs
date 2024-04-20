@@ -22,16 +22,21 @@ namespace ecommerce.Controllers
         private readonly UserManager<ApplicationUser> userManager;
         private readonly SignInManager<ApplicationUser> signInManager;
         private readonly RoleManager<IdentityRole> roleManager;
-        private readonly IRepository<Shipment> shipmentRepository;
+        private readonly IRepository<Shipment> shipmentRepository;    // saeed : edit it
+        private readonly IOrderItemRepository orderItemRepository;
+        private readonly IProductRepository productRepository;
 
         public AccountController(UserManager<ApplicationUser> _userManager ,
             SignInManager<ApplicationUser> _signInManager , RoleManager<IdentityRole> _roleManager,
-            IRepository<Shipment> _Repository)
+            IRepository<Shipment> _Repository, IOrderItemRepository _orderItemRepository,
+            IProductRepository _productRepository)
         {
             userManager = _userManager;
             signInManager = _signInManager;
             roleManager = _roleManager;
             shipmentRepository = _Repository;
+            orderItemRepository = _orderItemRepository;
+            productRepository = _productRepository;
         }
         public IActionResult Index()
         {
@@ -78,10 +83,13 @@ namespace ecommerce.Controllers
                 }
                 catch (Exception ex)
                 {
+                    if (ex.InnerException.Message.StartsWith("Cannot insert duplicate key"))  // if modelstate is valid >> no thing can make excption except duplicate email >> this line for more verification
                     ModelState.AddModelError(string.Empty, "Already existing email");  // saeed : may cause bugs
+
+                    else { ModelState.AddModelError(string.Empty, ex.InnerException.Message); }
                 }
 
-                // IsAdmin = true; 
+               // isAdmin = true; 
                 if (result.Succeeded)
                 {
                     switch (isAdmin)
@@ -134,7 +142,7 @@ namespace ecommerce.Controllers
                     {
                         if(user.EmailConfirmed)
                         {
-                            List<Claim> claims = new List<Claim>();
+                           List<Claim> claims = new List<Claim>();
                             claims.Add(new Claim("name", model.userName));
                             await signInManager.SignInWithClaimsAsync(user, model.rememberMe, claims);
                             return RedirectToAction("Index", "Home");
@@ -333,12 +341,18 @@ namespace ecommerce.Controllers
 
         public async Task <IActionResult> getAccountShipmentsPartial()
         {
+            List<string> randomProductImages = new List<string>();
           //  return Content("sd");
            ApplicationUser? user = await userManager.FindByNameAsync(User.Identity.Name);
             List<Shipment>? shipments = shipmentRepository.Get(s => s.UserId == user.Id);
+
+            //if (shipments.Count == 0)
+            //    return View("NotFound"); 
             return View("_accountShipmentsPartial" , shipments);
         }
 
+
+      
 
 
         [HttpPost]

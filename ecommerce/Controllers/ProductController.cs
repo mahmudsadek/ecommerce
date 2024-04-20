@@ -1,5 +1,7 @@
 ﻿using ecommerce.Models;
+using ecommerce.Repository;
 using ecommerce.Services;
+using ecommerce.ViewModel;
 using ecommerce.ViewModels.Product;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -244,7 +246,7 @@ namespace ecommerce.Controllers
             {
                 product.image.CopyTo(fileStream);
             }
-            product.ImageUrl = imagename;
+            product.ImageUrl = imagename; 
 
             if (ModelState.IsValid)
 			{
@@ -391,5 +393,13 @@ namespace ecommerce.Controllers
 
             }
         }
-	}
-}
+
+
+
+
+
+
+      
+        }
+    }
+

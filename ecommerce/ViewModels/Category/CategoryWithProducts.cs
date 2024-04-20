@@ -7,7 +7,7 @@ namespace ecommerce.ViewModels.Category
 
         public string CategoryName { get; set; }
 
-        public List<Product> Products { get; set; }
+        public List<ecommerce.Models.Product> Products { get; set; }
 
 
 

@@ -26,7 +26,7 @@ namespace ecommerce.Services
         { 
             MimeMessage mail = new MimeMessage();
             mail.Sender = MailboxAddress.Parse(_mailsettings.Mail);
-            mail.To.Add(MailboxAddress.Parse(mailrequest.ToEmail));   
+            mail.To.Add(MailboxAddress.Parse(mailrequest.ToEmail));     
             mail.Subject = mailrequest.Subject; 
             BodyBuilder builder = new BodyBuilder();
 

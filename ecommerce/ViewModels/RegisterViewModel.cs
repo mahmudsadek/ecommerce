@@ -18,7 +18,7 @@ namespace ecommerce.ViewModel
             ErrorMessage = "Invalid phone number")]
         public string phoneNumber { get; set; }
 
-        [Required , RegularExpression(@"[a-zA-Z0-9]+@[a-zA-Z0-9]+\.(com){1}\s*$")] 
+        [Required , RegularExpression(@"[a-zA-Z0-9\.]+@[a-zA-Z0-9\.]+\.(com){1}\s*$")] 
         public string? Email { get; set; }
     }    
 }

@@ -13,13 +13,17 @@ namespace ecommerce.Controllers
         private IShipmentService shipmentService;
 		private readonly IOrderItemService orderItemService;
 		private readonly IOrderService orderService;
+        private readonly IOrderItemService orderItemServic;
+        private readonly IProductService productService;
 
-		public ShipmentController(IShipmentService shipment, IOrderItemService orderItemService , IOrderService orderService)
+        public ShipmentController(IShipmentService shipment, IOrderItemService orderItemService , IOrderService orderService, IOrderItemService orderItemServic, IProductService productService)
         {
             shipmentService = shipment;
 			this.orderItemService = orderItemService;
 			this.orderService = orderService;
-		}
+            this.orderItemServic = orderItemServic;
+            this.productService = productService;
+        }
 
 
         [HttpGet]
@@ -151,5 +155,34 @@ namespace ecommerce.Controllers
             
         }
 
+
+
+
+        // saeed : get shipment products "return partial view"
+        [HttpGet]
+        public IActionResult getShipmentProducts(int Id)
+        {
+            //LoginViewModel l = new LoginViewModel() { userName = "saeed"};
+            //return View("test" , l);   
+
+            Shipment shipment = shipmentService.Get(Id);
+
+            List<Product> shipmentProducts = new List<Product>();
+            List<OrderItem> orderItems = orderItemServic
+                 .Get(OI => OI.OrderId == shipment.OrderId);
+
+            decimal totalOrderPrice = 0;
+            foreach (OrderItem orderItem in orderItems)
+            {
+                Product product = productService.Get(orderItem.ProductId);
+                product.Quantity = orderItem.Quantity;
+                shipmentProducts.Add(product);
+                totalOrderPrice += (product.Quantity * product.Price);
+            }
+            ViewBag.TotalOrderPrice = totalOrderPrice;
+
+            return View("_GetShipmentProductsPartial", shipmentProducts);
+        }
+
+        }
     }
-}

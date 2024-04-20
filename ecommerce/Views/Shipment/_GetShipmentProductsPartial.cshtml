@@ -1,0 +1,90 @@
+﻿@model IEnumerable<ecommerce.Models.Product>
+@{
+    decimal totalOrderPrice = ViewBag.TotalOrderPrice;
+    Layout = null;
+}
+<h3 style="text-decoration:underline" class="text-primary m-3"> 
+  Shipment details  
+</h3>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ImageUrl)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Price)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Quantity)
+            </th>
+            <th>
+               Total price
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Color)
+            </th>
+           @*  <th>
+                @Html.DisplayNameFor(model => model.Rating)
+            </th> *@
+          
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td> 
+                @* @Html.DisplayFor(modelItem => item.ImageUrl) *@
+                    <img style="height:40px" src="~/img/@item.ImageUrl" />
+            </td>
+            <td> 
+                @Html.DisplayFor(modelItem => item.Price)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Quantity)
+            </td>
+                <td>
+                    @(item.Quantity * @item.Price)  
+                </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Color)
+            </td>
+           @*  <td>
+                @Html.DisplayFor(modelItem => item.Rating)
+            </td> *@
+          
+        @*     <td>
+                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+            </td> *@
+        </tr>
+}
+    </tbody>
+</table>
+
+<div style="font-weight:bold; font-size:18px" class="text-primary d-inline">
+Total order price : 
+</div>
+<span style="font-size:18px">
+    @totalOrderPrice
+</span>
