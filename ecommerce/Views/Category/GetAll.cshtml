@@ -40,6 +40,14 @@
    
     @* } *@
 
+    @* omar *@
+ @*    @User.Identity.IsAuthenticated{
+        
+        @User.Identity.IsAuthenticated("Admin"){
+            
+        }
+    } *@
+
     <div class="row">
         @foreach (Category category in Model)
         {
@@ -47,7 +55,7 @@
 
                 <div class="shop">
                     <div class="shop-img">
-                        <img src="@category.ImageUrl" alt="">
+                        <img src="~/img/@category.ImageUrl" alt="" height="220">
                     </div>
                     <div class="shop-body">
                         <h3>@category.Name<br>Collection</h3>

@@ -107,7 +107,7 @@
         <dd>@Html.DisplayFor(model => model.Description)</dd>
         
         <dt>Image</dt>
-        <dd><img src="@Html.DisplayFor(model => model.ImageUrl)" alt="Category Image" height="300"></dd>
+        <dd><img src="~/img/@Html.DisplayFor(model => model.ImageUrl)" alt="Category Image" height="200"></dd>
         <dt>Products Numbers</dt>
             @if(Model.Products != null)
             {

@@ -60,7 +60,7 @@
                                                     <th scope="col">#</th>
                                                     <th scope="col">Name</th>
                                                     <th scope="col">Image</th>
-                                                    <th scope="col">Desc.</th>
+                                                    @* <th scope="col">Desc.</th> *@
                                                     <th scope="col">action</th>
                                                 </tr>
                                             </thead>
@@ -70,8 +70,8 @@
                                                     <tr>
                                                         <td>@c.Id</td>
                                                         <td>@c.Name</td>
-                                                        <td><img src="~/img/@c.ImageUrl" alt="Alternate Text" /> </td>
-                                                        <td>@c.Description</td>
+                                                        <td><img src="~/img/@c.ImageUrl" alt="Alternate Text" height="70"  /> </td>
+                                                        @* <td>@c.Description</td> *@
 
                                                         <td>
                                                             <a asp-action="categoryDetails" asp-route-id="@c.Id" asp-controller="dashbourd" class="btn btn-info"><i class="fa-solid fa-bars"></i></a>
