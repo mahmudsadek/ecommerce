@@ -1,6 +1,7 @@
 ﻿using ecommerce.Models;
 using ecommerce.Repository;
 using ecommerce.Services;
+using ecommerce.ViewModels.Category;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -41,6 +42,19 @@ namespace ecommerce.Controllers
             }
 
             return RedirectToAction("GetAll");
+        }
+
+        public IActionResult ShowProducts(Category category)
+        {
+            CategoryWithProducts CategoryVM = new CategoryWithProducts()
+            {
+                SelectedCategoryId = category.Id,
+                Products = categoryService.GetAllProductsInCategory(category.Id),
+                Categories = categoryService.GetAll()
+            };
+
+            return View(CategoryVM);
+
         }
 
         [HttpGet]
@@ -132,7 +146,7 @@ namespace ecommerce.Controllers
         public IActionResult EditProducts(Category category)
         {
 
-            if (category.Products.Count() != 0)
+            if (category.Products != null)
             {
                 return View(category);
             }
