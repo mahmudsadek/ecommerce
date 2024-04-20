@@ -20,7 +20,7 @@ namespace ecommerce.Controllers
 
         public ICategoryService categoryService { get; }
 
-		private const int _pageSize = 9;
+		private const int _pageSize = 6;
 
 		public ProductController
 			(IProductService productService, ICategoryService categoryService ,
