@@ -1,4 +1,3 @@
-﻿using ecommerce.Models;
 namespace ecommerce.ViewModels.Category
 {
     public class CategoryWithProducts
