@@ -96,7 +96,7 @@
             </ul>
             <ul class="header-links pull-right">
                 <li><a href="#"><i class="fa fa-dollar"></i> USD</a></li>
-                <li><a href="#"><i class="fa fa-user-o"></i> @User.Identity.Name Account</a></li>
+                <li><a href="#"><i class="fa fa-user-o"></i> @User?.Identity?.Name Account</a></li>
             </ul>
         </div>
     </div>
@@ -138,19 +138,19 @@
                             <a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
                                 <i class="fa fa-shopping-cart"></i>
                                 <span>Your Cart</span>
-                                <div class="qty">@Model.Cart.CartItems.Count</div>
+                                <div class="qty">@Model?.Cart?.CartItems?.Count</div>
                             </a>
                             <div class="cart-dropdown">
                                 <div class="cart-list">
-                                    @foreach (var item in Model.Cart.CartItems)
+                                    @foreach (var item in Model?.Cart?.CartItems)
                                     {
                                         <div class="product-widget">
                                             <div class="product-img">
-                                                <img src="~/img/@item.Product.ImageUrl" alt="@item.Product.Name" width="200" />
+                                                <img src="~/img/@item?.Product?.ImageUrl" alt="@item?.Product?.Name" width="200" />
                                             </div>
                                             <div class="product-body">
-                                                <h3 class="product-name"><a asp-action="Details" asp-controller="Product" asp-route-id="@item.Product.Id">@item.Product.Name</a></h3>
-                                                <h4 class="product-price"><span class="qty">@item.Quantity x</span>$ @item.Product.Price</h4>
+                                                <h3 class="product-name"><a asp-action="Details" asp-controller="Product" asp-route-id="@item.Product.Id">@item?.Product?.Name</a></h3>
+                                                <h4 class="product-price"><span class="qty">@item?.Quantity x</span>$ @item?.Product?.Price</h4>
                                             </div>
                                             <button class="delete"><i class="fa fa-close"></i></button>
                                         </div>
@@ -159,11 +159,11 @@
 
                                 <div class="cart-summary">
                                     <small>@Model.Cart.CartItems.Count Item(s) selected</small>
-                                    <h5>SUBTOTAL: $ @Model.Cart.CartItems.Sum(c => c.Product.Price * c.Quantity)</h5>
+                                    <h5>SUBTOTAL: $ @Model?.Cart?.CartItems?.Sum(c => c?.Product?.Price * c?.Quantity)</h5>
                                 </div>
                                 <div class="cart-btns">
                                     <a asp-action="GetAll" asp-controller="CartItem">View Cart</a>
-                                    <a asp-action="Checkout" asp-controller="Order" asp-route-cartId="@Model.Cart.Id" asp-route-userId="@ViewBag.UserId">Checkout  <i class="fa fa-arrow-circle-right"></i></a>
+                                    <a asp-action="Checkout" asp-controller="Order" asp-route-cartId="@Model?.Cart?.Id" asp-route-userId="@ViewBag?.UserId">Checkout  <i class="fa fa-arrow-circle-right"></i></a>
                                 </div>
                             </div>
                         </div>
@@ -251,22 +251,16 @@
                 <div class="aside">
                     <h3 class="aside-title">Categories</h3>
                     <div class="checkbox-filter">
-
-                        @foreach (Category category in Model.Categories)
+                        @foreach (var category in Model?.Categories)
                         {
-                            <div class="input-checkbox">
-                                <input checked type="checkbox" id="category-@category.Id" onchange="DisplayCategoryPoducts()">
-                                <label for="category-@category.Id">
-                                    <span>@category.Name</span>
-                                    
-                                    @* <small>(@category.Products.Count())</small> *@
-                                </label>
+                            <div class="form-check">
+                                <input class="form-check-input" checked type="checkbox" id="category-@category?.Id" onchange="DisplayCategoryProducts()">
+                                <label class="form-check-label" for="category-@category?.Id">@category?.Name</label>
                             </div>
                         }
                     </div>
                 </div>
                 <!-- /aside Widget -->
-
                 <!-- aside Widget -->
                 <div class="aside">
                     <h3 class="aside-title">Price</h3>
@@ -373,23 +367,33 @@
                 <partial name="_ProductsPartial"></partial>
             </div>
             <!-- /STORE --------------------------------------------------------->
-
-            <!-- store bottom filter -->
-            <div class="store-filter clearfix pagination">
-                <span class="store-qty">Showing 20-100 products</span>
-                <ul class="store-pagination " aria-label="Pagination">
-                    @for (int i = 1; i <= ViewBag.TotalPages; i++)
-                    {
-                        <li class="page-item">
-                            <a class="page-link" asp-action="GetAllFiltered"  asp-controller="Product" data-page="@i" asp-route-page="@i">
-                                @i
-                            </a>
-                        </li>
-                    }
-                    <li><a href="#"><i class="fa fa-angle-right"></i></a></li>
-                </ul>
+            <!-- Centered Pagination Section -->
+            <div class="container" style="margin-bottom:25px">
+                <div class="row justify-content-center">
+                    <div class="col-md-8">
+                        <div class="d-flex justify-content-center">
+                            <!-- store bottom filter -->
+                            <div class="store-filter clearfix pagination text-center">
+                                <span class="store-qty">Showing @ViewBag?.PageSize-@ViewBag?.TotalProductsNumber products</span>
+                                <ul class="store-pagination" aria-label="Pagination">
+                                    @for (int i = 1; i <= ViewBag?.TotalPages; i++)
+                                    {
+                                        <li class="page-item">
+                                            <a class="page-link" asp-action="GetAllFiltered" asp-controller="Product" data-page="@i" asp-route-page="@i">
+                                                @i
+                                            </a>
+                                        </li>
+                                    }
+                                    <li><a href="#"><i class="fa fa-angle-right"></i></a></li>
+                                </ul>
+                            </div>
+                            <!-- /store bottom filter -->
+                        </div>
+                    </div>
+                </div>
             </div>
-            <!-- /store bottom filter -->
+            <!-- /Centered Pagination Section -->
+
 
         </div>
         <!-- /row -->
