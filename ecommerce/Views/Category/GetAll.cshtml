@@ -1,8 +1,13 @@
-﻿@model IEnumerable<ecommerce.Models.Category>
+﻿
+@model IEnumerable<ecommerce.Models.Category>
 
 @{
     ViewData["Title"] = "Categories";
 }
+
+
+@using Microsoft.AspNetCore.Authorization;
+@inject IAuthorizationService AuthorizationService;
 
 <!-- BREADCRUMB -->
 <div id="breadcrumb" class="section">
@@ -24,49 +29,41 @@
 <!-- /BREADCRUMB -->
 
 <div class="container">
+
+    @* @if((await AuthorizationService.AuthorizeAsync(User, "Admin")).Succeeded) *@
+    @* { *@
+    <p>
+        <a class="btn btn-danger" asp-action="insert">Add New Category</a>
+    </p>
+    @* } *@
+
     <div class="row">
-        <div class="col-md-12">
-            <p>
-                <a class="btn btn-primary" asp-action="insert">Add New Category</a>
-            </p>
-            <div class="table-responsive">
-                <table class="table table-bordered table-striped">
-                    <thead class="thead-dark">
-                        <tr>
-                            <th scope="col">ID</th>
-                            <th scope="col">Name</th>
-                            <th scope="col">Description</th>
-                            <th scope="col">Image</th>
-                            <th scope="col">Details</th>
-                            <th scope="col">Update</th>
-                            <th scope="col">Delete</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var item in Model)
-                        {
-                            <tr>
-                                <td style="vertical-align: middle; text-align: center;">@Html.DisplayFor(modelItem => item.Id)</td>
-                                <td style="vertical-align: middle; text-align: center;">@Html.DisplayFor(modelItem => item.Name)</td>
-                                <td style="vertical-align: middle; text-align: center;">@Html.DisplayFor(modelItem => item.Description)</td>
-                                <td style="vertical-align: middle; text-align: center;"><img src="@Html.DisplayFor(modelItem => item.ImageUrl)" height="100" /></td>
-                                <td style="vertical-align: middle; text-align: center;">
-                                    <a class="btn btn-sm btn-info mr-1" href="@Url.Action("Details", "Category", new { id = item.Id })">Details</a>
-                                </td>
-                                <td style="vertical-align: middle; text-align: center;">
-                                    <a class="btn btn-sm btn-warning mr-1" href="@Url.Action("Update", "Category", new { id = item.Id })">Edit</a>
-                                </td>
-                                <td style="vertical-align: middle; text-align: center;">
-                                    <a class="btn btn-sm btn-danger" href="@Url.Action("Delete", "Category", new { id = item.Id })">Delete</a>
-                                </td>
-                            </tr>
-                        }
-                    </tbody>
-                </table>
+        @foreach (Category category in Model)
+        {
+            <div class="col-md-4 col-xs-6">
+
+                <div class="shop">
+                    <div class="shop-img">
+                        <img src="@category.ImageUrl" alt="">
+                    </div>
+                    <div class="shop-body">
+                        <h3>@category.Name<br>Collection</h3>
+                        <a asp-action="GetAll" asp-controller="Product" class="cta-btn"> Show All <i class="fa fa-arrow-circle-right"></i></a>
+                        <br />
+                        @* @User.Identity  *@
+                        @* @if ((await IAuthorizationService.AuthorizeAsync(User, "Admin")).Succeeded) *@
+                        @* { *@
+                            <a asp-action="Update" asp-controller="Category" asp-route-id="@category.Id" class="cta-btn"> Update <i class="fa fa-arrow-circle-right"></i></a>
+                            <br />
+                            <a asp-action="Delete" asp-controller="Category" asp-route-id="@category.Id" class="cta-btn"> Delete <i class="fa fa-arrow-circle-right"></i></a>
+                        @* } *@
+                    </div>
+                </div>
             </div>
-        </div>
+        }
     </div>
 </div>
+
 
 
 @section Styles {
