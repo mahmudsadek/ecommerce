@@ -1,7 +1,7 @@
 ﻿@model ecommerce.ViewModels.Product.Products_With_CategoriesVM
 
 <!-- STORE -->
-<div id="store" class="col-md-9">
+<div id="store" class="col-md-9" style="margin-bottom:25px">
 	<!-- store top filter -->
 	<div class="store-filter clearfix">
 		<div class="store-sort">
@@ -34,7 +34,7 @@
 		@foreach (Product product in Model.Products)
 		{
 			<!-- product -->
-			<div class="col-md-4 col-xs-6 my-5" style="margin-top:60px">
+			<div class="col-md-4 col-xs-6 my-5" >
 				<div class="product">
 					<div class="product-img">
 						<a asp-action="Details" asp-controller="Product" asp-route-Id="@product.Id">

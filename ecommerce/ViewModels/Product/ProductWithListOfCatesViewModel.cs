@@ -39,6 +39,7 @@ namespace ecommerce.ViewModels.Product
         [ForeignKey("Category")]
         public int CategoryId { get; set; }
 
-        public List<Models.Category>? categories { get; set; }
+        public List<ecommerce.Models.Category>? categories { get; set; }
+
     }
 }

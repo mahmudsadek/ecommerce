@@ -4,12 +4,13 @@
 }
 
 
-<div id="carouselExampleControls" class="carousel carousel-dark slide" data-bs-ride="carousel">
-    <div class="carousel-inner my-5">
+
 
 
         @if (Model.Count != 0)
         {
+    <div id="carouselExampleControls" class="carousel carousel-dark slide" data-bs-ride="carousel">
+        <div class="carousel-inner my-5">
             @for (int i = 0; i < Model.Count; i += 3)
             {
                 <div class="carousel-item @((i == 0) ? "active" : "")">
@@ -17,44 +18,91 @@
 
                     @if (i < Model.Count)
                     {
-                        <div class="card" style="width: 18rem; height: 30rem;">
-                            <img src="@Model[i]." class="card-img-top" alt="...">
+                        <div class="card" style="width: 18rem; height: 43rem;">
+                            <img src="/images/Drone Delivery-rafiki.svg" class="card-img-top" alt="...">
                             <div class="card-body">
-                                <h5 class="card-title">Card title</h5>
+                                 @*    <h5 class="card-title text-primary d-inline">Id :  </h5>
+                                    <span>@Model[i].Id</span>
+                                    <hr /> *@
+                                <h5 class="card-title text-primary d-inline">Delivery date :  </h5>
+                                    <span>@Model[i].Date</span>
+                                    <hr />
+                                    <h5 class="card-title text-primary d-inline">Country :  </h5>
+                                    <span>@Model[i].Country</span>
+                                    <hr />
+                                    <h5 class="card-title text-primary d-inline">City :  </h5>
+                                    <span>@Model[i].City</span>
+                                    <hr />
+                                    <h5 class="card-title text-primary d-inline">Address :  </h5>
+                                    <span>@Model[i].Address</span>
+                                    <hr />
+@*                                     <h5 class="card-title text-primary d-inline">Total price :  </h5>
+                                    <span>@Model[i].</span>  <!--total price-->
+                                    <hr /> *@
+                                    <button class="btn btn-primary m-4" onclick="showDetails(@Model[i].Id)"> Shipment details </button>
                             </div>
                         </div>
                     }
 
                     @if (i+1 < Model.Count)
                     {
-                        <div class="card" style="width: 18rem; height: 30rem;">
-                            <img src="https://source.unsplash.com/collection/190727/1600x900" class="card-img-top" alt="...">
-                            <div class="card-body">
-                                <h5 class="card-title">Card title</h5>
+                            <div class="card" style="width: 18rem; height: 43rem;">
+                                <img src="/images/Drone Delivery-rafiki.svg" class="card-img-top" alt="...">
+                                <div class="card-body">
+                                 @*    <h5 class="card-title text-primary d-inline">Id :  </h5>
+                                    <span>@Model[i + 1].Id</span>
+                                    <hr /> *@
+                                    <h5 class="card-title text-primary d-inline">Delivery date :  </h5>
+                                    <span>@Model[i+1].Date</span>
+                                    <hr />
+                                    <h5 class="card-title text-primary d-inline">Country :  </h5>
+                                    <span>@Model[i+1].Country</span>
+                                    <hr />
+                                    <h5 class="card-title text-primary d-inline">City :  </h5>
+                                    <span>@Model[i+1].City</span>
+                                    <hr />
+                                    <h5 class="card-title text-primary d-inline">Address :  </h5>
+                                    <span>@Model[i+1].Address</span>
+                                    <hr />
+                                    @*                                     <h5 class="card-title text-primary d-inline">Total price :  </h5>
+                        <span>@Model[i].</span>  <!--total price-->
+                        <hr /> *@
+                                    <button class="btn btn-primary m-4" onclick="showDetails(@Model[i+1].Id)"> Shipment details </button>
+                                </div>
                             </div>
-                        </div>
                     }
 
                     @if (i+2 < Model.Count)
                     {
-                        <div class="card" style="width: 18rem; height: 30rem;">
-                            <img src="https://source.unsplash.com/collection/190727/1600x900" class="card-img-top" alt="...">
-                            <div class="card-body">
-                                <h5 class="card-title">Card title</h5>
+                            <div class="card" style="width: 18rem; height: 43rem;">
+                                <img src="/images/Drone Delivery-rafiki.svg" class="card-img-top" alt="...">
+                                <div class="card-body">
+                                  @*   <h5 class="card-title text-primary d-inline">Id :  </h5>
+                                    <span>@Model[i + 2].Id</span>
+                                    <hr /> *@
+                                    <h5 class="card-title text-primary d-inline">Delivery date :  </h5>
+                                    <span>@Model[i+2].Date</span>
+                                    <hr />
+                                    <h5 class="card-title text-primary d-inline">Country :  </h5>
+                                    <span>@Model[i+2].Country</span>
+                                    <hr />
+                                    <h5 class="card-title text-primary d-inline">City :  </h5>
+                                    <span>@Model[i+2].City</span>
+                                    <hr />
+                                    <h5 class="card-title text-primary d-inline">Address :  </h5>
+                                    <span>@Model[i+2].Address</span>
+                                    <hr />
+                                    @*                                     <h5 class="card-title text-primary d-inline">Total price :  </h5>
+                        <span>@Model[i].</span>  <!--total price-->
+                        <hr /> *@
+                                    <button class="btn btn-primary m-5" onclick="showDetails(@Model[i+2].Id)"> Shipment details </button>
+                                </div>
                             </div>
-                        </div>
                     }
                 </div>
                 </div>
             }
-        }
-        else
-        {
-            <h1>No shipments yet</h1>
-        }
-
-
-    </div>
+              </div>
 
     <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
         <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -65,3 +113,47 @@
         <span class="visually-hidden">Next</span>
     </button>
 </div>
+        }
+        else
+        {
+    <div class="alert alert-info" role="alert" style="font-size:30px">
+        No shipments yet.
+    </div>
+        }
+
+
+  
+
+
+
+    <div id="shipmentDetails">
+
+    </div>
+
+
+
+    <script>
+    function showDetails(id) {
+      //  console.log(id);
+        $.ajax({
+            url: `/shipment/getShipmentProducts`,
+            data: {Id : id},
+            success: function (result) {
+              //  console.log(result);
+        $("#shipmentDetails").html(result);
+                scrollToDiv("shipmentDetails");
+            },
+            error: function (xhr, status, error) {
+                console.log("Error:", error);  // Log the error message
+            }
+       });
+    }
+
+
+    function scrollToDiv(divId){
+        var shipmentDetailsDiv = document.getElementById(divId);
+        if (shipmentDetailsDiv) { 
+            shipmentDetailsDiv.scrollIntoView({ behavior: "smooth" });
+        }
+    }
+    </script>

@@ -182,7 +182,7 @@
             </ul>
             <ul class="header-links pull-right">
                 <li><a href="#"><i class="fa fa-dollar"></i> USD</a></li>
-                <li><a href="#"><i class="fa fa-user-o"></i> My Account</a></li>
+                <li><a href="#"><i class="fa fa-user-o"></i> @User?.Identity?.Name Account</a></li>
             </ul>
         </div>
     </div>
@@ -230,11 +230,11 @@
                                     {
                                         <div class="product-widget">
                                             <div class="product-img">
-                                                <img src="~/img/@item.Product.ImageUrl" alt="@item.Product.Name" width="200" />
+                                                <img src="~/img/@item?.Product?.ImageUrl" alt="@item?.Product?.Name" width="200" />
                                             </div>
                                             <div class="product-body">
-                                                <h3 class="product-name"><a asp-action="Details" asp-controller="Product" asp-route-id="@item.Product.Id">@item.Product.Name</a></h3>
-                                                <h4 class="product-price"><span class="qty">@item.Quantity x</span>$ @item.Product.Price</h4>
+                                                <h3 class="product-name"><a asp-action="Details" asp-controller="Product" asp-route-id="@item?.Product?.Id">@item?.Product?.Name</a></h3>
+                                                <h4 class="product-price"><span class="qty">@item.Quantity x</span>$ @item?.Product?.Price</h4>
                                             </div>
                                             <button class="delete"><i class="fa fa-close"></i></button>
                                         </div>
@@ -242,12 +242,12 @@
                                 </div>
 
                                 <div class="cart-summary">
-                                    <small>@Model.Count() Item(s) selected</small>
-                                    <h5>SUBTOTAL: $ @Model.Sum(c => c.Product.Price * c.Quantity)</h5>
+                                    <small>@Model?.Count() Item(s) selected</small>
+                                    <h5>SUBTOTAL: $ @Model?.Sum(c => c?.Product?.Price * c?.Quantity)</h5>
                                 </div>
                                 <div class="cart-btns">
                                     <a asp-action="GetAll" asp-controller="CartItem">View Cart</a>
-                                    <a asp-action="Checkout" asp-controller="Order" asp-route-cartId="@Model.FirstOrDefault().Id" asp-route-userId="@ViewBag.UserId">Checkout  <i class="fa fa-arrow-circle-right"></i></a>
+                                    <a asp-action="Checkout" asp-controller="Order" asp-route-cartId="@Model?.FirstOrDefault()?.Id" asp-route-userId="@ViewBag?.UserId">Checkout  <i class="fa fa-arrow-circle-right"></i></a>
                                 </div>
                             </div>
                         </div>
@@ -392,12 +392,12 @@
     </table>
 
     <div class="cart-summary text-center">
-        <h3>Number of items in the cart : @Model.Count() Item(s)</h3>
+        <h3>Number of items in the cart : @Model?.Count() Item(s)</h3>
         <br />
-        <h3>SUBTOTAL: $ @Model.Sum(c => c.Product.Price * c.Quantity)</h3>
+        <h3>SUBTOTAL: $ @Model?.Sum(c => c?.Product?.Price * c?.Quantity)</h3>
     </div>
 
     <div class="cart-btns container text-center">
-        <a class="btn btn-success checkout-btn" asp-action="Checkout" asp-controller="Order" asp-route-cartId="@Model.FirstOrDefault().Id" asp-route-userId="@ViewBag.UserId">Checkout Now <i class="fa fa-arrow-circle-right"></i></a>
+        <a class="btn btn-success checkout-btn" asp-action="Checkout" asp-controller="Order" asp-route-cartId="@Model?.FirstOrDefault()?.Id" asp-route-userId="@ViewBag?.UserId">Checkout Now <i class="fa fa-arrow-circle-right"></i></a>
     </div>
 </main>

@@ -7,18 +7,19 @@
     }
 </style>
 
-<section style="height: 100vh;" class="d-flex align-items-center">
+@* <section style="height: 100vh;" class="d-flex align-items-center">  *@
     <div class="container box"> 
         <div class="d-flex  flex-row bg-white  w-75 m-auto shadow rounded-5 ">
 
-            <div id="log_img" class="bg-danger py-5 col-5 rounded-start-5 align-items-center">
-                <img src="~/img/Sign up-cuate.svg" class="w-100" alt="">
+            <div id="log_img" class="bg-danger py-5  rounded-start-5 align-items-center w-25">
+                <img src="~/img/Sign up-cuate.svg" class="" alt="">
             </div>
 
 
-            <div class="col py-5">
+            <br />
+            <div class="col my-4 py-5">
                 <div class="row ">
-                    <div class="d-flex flex-column align-items-center">
+                    <div class="d-flex flex-column align-items-center my-4">
                         <h1 class="text-center my-3">Welcome back</h1>
                     </div>
 
@@ -47,17 +48,21 @@
                                     <input class="form-check-input" asp-for="rememberMe" /> @Html.DisplayNameFor(model => model.rememberMe)
                                 </label>
 
-                                @* <div> *@
-                              <a href="/account/forgotPassword" class="col-5 justify-content-end">Forgot password</a>
-                                @* </div>  *@
+                                <div>
+                              <a href="/account/forgotPassword" class="offset-2 col-5 mx-5 justify-content-end">Forgot password</a>
+                                </div>  
 
                             </div>
 
 
-                            <div class="form-group input-label-div text-center justify-content-center">
+                            <div class="form-group input-label-div text-center justify-content-center d-inline">
                                 <input type="submit" value="Login" class="btn btn-primary" />
                             </div>
 
+
+                        <div class="row text-center justify-content-center d-inline py-5">
+                            <a href="/account/register" class="col-4 btn btn-primary">Create your account</a>
+                        </div>
                         </form>
                     </div>
                  
@@ -65,9 +70,7 @@
                    
                 </div>
              
-                <div class="row text-center justify-content-center m-4">
-                    <a href="/account/register" class="col-4 btn btn-primary">Create your account</a>
-                </div>
+               
 
             </div>
         </div>
@@ -75,7 +78,7 @@
 
 
 
-</section>
+@* </section> *@
 <partial name="_ValidationScriptsPartial"></partial>
 
 
