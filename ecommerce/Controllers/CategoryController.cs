@@ -142,19 +142,6 @@ namespace ecommerce.Controllers
             return View(category);
         }
 
-
-        public IActionResult EditProducts(Category category)
-        {
-
-            if (category.Products != null)
-            {
-                return View(category);
-            }
-
-            return RedirectToAction("Update");
-
-        }
-
         //--------------------------------------------
 
         [HttpGet]
