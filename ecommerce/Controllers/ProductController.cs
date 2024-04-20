@@ -20,7 +20,7 @@ namespace ecommerce.Controllers
 
         public ICategoryService categoryService { get; }
 
-		private const int _pageSize = 2;
+		private const int _pageSize = 9;
 
 		public ProductController
 			(IProductService productService, ICategoryService categoryService ,
@@ -52,10 +52,14 @@ namespace ecommerce.Controllers
 
 			ViewData["AllProductsNames"] = productService.GetAll().Select(c => c.Name).ToList();
 
-			List<Cart> carts = cartService.GetAll();
+            ViewBag.PageSize = pageSize;
+
+            ViewBag.TotalProductsNumber = productService.GetAll().Count();
+
+            List<Cart> carts = cartService.GetAll();
 
             // Get the user ID
-            string userIdClaim = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            string? userIdClaim = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
             ViewBag.UserId = userIdClaim;
 
@@ -150,18 +154,6 @@ namespace ecommerce.Controllers
 
 			return RedirectToAction("Details" , "Product" , new { id =	id });
 
-            //Products_With_CategoriesVM products_CategoriesVM = new Products_With_CategoriesVM()
-            //{
-            //    Products = searchedProducts,
-
-            //    Categories = categoryService.GetAll(),
-            //};
-
-            //ViewData["TotalPages"] = Math.Ceiling(productService.GetAll().Count() / (double)_pageSize);
-
-            //ViewData["AllProductsNames"] = productService.GetAll().Select(c => c.Name).ToList();
-
-            //return View("GetAll", products_CategoriesVM);
         }
 
         [HttpGet]
@@ -175,7 +167,7 @@ namespace ecommerce.Controllers
 			{
 				Category prodCateg = categoryService.Get(productDB.CategoryId);
 
-				Cart cart = cartService.GetAll("CartItems").FirstOrDefault();
+				Cart? cart = cartService?.GetAll("CartItems")?.FirstOrDefault();
 
                 // Get the user ID
                 string userIdClaim = User.FindFirstValue(ClaimTypes.NameIdentifier);
