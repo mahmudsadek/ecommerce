@@ -69,11 +69,11 @@ namespace ecommerce
             builder.Services.AddIdentity<ApplicationUser, IdentityRole>(
                 options =>
                 {
-                    options.Password.RequireNonAlphanumeric = true;  // for easier testing  <= Omar : thanks Saeed :D
-                    options.Password.RequireUppercase = true;
-                    options.Password.RequireUppercase = true;
-                    options.Password.RequireLowercase = true;
-                    options.Password.RequireDigit = true;
+                    options.Password.RequireNonAlphanumeric = false;  // for easier testing  <= Omar : thanks Saeed :D
+                    options.Password.RequireUppercase = false;
+                    options.Password.RequireUppercase = false;
+                    options.Password.RequireLowercase = false;
+                    options.Password.RequireDigit = false;
 
                     /**/                   // options.SignIn.RequireConfirmedAccount = true;        // saeed 
                 }
