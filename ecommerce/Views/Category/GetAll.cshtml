@@ -32,9 +32,12 @@
 
     @* @if((await AuthorizationService.AuthorizeAsync(User, "Admin")).Succeeded) *@
     @* { *@
-    <p>
+        
+      <div class="d-flex">
+        <h2>All Categories</h2>
         <a class="btn btn-danger" asp-action="insert">Add New Category</a>
-    </p>
+      </div>
+   
     @* } *@
 
     <div class="row">
